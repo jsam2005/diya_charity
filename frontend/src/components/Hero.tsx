@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
       className="relative flex items-center justify-center bg-cover bg-center bg-fixed"
       style={{ 
         minHeight: isMobile ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url(/assets/diya_bg.jpeg)'
+        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url(/diya_bg.jpeg)'
       }}
     >
       {/* Background Overlay */}
