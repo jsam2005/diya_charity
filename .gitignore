@@ -1,0 +1,6 @@
+# GitHub Pages - ignore source files and dependencies
+frontend/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
