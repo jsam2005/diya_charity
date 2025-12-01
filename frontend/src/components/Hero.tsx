@@ -56,8 +56,8 @@ const Hero: React.FC = () => {
   useEffect(() => {
     let currentIndex = 0;
     const typingSpeed = 100; // milliseconds per character
-    let typingInterval: NodeJS.Timeout | null = null;
-    let cursorInterval: NodeJS.Timeout | null = null;
+    let typingInterval: ReturnType<typeof setInterval> | null = null;
+    let cursorInterval: ReturnType<typeof setInterval> | null = null;
     let isTypingComplete = false;
 
     // Cursor blink animation (only while typing)
