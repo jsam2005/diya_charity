@@ -101,44 +101,62 @@ const Hero: React.FC = () => {
         minHeight: isMobile ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
       }}
     >
-      {/* Video Background */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        style={{
-          minWidth: '100%',
-          minHeight: '100%',
-          width: 'auto',
-          height: 'auto',
-        }}
-        onLoadedData={() => {
-          if (videoRef.current) {
-            videoRef.current.play().catch((error) => {
-              console.error('Error playing video:', error);
-            });
-          }
-        }}
-      >
-        <source src={videoSrc} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {/* Mobile Background Image */}
+      {isMobile ? (
+        <div
+          className="absolute top-0 left-0 w-full h-full z-0"
+          style={{
+            backgroundImage: 'url(/BG_mobile.jpeg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '100%',
+            height: '100%',
+            minWidth: '100%',
+            minHeight: '100%',
+          }}
+        />
+      ) : (
+        /* Video Background for Desktop/Tablet */
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          style={{
+            minWidth: '100%',
+            minHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+          }}
+          onLoadedData={() => {
+            if (videoRef.current) {
+              videoRef.current.play().catch((error) => {
+                console.error('Error playing video:', error);
+              });
+            }
+          }}
+        >
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
       
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-[1]" />
+      {/* Background Overlay - Very light for better visibility */}
+      <div className={`absolute inset-0 z-[1] ${isMobile ? 'bg-black/10' : 'bg-black/20'}`} />
 
       {/* Welcome Text - After Navbar */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.1 }}
+        transition={{ duration: 0.3 }}
         className={`absolute left-0 right-0 z-10 text-center w-full ${
           isMobile ? 'top-20 px-3' : 'top-16 md:top-20 px-4'
         }`}
+        style={{ opacity: 1 }}
       >
         <h2 
           className={`font-elegant text-white tracking-wide ${
@@ -159,8 +177,8 @@ const Hero: React.FC = () => {
             fontWeight: '700'
           }}
         >
-          {displayText}
-          {showCursor && (
+          {displayText || 'WELCOME TO DIYA CHARITABLE TRUST'}
+          {showCursor && displayText && (
             <span 
               className="inline-block w-0.5 h-[1em] bg-white ml-1"
               style={{ 
@@ -174,10 +192,11 @@ const Hero: React.FC = () => {
 
       {/* Text Background Component - Moved to Bottom Black Region */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: 0.3 }}
         className="absolute bottom-0 left-0 right-0 z-10"
+        style={{ opacity: 1 }}
       >
         <div className={`text-backdrop rounded-t-2xl mb-0 w-full ${
           isMobile ? 'p-3 px-4' : 'p-2 md:p-3 px-4 md:px-0'
