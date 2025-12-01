@@ -48,9 +48,9 @@ const Contact: React.FC = () => {
     <section
       id="contact"
       ref={ref}
-      className="section-padding bg-warm-50"
+      className="section-padding"
     >
-      <div className="container-custom">
+      <div className="container-custom-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Form */}
           <motion.div

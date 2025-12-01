@@ -18,31 +18,276 @@ const Mission: React.FC = () => {
     <section
       id="about"
       ref={ref}
-      className="section-padding bg-warm-50"
+      className="section-padding bg-white"
     >
-      <div className="container-custom">
+      <div 
+        className="container-custom-full relative z-10"
+        style={{
+          backgroundImage: 'url(/BG_img_2.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          minHeight: '400px',
+          borderRadius: '1rem',
+          padding: '2rem',
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto"
+          className="relative z-10"
         >
-          <motion.h2
+          {/* Certifications Section */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-600 mb-8 text-center"
+            className="mb-20"
           >
-            {MISSION_CONTENT.title}
-          </motion.h2>
+            {/* Title Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center mb-12"
+            >
+              <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold uppercase mb-4 tracking-wide" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
+                  OUR COMPLIANCE
+                </h2>
+                <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+              </div>
+            </motion.div>
+
+            {/* Compliance Boxes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+              {/* NGO & NPO Registration Box */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="compliance-box flex items-center justify-center p-4"
+              >
+                <img 
+                  src="/assets/logos/ngo-npo-logo.png" 
+                  alt="NGO & NPO Registration Logo" 
+                  className="w-full h-auto object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </motion.div>
+              
+              {/* DARPAN Portal Registration Box */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="compliance-box flex items-center justify-center p-4"
+              >
+                <img 
+                  src="/assets/logos/darpan-logo.png" 
+                  alt="DARPAN Portal Logo" 
+                  className="w-full h-auto object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </motion.div>
+              
+              {/* Income Tax Registration Box */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="compliance-box flex items-center justify-center p-4"
+              >
+                <img 
+                  src="/assets/logos/income-tax-logo.png" 
+                  alt="Income Tax Registration Logo" 
+                  className="w-full h-auto object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </motion.div>
+
+              {/* Income Tax Registration Box - Repeat */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                className="compliance-box flex items-center justify-center p-4"
+              >
+                <img 
+                  src="/assets/logos/income-tax-logo.png" 
+                  alt="Income Tax Registration Logo" 
+                  className="w-full h-auto object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Primary Activities Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="mb-20"
+          >
+            {/* Title Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="text-center mb-12"
+            >
+              <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold uppercase mb-4 tracking-wide" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
+                  OUR PRIMARY ACTIVITY
+                </h2>
+                <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
+              </div>
+            </motion.div>
+
+            {/* Primary Activity Boxes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8">
+              {/* Budding Minds */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="activity-box flex flex-col items-center justify-center p-6"
+                style={{ height: '320px' }}
+              >
+                <div className="activity-icon-container mb-4">
+                  <div className="activity-icon">
+                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🧠</span>
+                  </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight">
+                  Budding Minds
+                </h3>
+                <p className="text-sm text-white text-center leading-relaxed opacity-90">
+                  Bridging school dropout gaps, skill training, and job placement for children & teens (ages 5-17)
+                </p>
+              </motion.div>
+              
+              {/* Youth Leap */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+                className="activity-box flex flex-col items-center justify-center p-6"
+                style={{ height: '320px' }}
+              >
+                <div className="activity-icon-container mb-4">
+                  <div className="activity-icon">
+                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🚀</span>
+                  </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight">
+                  Youth Leap
+                </h3>
+                <p className="text-sm text-white text-center leading-relaxed opacity-90">
+                  Skill training, psychological counseling, and job placement for youth (ages 18-30)
+                </p>
+              </motion.div>
+              
+              {/* Vulnerable Women & Families */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="activity-box flex flex-col items-center justify-center p-6"
+                style={{ height: '320px' }}
+              >
+                <div className="activity-icon-container mb-4">
+                  <div className="activity-icon">
+                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>💪</span>
+                  </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight">
+                  Vulnerable Women & Families
+                </h3>
+                <p className="text-sm text-white text-center leading-relaxed opacity-90">
+                  Skill training, job placement, and women empowerment for widowed, divorced, and single mothers
+                </p>
+              </motion.div>
+
+              {/* Old Age Care */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 1.3 }}
+                className="activity-box flex flex-col items-center justify-center p-6"
+                style={{ height: '320px' }}
+              >
+                <div className="activity-icon-container mb-4">
+                  <div className="activity-icon">
+                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>❤️</span>
+                  </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight">
+                  Old Age Care
+                </h3>
+                <p className="text-sm text-white text-center leading-relaxed opacity-90">
+                  Palliative care, counseling, and companionship for the elderly (60+ years)
+                </p>
+              </motion.div>
+
+              {/* Support & Sustainability */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
+                className="activity-box flex flex-col items-center justify-center p-6"
+                style={{ height: '320px' }}
+              >
+                <div className="activity-icon-container mb-4">
+                  <div className="activity-icon">
+                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🌱</span>
+                  </div>
+                </div>
+                <h3 className="text-lg md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight">
+                  Support & Sustainability
+                </h3>
+                <p className="text-sm text-white text-center leading-relaxed opacity-90">
+                  Awareness campaigns and sustainability efforts for long-term impact and sustainable models
+                </p>
+              </motion.div>
+            </div>
+          </motion.div>
+
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 1.5 }}
+            className="text-center mb-8"
+          >
+            <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold mb-8" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
+                {MISSION_CONTENT.title}
+              </h2>
+            </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
             {/* Mission Description */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white p-6 rounded-lg shadow-lg"
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="glass-card p-6"
             >
               <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Mission</h3>
               <p className="text-gray-600 leading-relaxed">
@@ -54,8 +299,8 @@ const Mission: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="bg-white p-6 rounded-lg shadow-lg"
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="glass-card p-6"
             >
               <h3 className="text-xl font-semibold text-primary-600 mb-4">About Us</h3>
               <p className="text-gray-600 leading-relaxed">
@@ -69,8 +314,8 @@ const Mission: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="bg-primary-50 p-6 rounded-lg border-l-4 border-primary-500"
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="glass-card p-6 border-l-4 border-primary-500"
             >
               <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Vision</h3>
               <p className="text-gray-700 leading-relaxed">
@@ -82,8 +327,8 @@ const Mission: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="bg-warm-50 p-6 rounded-lg border-l-4 border-warm-500"
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="glass-card p-6 border-l-4 border-warm-500"
             >
               <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Values</h3>
               <p className="text-gray-700 leading-relaxed">
@@ -95,7 +340,7 @@ const Mission: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
             className="text-center"
           >
             <motion.button

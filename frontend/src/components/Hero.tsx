@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { HERO_CONTENT } from '@/data/constants';
 import { scrollToElement } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
-import ResponsiveLayout from './ResponsiveLayout';
 
 const Hero: React.FC = () => {
-  const { isMobile, isTablet, isTouchDevice } = useDeviceFeatures();
-
-  const handleLearnMore = () => {
-    scrollToElement('donate');
-  };
+  const { isMobile, isTablet } = useDeviceFeatures();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [displayText, setDisplayText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const fullText = 'WELCOME TO DIYA CHARITABLE TRUST';
 
   const handleScrollDown = () => {
     scrollToElement('about');
@@ -20,123 +18,202 @@ const Hero: React.FC = () => {
   const getAnimationVariants = () => {
     if (isMobile) {
       return {
-        title: { opacity: 0, y: 30 },
-        subtitle: { opacity: 0, y: 20 },
-        button: { opacity: 0, scale: 0.9 }
+        title: { opacity: 0, y: 30 }
       };
     }
     return {
-      title: { opacity: 0, y: 50 },
-      subtitle: { opacity: 0, y: 30 },
-      button: { opacity: 0, scale: 0.9 }
+      title: { opacity: 0, y: 50 }
     };
   };
 
   const variants = getAnimationVariants();
+  
+  // Get the base URL from Vite environment
+  // BASE_URL will be '/diya_charity/' in production, '/' in dev (if base is set)
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  // Remove trailing slash and add it back to ensure proper formatting
+  const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const videoSrc = `${cleanBaseUrl}/bg.mp4`;
+  
+  // Debug: log the video source path (remove in production)
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.log('Video source path:', videoSrc);
+      console.log('BASE_URL:', baseUrl);
+    }
+  }, [videoSrc, baseUrl]);
+
+  useEffect(() => {
+    // Ensure video plays when component mounts
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.error('Error playing video:', error);
+      });
+    }
+  }, []);
+
+  // Typewriter effect - runs only once
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingSpeed = 100; // milliseconds per character
+    let typingInterval: NodeJS.Timeout | null = null;
+    let cursorInterval: NodeJS.Timeout | null = null;
+    let isTypingComplete = false;
+
+    // Cursor blink animation (only while typing)
+    cursorInterval = setInterval(() => {
+      if (!isTypingComplete) {
+        setShowCursor((prev) => !prev);
+      }
+    }, 530);
+
+    // Typing animation
+    typingInterval = setInterval(() => {
+      if (currentIndex < fullText.length) {
+        setDisplayText(fullText.substring(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        isTypingComplete = true;
+        if (typingInterval) {
+          clearInterval(typingInterval);
+          typingInterval = null;
+        }
+        // Remove cursor immediately after typing is complete
+        setShowCursor(false);
+        if (cursorInterval) {
+          clearInterval(cursorInterval);
+          cursorInterval = null;
+        }
+      }
+    }, typingSpeed);
+
+    return () => {
+      if (typingInterval) clearInterval(typingInterval);
+      if (cursorInterval) clearInterval(cursorInterval);
+    };
+  }, [fullText]);
 
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center bg-cover bg-center bg-fixed"
+      className="relative flex flex-col items-center justify-center overflow-hidden"
       style={{ 
         minHeight: isMobile ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url(/diya_charity/diya_bg.jpeg)'
       }}
     >
+      {/* Video Background */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        style={{
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+        }}
+        onLoadedData={() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              console.error('Error playing video:', error);
+            });
+          }
+        }}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
       {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 bg-black/40 z-[1]" />
 
-      {/* Content */}
-      <ResponsiveLayout className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        {/* Text Background Component */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-backdrop rounded-2xl p-6 md:p-8 lg:p-12 mx-4 md:mx-0"
+      {/* Welcome Text - After Navbar */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className={`absolute left-0 right-0 z-10 text-center w-full ${
+          isMobile ? 'top-20 px-3' : 'top-16 md:top-20 px-4'
+        }`}
+      >
+        <h2 
+          className={`font-elegant text-white tracking-wide ${
+            isMobile 
+              ? 'text-3xl leading-tight' 
+              : isTablet 
+                ? 'text-3xl md:text-4xl' 
+                : 'text-4xl lg:text-5xl xl:text-6xl'
+          }`}
+          style={isMobile ? {
+            textShadow: '4px 4px 16px rgba(0, 0, 0, 0.95), 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8)',
+            letterSpacing: '0.08em',
+            fontWeight: '900',
+            lineHeight: '1.2'
+          } : {
+            textShadow: '3px 3px 12px rgba(0, 0, 0, 0.9), 1px 1px 4px rgba(0, 0, 0, 0.8)',
+            letterSpacing: '0.05em',
+            fontWeight: '700'
+          }}
         >
-          {/* Charity Name */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-8"
-          >
-            {/* Decorative line above */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="w-24 h-0.5 bg-primary-400 mx-auto mb-4 rounded-full"
+          {displayText}
+          {showCursor && (
+            <span 
+              className="inline-block w-0.5 h-[1em] bg-white ml-1"
+              style={{ 
+                animation: 'blink 1s infinite',
+                verticalAlign: 'baseline'
+              }}
             />
-            
-            <h1 className={`font-serif font-bold text-primary-400 charity-name-glow ${
-              isMobile ? 'text-2xl' : isTablet ? 'text-3xl md:text-4xl' : 'text-4xl lg:text-5xl'
-            }`}
-            >
-              Diya Charity
-            </h1>
-            
-            {/* Decorative line below */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="w-24 h-0.5 bg-primary-400 mx-auto mt-4 rounded-full"
-            />
-          </motion.div>
+          )}
+        </h2>
+      </motion.div>
 
+      {/* Text Background Component - Moved to Bottom Black Region */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="absolute bottom-0 left-0 right-0 z-10"
+      >
+        <div className={`text-backdrop rounded-t-2xl mb-0 w-full ${
+          isMobile ? 'p-3 px-4' : 'p-2 md:p-3 px-4 md:px-0'
+        }`}>
           <motion.h2
             initial={variants.title}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className={`font-elegant font-light mb-6 text-white tracking-wide leading-tight ${
-              isMobile ? 'text-3xl' : isTablet ? 'text-4xl md:text-5xl' : 'text-5xl lg:text-6xl'
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className={`font-elegant font-normal text-black tracking-wide leading-tight text-center ${
+              isMobile 
+                ? 'text-xl font-bold' 
+                : 'whitespace-nowrap text-3xl md:text-4xl lg:text-5xl'
             }`}
-            style={{ 
-              textShadow: '2px 2px 8px rgba(0, 0, 0, 0.8)',
+            style={isMobile ? {
+              textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
+              letterSpacing: '0.03em',
+              fontWeight: '800'
+            } : {
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
               letterSpacing: '0.05em',
-              fontWeight: '300'
+              fontWeight: '700'
             }}
           >
-            {HERO_CONTENT.title}
+            Illuminating Lives Through Service
           </motion.h2>
-
-          <motion.p
-            initial={variants.subtitle}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className={`font-light mb-8 text-white/90 ${
-              isMobile ? 'text-lg' : isTablet ? 'text-xl' : 'text-xl md:text-2xl'
-            }`}
-            style={{ textShadow: '1px 1px 4px rgba(0, 0, 0, 0.8)' }}
-          >
-            {HERO_CONTENT.subtitle}
-          </motion.p>
-
-          <motion.div
-            initial={variants.button}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <motion.button
-              whileHover={isTouchDevice ? {} : { scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleLearnMore}
-              className={`btn-outline ${isMobile ? 'btn' : 'btn-lg'} bg-white/10 backdrop-blur-sm border-white/30 hover:bg-white/20`}
-            >
-              Donate Now
-            </motion.button>
-          </motion.div>
-        </motion.div>
-      </ResponsiveLayout>
+        </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className={`absolute left-1/2 transform -translate-x-1/2 z-20 ${
+          isMobile ? 'bottom-16' : 'bottom-20 md:bottom-24'
+        }`}
       >
         <motion.button
           animate={{ y: [0, 10, 0] }}
@@ -146,7 +223,7 @@ const Hero: React.FC = () => {
           aria-label="Scroll down"
         >
           <svg
-            className="w-6 h-6"
+            className={isMobile ? "w-5 h-5" : "w-6 h-6"}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -154,7 +231,7 @@ const Hero: React.FC = () => {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={isMobile ? 3 : 2}
               d="M19 14l-7 7m0 0l-7-7m7 7V3"
             />
           </svg>

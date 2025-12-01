@@ -44,9 +44,9 @@ const Process: React.FC = () => {
     <section
       id="process"
       ref={ref}
-      className="section-padding bg-white"
+      className="section-padding"
     >
-      <div className="container-custom">
+      <div className="container-custom-full">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-16">
           <motion.div
             initial={{ opacity: 0, x: -50 }}

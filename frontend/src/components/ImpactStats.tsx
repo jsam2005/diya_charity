@@ -63,9 +63,9 @@ const ImpactStats: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="section-padding bg-white"
+      className="section-padding"
     >
-      <div className="container-custom">
+      <div className="container-custom-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

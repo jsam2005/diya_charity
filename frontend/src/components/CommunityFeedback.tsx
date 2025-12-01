@@ -35,9 +35,9 @@ const CommunityFeedback: React.FC = () => {
     <section
       id="feedback"
       ref={ref}
-      className="section-padding bg-warm-50"
+      className="section-padding"
     >
-      <div className="container-custom">
+      <div className="container-custom-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

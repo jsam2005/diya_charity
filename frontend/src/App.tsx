@@ -16,7 +16,7 @@ const App: React.FC = () => {
   return (
     <NotificationProvider>
       <ViewportMeta />
-      <div className="min-h-screen bg-warm-50">
+      <div className="min-h-screen">
         <Header />
         <main>
           <Hero />
