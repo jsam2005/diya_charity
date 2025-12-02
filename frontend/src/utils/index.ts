@@ -17,6 +17,15 @@ export function scrollToElement(elementId: string, offset: number = 80) {
   }
 }
 
+// Safely build absolute URLs for assets placed in `public`
+export function getAssetPath(relativePath: string): string {
+  const normalizedPath = relativePath.replace(/^\/+/, '');
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  return `${baseUrl}${normalizedPath}`;
+}
+
 // Format phone number
 export function formatPhoneNumber(phoneNumber: string): string {
   const cleaned = phoneNumber.replace(/\D/g, '');

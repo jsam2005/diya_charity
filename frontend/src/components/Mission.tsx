@@ -2,13 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { MISSION_CONTENT } from '@/data/constants';
-import { scrollToElement } from '@/utils';
+import { scrollToElement, getAssetPath } from '@/utils';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
+
+  const missionBackgroundImage = getAssetPath('BG_img_2.jpg');
+  const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
+  const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
+  const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
 
   const handleExplore = () => {
     scrollToElement('process');
@@ -23,7 +28,7 @@ const Mission: React.FC = () => {
       <div 
         className="container-custom-full relative z-10"
         style={{
-          backgroundImage: 'url(/BG_img_2.jpg)',
+          backgroundImage: `url(${missionBackgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -76,7 +81,7 @@ const Mission: React.FC = () => {
                 style={{ opacity: 1 }}
               >
                 <img 
-                  src="/assets/logos/ngo-npo-logo.png" 
+                  src={ngoLogo}
                   alt="NGO & NPO Registration Logo" 
                   className="w-full h-auto object-contain"
                   onError={(e) => {
@@ -95,7 +100,7 @@ const Mission: React.FC = () => {
                 style={{ opacity: 1 }}
               >
                 <img 
-                  src="/assets/logos/darpan-logo.png" 
+                  src={darpanLogo}
                   alt="DARPAN Portal Logo" 
                   className="w-full h-auto object-contain"
                   onError={(e) => {
@@ -114,7 +119,7 @@ const Mission: React.FC = () => {
                 style={{ opacity: 1 }}
               >
                 <img 
-                  src="/assets/logos/income-tax-logo.png" 
+                  src={incomeTaxLogo}
                   alt="Income Tax Registration Logo" 
                   className="w-full h-auto object-contain"
                   onError={(e) => {
@@ -133,7 +138,7 @@ const Mission: React.FC = () => {
                 style={{ opacity: 1 }}
               >
                 <img 
-                  src="/assets/logos/income-tax-logo.png" 
+                  src={incomeTaxLogo}
                   alt="Income Tax Registration Logo" 
                   className="w-full h-auto object-contain"
                   onError={(e) => {

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { scrollToElement } from '@/utils';
+import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Hero: React.FC = () => {
@@ -28,20 +28,16 @@ const Hero: React.FC = () => {
 
   const variants = getAnimationVariants();
   
-  // Get the base URL from Vite environment
-  // BASE_URL will be '/diya_charity/' in production, '/' in dev (if base is set)
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  // Remove trailing slash and add it back to ensure proper formatting
-  const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-  const videoSrc = `${cleanBaseUrl}/bg.mp4`;
+  const videoSrc = getAssetPath('bg.mp4');
+  const mobileBgImage = getAssetPath('BG_mobile.jpeg');
   
   // Debug: log the video source path (remove in production)
   useEffect(() => {
     if (import.meta.env.DEV) {
       console.log('Video source path:', videoSrc);
-      console.log('BASE_URL:', baseUrl);
+      console.log('BASE_URL:', import.meta.env.BASE_URL);
     }
-  }, [videoSrc, baseUrl]);
+  }, [videoSrc]);
 
   useEffect(() => {
     // Ensure video plays when component mounts
@@ -106,7 +102,7 @@ const Hero: React.FC = () => {
         <div
           className="absolute top-0 left-0 w-full h-full z-0"
           style={{
-            backgroundImage: 'url(/BG_mobile.jpeg)',
+            backgroundImage: `url(${mobileBgImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
