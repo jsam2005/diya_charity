@@ -39,6 +39,7 @@ const DonationForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<DonationFormData>({
     defaultValues: {
       donationType: 'one-time',
@@ -55,6 +56,19 @@ const DonationForm: React.FC = () => {
   const amount = watch('amount');
 
   const quickAmounts = ['500', '1000', '2500', '5000', '10000'];
+
+  const handleQuickAmountSelect = (quickAmount: string) => {
+    setValue('amount', quickAmount, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
+
+  const handlePanInput = (event: React.FormEvent<HTMLInputElement>) => {
+    const target = event.currentTarget;
+    const sanitized = target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    target.value = sanitized;
+  };
 
   const onSubmit = (data: DonationFormData) => {
     console.log('Donation Form Data:', data);
@@ -173,10 +187,8 @@ const DonationForm: React.FC = () => {
                         type="button"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => {
-                          const event = { target: { value: quickAmount } };
-                          register('amount').onChange(event as any);
-                        }}
+                        onClick={() => handleQuickAmountSelect(quickAmount)}
+                        aria-pressed={amount === quickAmount}
                         className={`p-3 rounded-lg border-2 font-bold text-base transition-all duration-300 ${
                           amount === quickAmount
                             ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-md'
@@ -202,6 +214,7 @@ const DonationForm: React.FC = () => {
                     id="amount"
                     min="100"
                     step="100"
+                    inputMode="numeric"
                     className={`form-input text-lg ${errors.amount ? 'border-red-500' : ''}`}
                     placeholder="Or enter custom amount (minimum ₹100)"
                   />
@@ -284,10 +297,19 @@ const DonationForm: React.FC = () => {
                     type="text"
                     id="pan"
                     maxLength={10}
-                    className={`form-input text-lg uppercase ${errors.pan ? 'border-red-500' : ''}`}
+                    className={`form-input text-lg uppercase tracking-[0.3em] text-center ${errors.pan ? 'border-red-500' : ''}`}
                     placeholder="ABCDE1234F"
                     style={{ textTransform: 'uppercase' }}
+                    autoComplete="off"
+                    inputMode="text"
+                    aria-describedby="pan-helper-text"
+                    onInput={handlePanInput}
                   />
+                  {!errors.pan && (
+                    <p id="pan-helper-text" className="text-sm text-gray-500 mt-2">
+                      Use uppercase letters followed by numbers (e.g., ABCDE1234F).
+                    </p>
+                  )}
                   {errors.pan && (
                     <p className="form-error mt-1">{errors.pan.message}</p>
                   )}

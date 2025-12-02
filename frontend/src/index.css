@@ -187,6 +187,20 @@
     line-height: 1.7 !important;
   }
 
+  /* Normalize appearance across browsers for form controls */
+  button,
+  input[type='button'],
+  input[type='reset'],
+  input[type='submit'] {
+    appearance: button;
+    -webkit-appearance: button;
+  }
+
+  input[type='search'] {
+    appearance: textfield;
+    -webkit-appearance: textfield;
+  }
+
   /* Activity box descriptions and sub-content - Different serif font */
   .activity-box p,
   .activity-box .activity-text-mobile {
@@ -737,6 +751,23 @@
    MOBILE HERO SECTION IMPROVEMENTS
    ============================================ */
 @media (max-width: 768px) {
+  /* Remove animated gradient background that shows as purple bars on small screens */
+  body {
+    background: #0f172a;
+  }
+
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   /* Better spacing for mobile hero */
   #home {
     padding-top: 0;
