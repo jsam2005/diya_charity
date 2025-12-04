@@ -88,8 +88,8 @@ frontend/
 - **Text**: `#555` (Dark Gray)
 
 ### Typography
-- **Headings**: Playfair Display (serif)
-- **Body Text**: Open Sans (sans-serif)
+- **Headings**: EB Garamond (serif)
+- **Body Text**: EB Garamond (serif)
 
 ### Components
 - **Buttons**: Multiple variants (primary, secondary, outline)

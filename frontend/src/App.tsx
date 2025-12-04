@@ -2,8 +2,6 @@ import React from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Mission from '@/components/Mission';
-import Process from '@/components/Process';
-import ImpactStats from '@/components/ImpactStats';
 import DonationForm from '@/components/DonationForm';
 import CommunityFeedback from '@/components/CommunityFeedback';
 import Contact from '@/components/Contact';
@@ -21,8 +19,6 @@ const App: React.FC = () => {
         <main>
           <Hero />
           <Mission />
-          <Process />
-          <ImpactStats />
           <DonationForm />
           <CommunityFeedback />
           <Contact />

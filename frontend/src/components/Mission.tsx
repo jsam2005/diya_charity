@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { MISSION_CONTENT } from '@/data/constants';
-import { scrollToElement, getAssetPath } from '@/utils';
+import { getAssetPath } from '@/utils';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -10,13 +9,161 @@ const Mission: React.FC = () => {
     triggerOnce: false,
   });
 
-  const missionBackgroundImage = getAssetPath('BG_img_2.jpg');
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
   const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
 
-  const handleExplore = () => {
-    scrollToElement('process');
+  const complianceCards = [
+    { id: 'card-ngo', logo: ngoLogo, alt: 'NGO & NPO Registration Logo' },
+    { id: 'card-darpan', logo: darpanLogo, alt: 'DARPAN Portal Logo' },
+    { id: 'card-income-tax-a', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
+    { id: 'card-income-tax-b', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
+  ];
+
+  const activityCards = [
+    {
+      id: 'card-budding-minds',
+      title: 'Budding Minds',
+      content: 'Bridging school dropout gaps, skill training, and job placement assistance for underprivileged youth.',
+      icon: '🧠',
+    },
+    {
+      id: 'card-youth-leap',
+      title: 'Youth Leap',
+      content: 'Skill training, psychological counseling, and placement support specifically designed for youth empowerment.',
+      icon: '🚀',
+    },
+    {
+      id: 'card-vulnerable-families',
+      title: 'Vulnerable Women & Families',
+      content: 'Skill training, job placement, and self-help group formation focused on economic stability for women.',
+      icon: '💪',
+    },
+    {
+      id: 'card-old-age-care',
+      title: 'Old Age Care',
+      content: 'Palliative care, counseling, and accessible healthcare services for the elderly community.',
+      icon: '❤️',
+    },
+    {
+      id: 'card-sustainability',
+      title: 'Support & Sustainability',
+      content: 'Awareness campaigns and sustainability efforts for long-term community resilience.',
+      icon: '🌱',
+    },
+  ];
+
+  const sectionTitleStyle: React.CSSProperties = {
+    fontFamily: "'Poppins', 'EB Garamond', serif",
+    fontSize: '2.5rem',
+    color: '#1C3F75',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginBottom: '20px',
+    borderBottom: '4px solid #00A389',
+    paddingBottom: '10px',
+    display: 'inline-block',
+  };
+
+  const layoutContainerStyle: React.CSSProperties = {
+    backgroundColor: '#F9F9F9',
+    padding: '30px 20px',
+    borderRadius: '1.5rem',
+  };
+
+  const gridStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: '25px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  };
+
+  const cardClassName =
+    'h-full p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out hover:scale-[1.03] hover:bg-[#EAF4FF]';
+
+  const iconWrapperClass =
+    'mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl';
+
+  const identityCards = [
+    {
+      id: 'card-mission',
+      header: 'Our Mission',
+      content:
+        'At Diya Charity, we are a newly established NGO dedicated to serving society through comprehensive social welfare programs. Our mission is to illuminate lives and bring hope to underserved communities through education, healthcare, women’s empowerment, and environmental sustainability. Like a Diya (lamp) that dispels darkness, we strive to light up the path towards a better tomorrow for all.',
+      accentColor: '#00A389',
+      backgroundColor: '#F8FFFD',
+    },
+    {
+      id: 'card-about-us',
+      header: 'About Us',
+      content:
+        'Founded in 2024, Diya Charity emerged from a simple yet powerful vision: to be the light that guides communities out of darkness. As a startup NGO, we believe that every individual deserves access to quality education, healthcare, and opportunities for growth. Our name “Diya” symbolizes the light of hope, knowledge, and compassion that we bring to every life we touch.',
+      accentColor: '#1C3F75',
+      backgroundColor: '#F8F9FF',
+    },
+    {
+      id: 'card-vision',
+      header: 'Our Vision',
+      content:
+        'To create a world where no one is left behind, where every child has access to education, every family has healthcare, and every woman has the power to shape her own destiny.',
+      accentColor: '#FF8C42',
+      backgroundColor: '#FFFBF8',
+    },
+    {
+      id: 'card-values',
+      header: 'Our Values',
+      content:
+        'Compassion, Integrity, Transparency, and Service to Humanity are the core values that guide everything we do.',
+      accentColor: '#7B42F2',
+      backgroundColor: '#FCF8FF',
+    },
+  ];
+
+  const identitySectionTitleStyle: React.CSSProperties = {
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: '3rem',
+    color: '#1C3F75',
+    textAlign: 'center',
+    marginTop: '20px',
+    marginBottom: '15px',
+  };
+
+  const identitySubtextStyle: React.CSSProperties = {
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: '1.25rem',
+    color: '#556079',
+    textAlign: 'center',
+    marginBottom: '20px',
+  };
+
+  const identityLayoutContainerStyle: React.CSSProperties = {
+    backgroundColor: '#FFFFFF',
+    padding: '30px 20px 30px 20px',
+    borderRadius: '1.5rem',
+  };
+
+  const identityGridStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+    gap: '35px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  };
+
+  const identityCardBaseStyle: React.CSSProperties = {
+    padding: '30px',
+    borderRadius: '10px',
+    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.05)',
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  };
+
+  const identityHeaderStyle: React.CSSProperties = {
+    fontSize: '1.75rem',
+    fontWeight: 600,
+    marginBottom: '15px',
+    fontFamily: "'Playfair Display', 'EB Garamond', serif",
+    color: '#1C3F75',
   };
 
   return (
@@ -28,13 +175,10 @@ const Mission: React.FC = () => {
       <div 
         className="container-custom-full relative z-10"
         style={{
-          backgroundImage: `url(${missionBackgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#ffffff',
           minHeight: '400px',
           borderRadius: '1rem',
-          padding: '1.5rem',
+          padding: '0.5rem',
           maxWidth: '95%',
           margin: '0 auto',
         }}
@@ -46,327 +190,138 @@ const Mission: React.FC = () => {
           className="relative z-10"
           style={{ opacity: 1 }}
         >
-          {/* Certifications Section */}
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mb-20"
-            style={{ opacity: 1 }}
+          <div
+            id="primary-activity-section"
+            style={layoutContainerStyle}
+            className="mb-4"
           >
-            {/* Title Section */}
-            <motion.div
-              initial={{ opacity: 1, y: 0 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-center mb-12"
-              style={{ opacity: 1 }}
-            >
-              <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold uppercase mb-4 tracking-wide" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
-                  OUR COMPLIANCE
-                </h2>
-                <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
-              </div>
-            </motion.div>
-
-            {/* Compliance Boxes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" style={{ maxWidth: '100%' }}>
-              {/* NGO & NPO Registration Box */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="compliance-box flex items-center justify-center p-4"
-                style={{ opacity: 1 }}
-              >
-                <img 
-                  src={ngoLogo}
-                  alt="NGO & NPO Registration Logo" 
-                  className="w-full h-auto object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </motion.div>
-              
-              {/* DARPAN Portal Registration Box */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="compliance-box flex items-center justify-center p-4"
-                style={{ opacity: 1 }}
-              >
-                <img 
-                  src={darpanLogo}
-                  alt="DARPAN Portal Logo" 
-                  className="w-full h-auto object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </motion.div>
-              
-              {/* Income Tax Registration Box */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="compliance-box flex items-center justify-center p-4"
-                style={{ opacity: 1 }}
-              >
-                <img 
-                  src={incomeTaxLogo}
-                  alt="Income Tax Registration Logo" 
-                  className="w-full h-auto object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </motion.div>
-
-              {/* Income Tax Registration Box - Repeat */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="compliance-box flex items-center justify-center p-4"
-                style={{ opacity: 1 }}
-              >
-                <img 
-                  src={incomeTaxLogo}
-                  alt="Income Tax Registration Logo" 
-                  className="w-full h-auto object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                  }}
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Primary Activities Section */}
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mb-20"
-            style={{ opacity: 1 }}
-          >
-            {/* Title Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="text-center mb-12"
+              transition={{ duration: 0.6 }}
+              className="text-center"
             >
-              <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold uppercase mb-4 tracking-wide" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
-                  OUR PRIMARY ACTIVITY
-                </h2>
-                <div className="w-24 h-1 bg-primary-500 mx-auto rounded-full"></div>
-              </div>
-            </motion.div>
-
-            {/* Primary Activity Boxes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6" style={{ maxWidth: '100%' }}>
-              {/* Budding Minds */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="activity-box activity-box-mobile flex flex-col items-center justify-center"
-                style={{ opacity: 1 }}
-              >
-                <div className="activity-icon-container mb-4">
-                  <div className="activity-icon">
-                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🧠</span>
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight activity-title-mobile">
-                  Budding Minds
-                </h3>
-                <p className="text-base md:text-sm text-white text-center leading-relaxed opacity-90 activity-text-mobile">
-                  Bridging school dropout gaps, skill training, and job placement for children & teens (ages 5-17)
-                </p>
-              </motion.div>
-              
-              {/* Youth Leap */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="activity-box activity-box-mobile flex flex-col items-center justify-center"
-                style={{ opacity: 1 }}
-              >
-                <div className="activity-icon-container mb-4">
-                  <div className="activity-icon">
-                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🚀</span>
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight activity-title-mobile">
-                  Youth Leap
-                </h3>
-                <p className="text-base md:text-sm text-white text-center leading-relaxed opacity-90 activity-text-mobile">
-                  Skill training, psychological counseling, and job placement for youth (ages 18-30)
-                </p>
-              </motion.div>
-              
-              {/* Vulnerable Women & Families */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="activity-box activity-box-mobile flex flex-col items-center justify-center"
-                style={{ opacity: 1 }}
-              >
-                <div className="activity-icon-container mb-4">
-                  <div className="activity-icon">
-                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>💪</span>
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight activity-title-mobile">
-                  Vulnerable Women & Families
-                </h3>
-                <p className="text-base md:text-sm text-white text-center leading-relaxed opacity-90 activity-text-mobile">
-                  Skill training, job placement, and women empowerment for widowed, divorced, and single mothers
-                </p>
-              </motion.div>
-
-              {/* Old Age Care */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="activity-box activity-box-mobile flex flex-col items-center justify-center"
-                style={{ opacity: 1 }}
-              >
-                <div className="activity-icon-container mb-4">
-                  <div className="activity-icon">
-                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>❤️</span>
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight activity-title-mobile">
-                  Old Age Care
-                </h3>
-                <p className="text-base md:text-sm text-white text-center leading-relaxed opacity-90 activity-text-mobile">
-                  Palliative care, counseling, and companionship for the elderly (60+ years)
-                </p>
-              </motion.div>
-
-              {/* Support & Sustainability */}
-              <motion.div
-                initial={{ opacity: 1, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="activity-box activity-box-mobile flex flex-col items-center justify-center"
-                style={{ opacity: 1 }}
-              >
-                <div className="activity-icon-container mb-4">
-                  <div className="activity-icon">
-                    <span className="text-6xl" style={{ fontSize: '3.5rem' }}>🌱</span>
-                  </div>
-                </div>
-                <h3 className="text-xl md:text-xl font-serif font-bold text-white text-center mb-3 leading-tight activity-title-mobile">
-                  Support & Sustainability
-                </h3>
-                <p className="text-base md:text-sm text-white text-center leading-relaxed opacity-90 activity-text-mobile">
-                  Awareness campaigns and sustainability efforts for long-term impact and sustainable models
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6, delay: 1.5 }}
-            className="text-center mb-8"
-          >
-            <div style={{ display: 'inline-block', padding: '1rem 2rem', borderRadius: '0.5rem', border: '2px solid rgba(255, 255, 255, 0.8)', backgroundColor: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(5px)' }}>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold mb-8" style={{ color: 'white', textShadow: '2px 2px 10px rgba(0, 0, 0, 0.8), -2px -2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)' }}>
-                {MISSION_CONTENT.title}
+              <h2 style={sectionTitleStyle}>
+                Our Primary Activities &amp; Impact Areas
               </h2>
+            </motion.div>
+
+            <div className="space-y-12">
+              <section aria-labelledby="compliance-credentials-heading">
+                <h3
+                  id="compliance-credentials-heading"
+                  className="text-2xl font-semibold text-[#1C3F75] text-center mb-6"
+                >
+                  Compliance Credentials
+                </h3>
+                <div style={gridStyle}>
+                  {complianceCards.map((card, index) => (
+                    <motion.div
+                      key={card.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={
+                        inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                      }
+                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      className="h-full bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] flex items-center justify-center p-6"
+                    >
+                      <img
+                        src={card.logo}
+                        alt={card.alt}
+                        className="max-h-24 w-full object-contain"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+
+              <section aria-labelledby="primary-activities-heading">
+                <h3
+                  id="primary-activities-heading"
+                  className="text-2xl font-semibold text-[#1C3F75] text-center mb-6"
+                >
+                  Impact Areas
+                </h3>
+                <div style={gridStyle}>
+                  {activityCards.map((card, index) => (
+                    <motion.div
+                      key={card.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={
+                        inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                      }
+                      transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                      className={cardClassName}
+                    >
+                      <div className={iconWrapperClass} aria-hidden="true">
+                        <span>{card.icon}</span>
+                      </div>
+                      <h4 className="text-xl font-semibold text-[#1C3F75] mb-3">
+                        {card.title}
+                      </h4>
+                      <p className="text-base text-[#333333] leading-relaxed">
+                        {card.content}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
             </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-            {/* Mission Description */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="glass-card p-6"
-            >
-              <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Mission</h3>
-              <p className="text-gray-600 leading-relaxed">
-                {MISSION_CONTENT.description}
-              </p>
-            </motion.div>
-
-            {/* About Us */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="glass-card p-6"
-            >
-              <h3 className="text-xl font-semibold text-primary-600 mb-4">About Us</h3>
-              <p className="text-gray-600 leading-relaxed">
-                {MISSION_CONTENT.aboutUs}
-              </p>
-            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            {/* Vision */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="glass-card p-6 border-l-4 border-primary-500"
-            >
-              <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Vision</h3>
-              <p className="text-gray-700 leading-relaxed">
-                {MISSION_CONTENT.vision}
-              </p>
-            </motion.div>
-
-            {/* Values */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 1.1 }}
-              className="glass-card p-6 border-l-4 border-warm-500"
-            >
-              <h3 className="text-xl font-semibold text-primary-600 mb-4">Our Values</h3>
-              <p className="text-gray-700 leading-relaxed">
-                {MISSION_CONTENT.values}
-              </p>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-            className="text-center"
+          <section
+            id="mission-values-section"
+            style={identityLayoutContainerStyle}
+            className="mb-4"
           >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleExplore}
-              className="btn-primary btn-lg"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
             >
-              Explore Our Programs
-            </motion.button>
-          </motion.div>
+              <h2 style={identitySectionTitleStyle}>Our Core Identity</h2>
+              <p style={identitySubtextStyle}>Mission, Vision, Values &amp; Story</p>
+            </motion.div>
+
+            <div style={identityGridStyle}>
+              {identityCards.map((card, index) => (
+                <motion.div
+                  key={card.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={
+                    inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                  }
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                  whileHover={{
+                    y: -5,
+                    boxShadow: '0 12px 30px rgba(0, 0, 0, 0.1)',
+                  }}
+                  style={{
+                    ...identityCardBaseStyle,
+                    borderLeft: `6px solid ${card.accentColor}`,
+                    backgroundColor: card.backgroundColor,
+                  }}
+                >
+                  <h3 style={identityHeaderStyle}>{card.header}</h3>
+                  <p
+                    style={{
+                      fontFamily: "'EB Garamond', serif",
+                      color: '#253148',
+                      lineHeight: 1.8,
+                      fontSize: '1.05rem',
+                    }}
+                  >
+                    {card.content}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
         </motion.div>
 
         {/* Decorative Elements */}

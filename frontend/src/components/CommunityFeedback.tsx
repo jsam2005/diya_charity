@@ -35,7 +35,7 @@ const CommunityFeedback: React.FC = () => {
     <section
       id="feedback"
       ref={ref}
-      className="section-padding"
+      className="section-padding bg-white"
     >
       <div className="container-custom-full">
         <motion.div

@@ -8,19 +8,28 @@
 :root {
   --vh: 1vh;
   
-  /* Colors */
-  --bg-primary: #fff7ed;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #fef3e2;
-  --text-primary: #451a03;
-  --text-secondary: #78350f;
-  --text-tertiary: #92400e;
-  --accent-primary: #d97706;
-  --accent-secondary: #f59e0b;
-  --accent-tertiary: #f97316;
-  --border-color: rgba(217, 119, 6, 0.2);
+  /* Colors - Diya Charity Palette */
+  /* Primary: Deep Corporate Blue (Trust) */
+  --color-primary: #1C3F75;
+  /* Secondary: Vibrant Teal (Growth/Hope) */
+  --color-secondary: #00A389;
+  /* Accent: Illuminating Orange (Action/Light) */
+  --color-accent: #FF8C42;
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9F9F9;
+  --bg-tertiary: #FFFFFF;
+  /* Text Colors */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #1C3F75;
+  /* Legacy support - mapped to new palette */
+  --accent-primary: #FF8C42;
+  --accent-secondary: #00A389;
+  --accent-tertiary: #1C3F75;
+  --border-color: rgba(0, 163, 137, 0.2);
   --shadow-color: rgba(0, 0, 0, 0.1);
-  --shadow-glow: rgba(217, 119, 6, 0.3);
+  --shadow-glow: rgba(255, 140, 66, 0.3);
   
   /* Animated Wave Gradient Colors - Purple/Blue Theme */
   --wave-color-1: #6366f1;
@@ -45,7 +54,7 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
     color: var(--text-primary);
     background: transparent;
     line-height: 1.7;
@@ -113,7 +122,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'EB Garamond', serif;
     color: var(--text-secondary);
     font-weight: 700;
   }
@@ -164,16 +173,18 @@
   }
 
   p {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
     font-size: 1.125rem;
     color: var(--text-primary);
     line-height: 1.8;
     letter-spacing: 0.01em;
+    font-weight: 600;
   }
 
   /* All sub-content text elements for better readability */
   span, div, li, td, th, label, input, textarea, select, button {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
   }
 
   /* Ensure text in small elements is readable - minimum 16px for older users */
@@ -204,7 +215,7 @@
   /* Activity box descriptions and sub-content - Different serif font */
   .activity-box p,
   .activity-box .activity-text-mobile {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'EB Garamond', serif;
     font-size: 1rem;
     line-height: 1.7;
     letter-spacing: 0.01em;
@@ -214,7 +225,7 @@
   .activity-box span,
   .compliance-box p,
   .compliance-box span {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
     font-size: 1rem;
     line-height: 1.7;
     letter-spacing: 0.01em;
@@ -261,7 +272,7 @@
   .glass-card p,
   .glass-card span,
   .glass-card div {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'EB Garamond', serif;
     font-size: 1.0625rem;
     line-height: 1.8;
   }
@@ -419,21 +430,21 @@
 
   /* Section Padding */
   .section-padding {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   @media (min-width: 768px) {
     .section-padding {
-      padding-top: 6rem;
-      padding-bottom: 6rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .section-padding {
-      padding-top: 8rem;
-      padding-bottom: 8rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
     }
   }
 
@@ -751,16 +762,6 @@
    MOBILE HERO SECTION IMPROVEMENTS
    ============================================ */
 @media (max-width: 768px) {
-  /* Remove animated gradient background that shows as purple bars on small screens */
-  body {
-    background: #0f172a;
-  }
-
-  body::before,
-  body::after {
-    display: none;
-  }
-
   html,
   body,
   #root {
@@ -904,7 +905,7 @@
       font-size: 1.25rem !important;
       font-weight: 700 !important;
       line-height: 1.5 !important;
-      font-family: 'Georgia', 'Times New Roman', serif !important;
+      font-family: 'EB Garamond', serif !important;
     }
 
     .activity-icon-container {
@@ -984,20 +985,13 @@
   }
 
   .activity-box h3 {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.4);
     font-weight: 700;
-    font-family: 'Playfair Display', serif;
+    font-family: 'EB Garamond', serif;
   }
 
   .activity-box p {
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 8px rgba(0, 0, 0, 0.3);
     font-weight: 700 !important;
-    font-family: 'Georgia', 'Times New Roman', serif !important;
-  }
-
-  /* All text inside activity boxes */
-  .activity-box * {
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.7);
+    font-family: 'EB Garamond', serif !important;
   }
 
   .activity-box h3,
