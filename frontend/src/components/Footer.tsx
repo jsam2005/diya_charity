@@ -11,20 +11,13 @@ const Footer: React.FC = () => {
 
   return (
     <footer ref={ref} className="relative">
-      {/* Warm Theme Background */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8 }}
-        className="h-32 md:h-40 warm-bg bg-cover bg-center"
-      />
-
       {/* Footer Content */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         className="py-12"
+        style={{ backgroundColor: '#1F2A40' }}
       >
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -34,7 +27,7 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <h3 className="text-2xl font-serif font-bold text-primary-500 mb-6">
+              <h3 className="text-2xl font-serif font-bold text-white mb-6">
                 {FOOTER_CONTENT.organizationName}
               </h3>
             </motion.div>
@@ -45,7 +38,7 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h4 className="text-lg font-semibold text-primary-500 mb-4">Contact Us</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">Contact Us</h4>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 text-primary-500 mt-0.5">
@@ -54,8 +47,8 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-600 font-medium">{CONTACT_INFO.phone}</p>
-                    <p className="text-sm text-gray-500">Mon-Fri: 9AM-6PM</p>
+                    <p className="text-gray-100 font-medium">{CONTACT_INFO.phone}</p>
+                    <p className="text-sm text-gray-300">Mon-Fri: 9AM-6PM</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -66,8 +59,8 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-600 font-medium">{CONTACT_INFO.email}</p>
-                    <p className="text-sm text-gray-500">General Inquiries</p>
+                    <p className="text-gray-100 font-medium">{CONTACT_INFO.email}</p>
+                    <p className="text-sm text-gray-300">General Inquiries</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -77,8 +70,8 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-600 font-medium">Emergency</p>
-                    <p className="text-sm text-gray-500">+91 98765 43211</p>
+                    <p className="text-gray-100 font-medium">Emergency</p>
+                    <p className="text-sm text-gray-300">+91 98765 43211</p>
                   </div>
                 </div>
               </div>
@@ -90,7 +83,7 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h4 className="text-lg font-semibold text-primary-500 mb-4">Office Location</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">Office Location</h4>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 text-primary-500 mt-0.5">
@@ -99,11 +92,11 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-600 font-medium">{CONTACT_INFO.address.street}</p>
-                    <p className="text-gray-600">
+                    <p className="text-gray-100 font-medium">{CONTACT_INFO.address.street}</p>
+                    <p className="text-gray-100">
                       {CONTACT_INFO.address.city}, {CONTACT_INFO.address.state} {CONTACT_INFO.address.zip}
                     </p>
-                    <p className="text-sm text-gray-500 mt-1">India</p>
+                    <p className="text-sm text-gray-300 mt-1">India</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -113,10 +106,10 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-600 font-medium">Office Hours</p>
-                    <p className="text-sm text-gray-500">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                    <p className="text-sm text-gray-500">Saturday: 10:00 AM - 4:00 PM</p>
-                    <p className="text-sm text-gray-500">Sunday: Closed</p>
+                    <p className="text-gray-100 font-medium">Office Hours</p>
+                    <p className="text-sm text-gray-300">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p className="text-sm text-gray-300">Saturday: 10:00 AM - 4:00 PM</p>
+                    <p className="text-sm text-gray-300">Sunday: Closed</p>
                   </div>
                 </div>
               </div>
@@ -128,17 +121,17 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <h4 className="text-lg font-semibold text-primary-500 mb-4">Quick Links</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
               <div className="space-y-3">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-2">Legal</h5>
+                  <h5 className="text-sm font-medium text-gray-100 mb-2">Legal</h5>
                   <div className="space-y-1">
                     {FOOTER_CONTENT.links.map((link, index) => (
                       <motion.a
                         key={index}
                         href={link.href}
                         whileHover={{ x: 5 }}
-                        className="block text-sm text-gray-600 hover:text-primary-500 transition-colors duration-300"
+                        className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300"
                       >
                         {link.label}
                       </motion.a>
@@ -146,7 +139,7 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <h5 className="text-sm font-medium text-gray-700 mb-2">Follow Us</h5>
+                  <h5 className="text-sm font-medium text-gray-100 mb-2">Follow Us</h5>
                   <div className="flex space-x-3">
                     <motion.a
                       href="#"
@@ -189,10 +182,10 @@ const Footer: React.FC = () => {
             className="mt-12 pt-8 border-t border-gray-300"
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-200">
                 {FOOTER_CONTENT.copyright}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-200">
                 {FOOTER_CONTENT.poweredBy.split(' ').map((word, index) => 
                   word === 'Wix' ? (
                     <motion.a

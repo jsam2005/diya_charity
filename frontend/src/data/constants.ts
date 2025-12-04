@@ -12,17 +12,17 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
     quote: "Diya Charity has transformed our community by providing free education to our children. They truly light up lives!",
-    author: 'Priya Sharma, Mother of 3'
+    author: 'Vijaya'
   },
   {
     id: '2',
     quote: "The healthcare camps organized by Diya Charity have been a blessing for our village. We are forever grateful.",
-    author: 'Rajesh Kumar, Village Elder'
+    author: 'Kaviya'
   },
   {
     id: '3',
     quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charity!",
-    author: 'Sunita Devi, Entrepreneur'
+    author: 'Kannan'
   }
 ];
 

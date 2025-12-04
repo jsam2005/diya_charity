@@ -53,23 +53,27 @@ const CommunityFeedback: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="max-w-4xl mx-auto space-y-12"
+          className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {TESTIMONIALS.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
               variants={itemVariants}
-              className="text-center"
+              className="text-center h-full"
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="bg-white p-8 md:p-12 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-white p-8 md:p-10 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col justify-between"
               >
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={inView ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.3 + 0.2 }}
-                  className="text-lg md:text-xl text-primary-600 italic leading-relaxed mb-6"
+                  className="text-lg md:text-xl text-primary-600 leading-relaxed mb-6"
+                  style={{
+                    fontFamily: 'Calibri, sans-serif',
+                    fontWeight: 500,
+                  }}
                 >
                   "{testimonial.quote}"
                 </motion.p>

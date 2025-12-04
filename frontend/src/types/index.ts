@@ -1,10 +1,13 @@
 // Form types
 export interface ContactFormData {
   firstName: string;
-  lastName: string;
+  lastName?: string;
+  gender?: string;
   email: string;
   phone: string;
   message: string;
+  volunteerPreferences?: string[];
+  availability?: string[];
 }
 
 export interface FormFieldError {

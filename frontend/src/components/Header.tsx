@@ -70,7 +70,7 @@ const Header: React.FC = () => {
     >
       <div className="container-custom">
         {/* Desktop Navbar */}
-        <div className="hidden md:flex items-center justify-between py-4 gap-6">
+        <div className="hidden md:flex items-center justify-between py-2 gap-6">
           {/* Site Name with Refresh */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -116,9 +116,28 @@ const Header: React.FC = () => {
             {/* Donate Button */}
             <motion.button
               onClick={handleDonate}
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              className="btn btn-primary px-5 py-2 md:px-6 text-base text-white font-semibold rounded-full whitespace-nowrap"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '12px 28px',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                background: 'rgba(139, 0, 0, 0.85)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                boxShadow: 'none',
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: '16px',
+                fontWeight: 700,
+                color: '#FFFFFF',
+                textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
+                whiteSpace: 'nowrap',
+              }}
             >
               Donate
             </motion.button>
@@ -126,7 +145,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Mobile Navbar */}
-        <div className="flex md:hidden items-center justify-between py-3">
+        <div className="flex md:hidden items-center justify-between py-2">
           {/* Site Name with Refresh */}
           <motion.h1
             onClick={handleRefresh}
@@ -192,8 +211,27 @@ const Header: React.FC = () => {
                 <div className="flex justify-center">
                   <motion.button
                     onClick={handleDonate}
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.95 }}
-                    className="btn btn-primary px-6 py-2 text-base text-white font-semibold rounded-full"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '12px 28px',
+                      borderRadius: '50px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(139, 0, 0, 0.85)',
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      boxShadow: 'none',
+                      fontFamily: "'Montserrat', sans-serif",
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
+                    }}
                   >
                     Donate
                   </motion.button>
@@ -202,6 +240,22 @@ const Header: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* Running line placeholder just below the navbar */}
+      <div className="w-full overflow-hidden" style={{ padding: '4px 0' }}>
+        <p
+          className="font-elegant text-white text-xs sm:text-sm tracking-wide whitespace-nowrap text-center"
+          style={{
+            textShadow:
+              '2px 2px 8px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 0, 0, 0.6)',
+            letterSpacing: '0.15em',
+            fontWeight: 600,
+            animation: 'hero-ticker 18s linear infinite',
+          }}
+        >
+          RUNNING LINE PLACEHOLDER
+        </p>
       </div>
     </motion.header>
   );

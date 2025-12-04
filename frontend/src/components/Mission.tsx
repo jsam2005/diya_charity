@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { getAssetPath } from '@/utils';
+import { getAssetPath, scrollToElement } from '@/utils';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -12,45 +12,13 @@ const Mission: React.FC = () => {
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
   const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
+  const complianceImage = getAssetPath('compilance.png');
 
   const complianceCards = [
     { id: 'card-ngo', logo: ngoLogo, alt: 'NGO & NPO Registration Logo' },
     { id: 'card-darpan', logo: darpanLogo, alt: 'DARPAN Portal Logo' },
     { id: 'card-income-tax-a', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
     { id: 'card-income-tax-b', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
-  ];
-
-  const activityCards = [
-    {
-      id: 'card-budding-minds',
-      title: 'Budding Minds',
-      content: 'Bridging school dropout gaps, skill training, and job placement assistance for underprivileged youth.',
-      icon: '🧠',
-    },
-    {
-      id: 'card-youth-leap',
-      title: 'Youth Leap',
-      content: 'Skill training, psychological counseling, and placement support specifically designed for youth empowerment.',
-      icon: '🚀',
-    },
-    {
-      id: 'card-vulnerable-families',
-      title: 'Vulnerable Women & Families',
-      content: 'Skill training, job placement, and self-help group formation focused on economic stability for women.',
-      icon: '💪',
-    },
-    {
-      id: 'card-old-age-care',
-      title: 'Old Age Care',
-      content: 'Palliative care, counseling, and accessible healthcare services for the elderly community.',
-      icon: '❤️',
-    },
-    {
-      id: 'card-sustainability',
-      title: 'Support & Sustainability',
-      content: 'Awareness campaigns and sustainability efforts for long-term community resilience.',
-      icon: '🌱',
-    },
   ];
 
   const sectionTitleStyle: React.CSSProperties = {
@@ -60,8 +28,6 @@ const Mission: React.FC = () => {
     textAlign: 'center',
     marginTop: '20px',
     marginBottom: '20px',
-    borderBottom: '4px solid #00A389',
-    paddingBottom: '10px',
     display: 'inline-block',
   };
 
@@ -71,99 +37,53 @@ const Mission: React.FC = () => {
     borderRadius: '1.5rem',
   };
 
+  const primaryActivitiesGradientStyle: React.CSSProperties = {
+    backgroundImage: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #60a5fa 50%, #93c5fd 75%, #dbeafe 100%)',
+    backgroundSize: '400% 400%',
+    padding: '30px 20px',
+    borderRadius: '1.5rem',
+    position: 'relative',
+    overflow: 'hidden',
+    animation: 'gradient-motion-glow 25s ease infinite alternate',
+    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1)',
+  };
+
   const gridStyle: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '25px',
     maxWidth: '1200px',
     margin: '0 auto',
   };
 
-  const cardClassName =
-    'h-full p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out hover:scale-[1.03] hover:bg-[#EAF4FF]';
-
-  const iconWrapperClass =
-    'mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl';
-
-  const identityCards = [
-    {
-      id: 'card-mission',
-      header: 'Our Mission',
-      content:
-        'At Diya Charity, we are a newly established NGO dedicated to serving society through comprehensive social welfare programs. Our mission is to illuminate lives and bring hope to underserved communities through education, healthcare, women’s empowerment, and environmental sustainability. Like a Diya (lamp) that dispels darkness, we strive to light up the path towards a better tomorrow for all.',
-      accentColor: '#00A389',
-      backgroundColor: '#F8FFFD',
-    },
-    {
-      id: 'card-about-us',
-      header: 'About Us',
-      content:
-        'Founded in 2024, Diya Charity emerged from a simple yet powerful vision: to be the light that guides communities out of darkness. As a startup NGO, we believe that every individual deserves access to quality education, healthcare, and opportunities for growth. Our name “Diya” symbolizes the light of hope, knowledge, and compassion that we bring to every life we touch.',
-      accentColor: '#1C3F75',
-      backgroundColor: '#F8F9FF',
-    },
-    {
-      id: 'card-vision',
-      header: 'Our Vision',
-      content:
-        'To create a world where no one is left behind, where every child has access to education, every family has healthcare, and every woman has the power to shape her own destiny.',
-      accentColor: '#FF8C42',
-      backgroundColor: '#FFFBF8',
-    },
-    {
-      id: 'card-values',
-      header: 'Our Values',
-      content:
-        'Compassion, Integrity, Transparency, and Service to Humanity are the core values that guide everything we do.',
-      accentColor: '#7B42F2',
-      backgroundColor: '#FCF8FF',
-    },
-  ];
-
-  const identitySectionTitleStyle: React.CSSProperties = {
-    fontFamily: "'Poppins', sans-serif",
-    fontSize: '3rem',
-    color: '#1C3F75',
-    textAlign: 'center',
-    marginTop: '20px',
-    marginBottom: '15px',
+  // Corporate sponsors streaming cards (carousel-wrapper / card-track / stream-card)
+  const corporateScrollerContainerStyle: React.CSSProperties = {
+    overflow: 'hidden',
+    width: '100%',
+    maxWidth: '900px',
+    position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: '10px',
+    marginBottom: '40px',
   };
 
-  const identitySubtextStyle: React.CSSProperties = {
-    fontFamily: "'Poppins', sans-serif",
-    fontSize: '1.25rem',
-    color: '#556079',
-    textAlign: 'center',
-    marginBottom: '20px',
+  const corporateScrollerTrackStyle: React.CSSProperties = {
+    display: 'flex',
+    gap: '24px',
+    width: 'max-content',
+    animation: 'stream-loop-rtl 30s linear infinite',
   };
 
-  const identityLayoutContainerStyle: React.CSSProperties = {
+  const corporateCardStyle: React.CSSProperties = {
+    width: '300px',
+    flexShrink: 0,
+    padding: '24px 22px',
+    borderRadius: '16px',
     backgroundColor: '#FFFFFF',
-    padding: '30px 20px 30px 20px',
-    borderRadius: '1.5rem',
-  };
-
-  const identityGridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-    gap: '35px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  };
-
-  const identityCardBaseStyle: React.CSSProperties = {
-    padding: '30px',
-    borderRadius: '10px',
-    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.05)',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-  };
-
-  const identityHeaderStyle: React.CSSProperties = {
-    fontSize: '1.75rem',
-    fontWeight: 600,
-    marginBottom: '15px',
-    fontFamily: "'Playfair Display', 'EB Garamond', serif",
-    color: '#1C3F75',
+    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
+    textAlign: 'left',
+    color: '#111827',
   };
 
   return (
@@ -202,19 +122,246 @@ const Mission: React.FC = () => {
               className="text-center"
             >
               <h2 style={sectionTitleStyle}>
-                Our Primary Activities &amp; Impact Areas
+                OUR MISSION
               </h2>
             </motion.div>
 
-            <div className="space-y-12">
-              <section aria-labelledby="compliance-credentials-heading">
-                <h3
-                  id="compliance-credentials-heading"
-                  className="text-2xl font-semibold text-[#1C3F75] text-center mb-6"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{
+                maxWidth: '1950px',
+                margin: '0 auto',
+                padding: '20px',
+                textAlign: 'justify',
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "Calibri, sans-serif",
+                  fontSize: '25px',
+                  lineHeight: 1.3,
+                  color: '#000000',
+                  textAlign: 'center',
+                  fontWeight: 500,
+                }}
+              >
+                Have you ever felt the sting of hunger born out of extreme poverty - Even sudden urban poverty due to misfortune so deep that you couldn't share your struggles with anyone because of family dignity? Have you faced the stress of losing a job, along with the emotional turmoil it brings to you and your family? Have you experienced loneliness or depression from being left behind in the race for success or from the challenges that come with age? Or the pain of missing someone, something, or the helplessness of being unable to meet the needs of your loved ones?
+              </p>
+              <p
+                style={{
+                  fontFamily: "Calibri, sans-serif",
+                  fontSize: '25px',
+                  lineHeight: 1.3,
+                  color: '#000000',
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontWeight: 500,
+                }}
+              >
+                We are here to be a comforting presence - A healing hand to support you, uplift you, and help you move forward.
+              </p>
+              <p
+                style={{
+                  fontFamily: "Calibri, sans-serif",
+                  fontSize: '25px',
+                  lineHeight: 1.3,
+                  color: '#000000',
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontWeight: 500,
+                }}
+              >
+                If you, the reader, feel blessed by God, live in comfort, and feel protected, we invite you to spare your time to join us as a <strong>Volunteer</strong> (OR) contribute by <strong>Donating even a small part of your abundance</strong> . Remember, what goes around comes around in multiples!
+              </p>
+              <p
+                style={{
+                  fontFamily: "Calibri, sans-serif",
+                  fontSize: '25px',
+                  lineHeight: 1.3,
+                  color: '#000000',
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontWeight: 500,
+                }}
+              >
+                Our every outreach would be anonymous. None outside would know except professional volunteers! Reach out to us through whatsapp on 1234567890, you may not get instant replies but for sure we will reach out to you !
+              </p>
+              <p
+                style={{
+                  fontFamily: "Calibri, sans-serif",
+                  fontSize: '25px',
+                  lineHeight: 1.3,
+                  color: '#000000',
+                  textAlign: 'center',
+                  marginTop: '10px',
+                  fontWeight: 500,
+                }}
+              >
+                It doesn't matter who we are ! Let our actions speak !!
+              </p>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '40px',
+                  marginTop: '40px',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToElement('contact')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '15px 35px',
+                    borderRadius: '50px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: 'rgba(139, 0, 0, 0.85)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    boxShadow: 'none',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
+                    minWidth: '200px',
+                    maxWidth: '300px',
+                  }}
                 >
-                  Compliance Credentials
-                </h3>
-                <div style={gridStyle}>
+                  Volunteer
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToElement('donation')}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '15px 35px',
+                    borderRadius: '50px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: 'rgba(139, 0, 0, 0.85)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    boxShadow: 'none',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
+                    minWidth: '200px',
+                    maxWidth: '300px',
+                  }}
+                >
+                  Donate
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Our Compliance Section Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-center"
+            style={{ marginTop: '60px', marginBottom: '30px' }}
+          >
+            <h2 style={sectionTitleStyle}>
+              OUR COMPILANCE
+            </h2>
+          </motion.div>
+
+          {/* Our Compliance Container - Full Width */}
+          <div
+            id="compliance-section"
+            style={{
+              position: 'relative',
+              display: 'block',
+              marginTop: '20px',
+              width: '100vw',
+              marginLeft: 'calc(-50vw + 50%)',
+              left: 0,
+              right: 0,
+            }}
+          >
+            {/* Background Image Area with Dark Overlay */}
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '400px',
+                backgroundImage: `url(${complianceImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              {/* Dark Grayscale Overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6))',
+                }}
+              />
+            </div>
+
+            {/* Content Container Overlay - Overlaps bottom half of image */}
+            <div
+              style={{
+                position: 'relative',
+                marginTop: '-100px',
+                zIndex: 10,
+                backgroundColor: 'transparent',
+                padding: '60px 20px 40px 20px',
+                maxWidth: '1400px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              {/* Compliance Credentials Logos - Centered Grid */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '25px',
+                    width: '100%',
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                  }}
+                >
                   {complianceCards.map((card, index) => (
                     <motion.div
                       key={card.id}
@@ -222,13 +369,26 @@ const Mission: React.FC = () => {
                       animate={
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="h-full bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] flex items-center justify-center p-6"
+                      transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
+                      style={{
+                        background: '#FFFFFF',
+                        borderRadius: '12px',
+                        minHeight: '160px',
+                        boxShadow: '0 5px 20px rgba(0, 0, 0, 0.08)',
+                        padding: '30px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
                     >
                       <img
                         src={card.logo}
                         alt={card.alt}
-                        className="max-h-24 w-full object-contain"
+                        style={{
+                          maxHeight: '100px',
+                          width: '100%',
+                          objectFit: 'contain',
+                        }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
@@ -237,17 +397,125 @@ const Mission: React.FC = () => {
                     </motion.div>
                   ))}
                 </div>
-              </section>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Our Primary Activities Section */}
+          <div
+            id="primary-activities-section"
+            style={primaryActivitiesGradientStyle}
+            className="mb-4"
+          >
+            {/* Glitter Noise Overlay - Multiple Layers for Depth */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`
+                  <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <filter id="noise1">
+                      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
+                      <feColorMatrix type="saturate" values="0"/>
+                    </filter>
+                    <rect width="100%" height="100%" filter="url(#noise1)" opacity="0.3"/>
+                  </svg>
+                `)}")`,
+                backgroundSize: '200px 200px',
+                backgroundRepeat: 'repeat',
+                backgroundBlendMode: 'overlay',
+                opacity: 0.25,
+                pointerEvents: 'none',
+                zIndex: 1,
+                animation: 'subtleShift 15s ease infinite alternate',
+              }}
+            />
+            {/* Secondary Glitter Layer */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+                backgroundSize: '50px 50px',
+                backgroundRepeat: 'repeat',
+                backgroundBlendMode: 'screen',
+                opacity: 0.4,
+                pointerEvents: 'none',
+                zIndex: 1,
+                animation: 'subtleShift 25s ease infinite alternate-reverse',
+              }}
+            />
+            <div style={{ position: 'relative', zIndex: 2 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <h2 style={{ ...sectionTitleStyle, color: '#FFFFFF', textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}>
+                Our Primary Activities & Impact Areas
+              </h2>
+            </motion.div>
 
               <section aria-labelledby="primary-activities-heading">
                 <h3
                   id="primary-activities-heading"
-                  className="text-2xl font-semibold text-[#1C3F75] text-center mb-6"
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 600,
+                  color: '#FFFFFF',
+                  textAlign: 'center',
+                  marginBottom: '24px',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+                }}
                 >
-                  Impact Areas
                 </h3>
                 <div style={gridStyle}>
-                  {activityCards.map((card, index) => (
+                {[
+                  {
+                    id: 'card-budding-minds',
+                    title: 'Budding Minds',
+                    content: 'Bridging school dropout gaps, support classes, counseling, and career guidance.',
+                    icon: '🧠',
+                  },
+                  {
+                    id: 'card-youth-leap',
+                    title: 'Youth Leap',
+                    content: 'Skill training, psychological counseling, and placement support specifically designed for youth empowerment.',
+                    icon: '🚀',
+                  },
+                  {
+                    id: 'card-vulnerable-families',
+                    title: 'Vulnerable Women & Families',
+                    content: 'Skill training, job placement, and self-help group formation focused on economic stability for women.',
+                    icon: '💪',
+                  },
+                  {
+                    id: 'card-old-age-care',
+                    title: 'Old Age Care',
+                    content: 'Palliative care, counseling, and accessible healthcare services for the elderly community.',
+                    icon: '❤️',
+                  },
+                  {
+                    id: 'card-sustainability',
+                    title: 'Support & Sustainability',
+                    content: 'Awareness campaigns and sustainability efforts for long-term community resilience.',
+                    icon: '🌱',
+                  },
+                  {
+                    id: 'card-placeholder',
+                    title: 'Coming Soon',
+                    content: 'New initiative coming soon. Stay tuned for updates.',
+                    icon: '✨',
+                    isPlaceholder: true,
+                  },
+                ].map((card, index) => (
                     <motion.div
                       key={card.id}
                       initial={{ opacity: 0, y: 30 }}
@@ -255,9 +523,9 @@ const Mission: React.FC = () => {
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
                       transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                      className={cardClassName}
+                    className="h-full p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out hover:scale-[1.03] hover:bg-[#EAF4FF]"
                     >
-                      <div className={iconWrapperClass} aria-hidden="true">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl" aria-hidden="true">
                         <span>{card.icon}</span>
                       </div>
                       <h4 className="text-xl font-semibold text-[#1C3F75] mb-3">
@@ -273,55 +541,176 @@ const Mission: React.FC = () => {
             </div>
           </div>
 
-          <section
-            id="mission-values-section"
-            style={identityLayoutContainerStyle}
-            className="mb-4"
+          {/* Our Corporate Partners Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+            style={{ marginTop: '60px', marginBottom: '30px' }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <h2 style={identitySectionTitleStyle}>Our Core Identity</h2>
-              <p style={identitySubtextStyle}>Mission, Vision, Values &amp; Story</p>
-            </motion.div>
-
-            <div style={identityGridStyle}>
-              {identityCards.map((card, index) => (
-                <motion.div
-                  key={card.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={
-                    inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-                  }
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  whileHover={{
-                    y: -5,
-                    boxShadow: '0 12px 30px rgba(0, 0, 0, 0.1)',
-                  }}
+            <h2 style={sectionTitleStyle}>
+              OUR CORPORATE & GOVERNMENT SPONSORS
+            </h2>
+            <h1 style={{
+              ...sectionTitleStyle,
+              fontSize: '1.8rem',
+              marginTop: '10px',
+              marginBottom: '20px',
+              display: 'block',
+            }}>
+              UNDER CSR INITIATIVES
+            </h1>
+          </motion.div>
+          <div style={corporateScrollerContainerStyle} className="carousel-wrapper">
+            <div style={corporateScrollerTrackStyle} className="card-track">
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
                   style={{
-                    ...identityCardBaseStyle,
-                    borderLeft: `6px solid ${card.accentColor}`,
-                    backgroundColor: card.backgroundColor,
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
                   }}
                 >
-                  <h3 style={identityHeaderStyle}>{card.header}</h3>
-                  <p
-                    style={{
-                      fontFamily: "'EB Garamond', serif",
-                      color: '#253148',
-                      lineHeight: 1.8,
-                      fontSize: '1.05rem',
-                    }}
-                  >
-                    {card.content}
-                  </p>
-                </motion.div>
-              ))}
+                  Corporate Partner Placeholder 1
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Corporate Partner Placeholder 2
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Corporate Partner Placeholder 3
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
+              {/* Duplicated cards for seamless loop */}
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Corporate Partner Placeholder 1
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Corporate Partner Placeholder 2
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
+              <div style={corporateCardStyle} className="stream-card">
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', 'EB Garamond', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 600,
+                    color: '#1C3F75',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Corporate Partner Placeholder 3
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', serif",
+                    fontSize: '1rem',
+                    color: '#374151',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Placeholder text for future CSR partner details and impact
+                  summary.
+                </p>
+              </div>
             </div>
-          </section>
+          </div>
         </motion.div>
 
         {/* Decorative Elements */}

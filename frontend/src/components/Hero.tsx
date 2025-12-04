@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
@@ -6,9 +6,6 @@ import { useDeviceFeatures } from '@/hooks/useResponsive';
 const Hero: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [displayText, setDisplayText] = useState('');
-  const [showCursor, setShowCursor] = useState(true);
-  const fullText = 'WELCOME TO DIYA CHARITABLE TRUST';
 
   const handleScrollDown = () => {
     scrollToElement('about');
@@ -47,47 +44,6 @@ const Hero: React.FC = () => {
       });
     }
   }, []);
-
-  // Typewriter effect - runs only once
-  useEffect(() => {
-    let currentIndex = 0;
-    const typingSpeed = 100; // milliseconds per character
-    let typingInterval: ReturnType<typeof setInterval> | null = null;
-    let cursorInterval: ReturnType<typeof setInterval> | null = null;
-    let isTypingComplete = false;
-
-    // Cursor blink animation (only while typing)
-    cursorInterval = setInterval(() => {
-      if (!isTypingComplete) {
-        setShowCursor((prev) => !prev);
-      }
-    }, 530);
-
-    // Typing animation
-    typingInterval = setInterval(() => {
-      if (currentIndex < fullText.length) {
-        setDisplayText(fullText.substring(0, currentIndex + 1));
-        currentIndex++;
-      } else {
-        isTypingComplete = true;
-        if (typingInterval) {
-          clearInterval(typingInterval);
-          typingInterval = null;
-        }
-        // Remove cursor immediately after typing is complete
-        setShowCursor(false);
-        if (cursorInterval) {
-          clearInterval(cursorInterval);
-          cursorInterval = null;
-        }
-      }
-    }, typingSpeed);
-
-    return () => {
-      if (typingInterval) clearInterval(typingInterval);
-      if (cursorInterval) clearInterval(cursorInterval);
-    };
-  }, [fullText]);
 
   return (
     <section
@@ -150,7 +106,7 @@ const Hero: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         className={`absolute left-0 right-0 z-10 text-center w-full ${
-          isMobile ? 'top-20 px-3' : 'top-16 md:top-20 px-4'
+          isMobile ? 'top-28 px-3' : 'top-24 md:top-28 px-4'
         }`}
         style={{ opacity: 1 }}
       >
@@ -173,16 +129,7 @@ const Hero: React.FC = () => {
             fontWeight: '700'
           }}
         >
-          {displayText || 'WELCOME TO DIYA CHARITABLE TRUST'}
-          {showCursor && displayText && (
-            <span 
-              className="inline-block w-0.5 h-[1em] bg-white ml-1"
-              style={{ 
-                animation: 'blink 1s infinite',
-                verticalAlign: 'baseline'
-              }}
-            />
-          )}
+          WELCOME TO DIYA CHARITABLE TRUST(TN)
         </h2>
       </motion.div>
 
@@ -197,6 +144,27 @@ const Hero: React.FC = () => {
         <div className={`text-backdrop rounded-t-2xl mb-0 w-full ${
           isMobile ? 'p-3 px-4' : 'p-2 md:p-3 px-4 md:px-0'
         }`}>
+          <motion.h1
+            initial={variants.title}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className={`font-elegant font-normal text-black tracking-wide leading-tight text-center ${
+              isMobile 
+                ? 'text-xl font-bold mb-2' 
+                : 'whitespace-nowrap text-3xl md:text-4xl lg:text-5xl mb-3'
+            }`}
+            style={isMobile ? {
+              textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
+              letterSpacing: '0.03em',
+              fontWeight: '800'
+            } : {
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
+              letterSpacing: '0.05em',
+              fontWeight: '700'
+            }}
+          >
+            -Humanity First-
+          </motion.h1>
           <motion.h2
             initial={variants.title}
             animate={{ opacity: 1, y: 0 }}
