@@ -2,8 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { getAssetPath, scrollToElement } from '@/utils';
+import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Mission: React.FC = () => {
+  const { isMobile, isTablet } = useDeviceFeatures();
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -23,29 +25,38 @@ const Mission: React.FC = () => {
 
   const sectionTitleStyle: React.CSSProperties = {
     fontFamily: "'Poppins', 'EB Garamond', serif",
-    fontSize: '2.5rem',
+    fontSize: isMobile ? '1.8rem' : isTablet ? '2.2rem' : '2.5rem',
     color: '#1C3F75',
     textAlign: 'center',
     marginTop: '20px',
     marginBottom: '20px',
     display: 'inline-block',
+    maxWidth: '100%',
+    boxSizing: 'border-box',
+    wordWrap: 'break-word',
+    padding: '0 15px',
   };
 
   const layoutContainerStyle: React.CSSProperties = {
     backgroundColor: '#F9F9F9',
-    padding: '30px 20px',
+    padding: isMobile ? '20px 15px' : '30px 20px',
     borderRadius: '1.5rem',
+    width: '100%',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
   };
 
   const primaryActivitiesGradientStyle: React.CSSProperties = {
-    backgroundImage: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #60a5fa 50%, #93c5fd 75%, #dbeafe 100%)',
+    backgroundImage: 'linear-gradient(135deg, #1C3F75 0%, #2E5A8F 20%, #00A389 50%, #1C7A6B 80%, #1C3F75 100%)',
     backgroundSize: '400% 400%',
-    padding: '30px 20px',
+    padding: isMobile ? '20px 15px' : '30px 20px',
     borderRadius: '1.5rem',
     position: 'relative',
     overflow: 'hidden',
     animation: 'gradient-motion-glow 25s ease infinite alternate',
-    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1)',
+    boxShadow: '0 0 10px rgba(28, 63, 117, 0.5), 0 0 40px rgba(0, 163, 137, 0.3), 0 0 80px rgba(28, 63, 117, 0.1)',
+    width: '100%',
+    boxSizing: 'border-box',
   };
 
   const gridStyle: React.CSSProperties = {
@@ -54,6 +65,30 @@ const Mission: React.FC = () => {
     gap: '25px',
     maxWidth: '1200px',
     margin: '0 auto',
+    width: '100%',
+    boxSizing: 'border-box',
+    padding: '0 15px',
+  };
+
+  // Responsive grid style for mobile/tablet
+  const getResponsiveGridStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return {
+        ...gridStyle,
+        gridTemplateColumns: '1fr',
+        gap: '20px',
+        padding: '0 10px',
+      };
+    }
+    if (isTablet) {
+      return {
+        ...gridStyle,
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '20px',
+        padding: '0 15px',
+      };
+    }
+    return gridStyle;
   };
 
   // Corporate sponsors streaming cards (carousel-wrapper / card-track / stream-card)
@@ -66,6 +101,8 @@ const Mission: React.FC = () => {
     marginRight: 'auto',
     marginTop: '10px',
     marginBottom: '40px',
+    boxSizing: 'border-box',
+    padding: '0 15px',
   };
 
   const corporateScrollerTrackStyle: React.CSSProperties = {
@@ -76,14 +113,16 @@ const Mission: React.FC = () => {
   };
 
   const corporateCardStyle: React.CSSProperties = {
-    width: '300px',
+    width: isMobile ? '280px' : '300px',
     flexShrink: 0,
-    padding: '24px 22px',
+    padding: isMobile ? '20px 18px' : '24px 22px',
     borderRadius: '16px',
     backgroundColor: '#FFFFFF',
     boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
     textAlign: 'left',
     color: '#111827',
+    boxSizing: 'border-box',
+    wordWrap: 'break-word',
   };
 
   return (
@@ -101,6 +140,9 @@ const Mission: React.FC = () => {
           padding: '0.5rem',
           maxWidth: '95%',
           margin: '0 auto',
+          width: '100%',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
         }}
       >
         <motion.div
@@ -135,6 +177,9 @@ const Mission: React.FC = () => {
                 margin: '0 auto',
                 padding: '20px',
                 textAlign: 'justify',
+                width: '100%',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
               }}
             >
               <p
@@ -355,11 +400,13 @@ const Mission: React.FC = () => {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
                     gap: '25px',
                     width: '100%',
                     maxWidth: '1200px',
                     margin: '0 auto',
+                    boxSizing: 'border-box',
+                    padding: '0 15px',
                   }}
                 >
                   {complianceCards.map((card, index) => (
@@ -476,7 +523,7 @@ const Mission: React.FC = () => {
                 }}
                 >
                 </h3>
-                <div style={gridStyle}>
+                <div style={getResponsiveGridStyle()}>
                 {[
                   {
                     id: 'card-budding-minds',

@@ -31,13 +31,13 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --shadow-glow: rgba(255, 140, 66, 0.3);
   
-  /* Animated Wave Gradient Colors - Purple/Blue Theme */
-  --wave-color-1: #6366f1;
-  --wave-color-2: #8b5cf6;
-  --wave-color-3: #a855f7;
-  --wave-color-4: #9333ea;
-  --wave-color-5: #7c3aed;
-  --wave-color-6: #4f46e5;
+  /* Animated Wave Gradient Colors - Blue/Teal Theme */
+  --wave-color-1: #1C3F75;
+  --wave-color-2: #2E5A8F;
+  --wave-color-3: #00A389;
+  --wave-color-4: #1C7A6B;
+  --wave-color-5: #3B82F6;
+  --wave-color-6: #1E40AF;
   
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.95);
@@ -68,55 +68,14 @@
     opacity: 1;
   }
 
-  /* Animated Wave Gradient Background - Entire Website */
+  /* Animated Wave Gradient Background - Removed */
   body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--wave-color-1) 0%,
-      var(--wave-color-2) 16.66%,
-      var(--wave-color-3) 33.33%,
-      var(--wave-color-4) 50%,
-      var(--wave-color-5) 66.66%,
-      var(--wave-color-6) 83.33%,
-      var(--wave-color-1) 100%
-    );
-    background-size: 300% 100%;
-    animation: waveGradientFlow 12s ease infinite;
-    z-index: -2;
-    opacity: 0.3;
-    will-change: background-position;
-    transform: translateZ(0);
+    display: none;
   }
   
-  /* Secondary Wave Layer for Depth */
+  /* Secondary Wave Layer - Removed */
   body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      rgba(99, 102, 241, 0.5) 0%,
-      rgba(139, 92, 246, 0.5) 20%,
-      rgba(168, 85, 247, 0.5) 40%,
-      rgba(147, 51, 234, 0.5) 60%,
-      rgba(124, 58, 237, 0.5) 80%,
-      rgba(79, 70, 229, 0.5) 100%
-    );
-    background-size: 250% 100%;
-    animation: waveGradientFlowReverse 15s ease infinite;
-    z-index: -1;
-    opacity: 0.7;
-    filter: blur(40px);
-    pointer-events: none;
+    display: none;
     will-change: background-position;
     transform: translateZ(0);
   }

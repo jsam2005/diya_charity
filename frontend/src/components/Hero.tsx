@@ -28,22 +28,25 @@ const Hero: React.FC = () => {
   const videoSrc = getAssetPath('bg.mp4');
   const mobileBgImage = getAssetPath('BG_mobile.jpeg');
   
-  // Debug: log the video source path (remove in production)
+  // Debug: log the video source path (only in development)
   useEffect(() => {
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && !isMobile) {
       console.log('Video source path:', videoSrc);
       console.log('BASE_URL:', import.meta.env.BASE_URL);
     }
-  }, [videoSrc]);
+  }, [videoSrc, isMobile]);
 
   useEffect(() => {
     // Ensure video plays when component mounts
-    if (videoRef.current) {
+    if (videoRef.current && !isMobile) {
       videoRef.current.play().catch((error) => {
-        console.error('Error playing video:', error);
+        // Silently handle autoplay restrictions
+        if (import.meta.env.DEV) {
+          console.warn('Video autoplay prevented:', error);
+        }
       });
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
@@ -87,8 +90,17 @@ const Hero: React.FC = () => {
           onLoadedData={() => {
             if (videoRef.current) {
               videoRef.current.play().catch((error) => {
-                console.error('Error playing video:', error);
+                // Silently handle autoplay restrictions
+                if (import.meta.env.DEV) {
+                  console.warn('Video autoplay prevented:', error);
+                }
               });
+            }
+          }}
+          onError={(e) => {
+            // Handle video loading errors gracefully
+            if (import.meta.env.DEV) {
+              console.warn('Video loading error:', e);
             }
           }}
         >
@@ -118,15 +130,21 @@ const Hero: React.FC = () => {
                 ? 'text-3xl md:text-4xl' 
                 : 'text-4xl lg:text-5xl xl:text-6xl'
           }`}
-          style={isMobile ? {
-            textShadow: '4px 4px 16px rgba(0, 0, 0, 0.95), 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8)',
-            letterSpacing: '0.08em',
-            fontWeight: '900',
-            lineHeight: '1.2'
-          } : {
-            textShadow: '3px 3px 12px rgba(0, 0, 0, 0.9), 1px 1px 4px rgba(0, 0, 0, 0.8)',
-            letterSpacing: '0.05em',
-            fontWeight: '700'
+          style={{
+            ...(isMobile ? {
+              textShadow: '4px 4px 16px rgba(0, 0, 0, 0.95), 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8)',
+              letterSpacing: '0.08em',
+              fontWeight: '900',
+              lineHeight: '1.2'
+            } : {
+              textShadow: '3px 3px 12px rgba(0, 0, 0, 0.9), 1px 1px 4px rgba(0, 0, 0, 0.8)',
+              letterSpacing: '0.05em',
+              fontWeight: '700'
+            }),
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+            wordWrap: 'break-word',
+            padding: '0 15px',
           }}
         >
           WELCOME TO DIYA CHARITABLE TRUST(TN)
@@ -151,16 +169,22 @@ const Hero: React.FC = () => {
             className={`font-elegant font-normal text-black tracking-wide leading-tight text-center ${
               isMobile 
                 ? 'text-xl font-bold mb-2' 
-                : 'whitespace-nowrap text-3xl md:text-4xl lg:text-5xl mb-3'
+                : 'text-3xl md:text-4xl lg:text-5xl mb-3'
             }`}
-            style={isMobile ? {
-              textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
-              letterSpacing: '0.03em',
-              fontWeight: '800'
-            } : {
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
-              letterSpacing: '0.05em',
-              fontWeight: '700'
+            style={{
+              ...(isMobile ? {
+                textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
+                letterSpacing: '0.03em',
+                fontWeight: '800'
+              } : {
+                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
+                letterSpacing: '0.05em',
+                fontWeight: '700'
+              }),
+              maxWidth: '100%',
+              boxSizing: 'border-box',
+              wordWrap: 'break-word',
+              padding: '0 10px',
             }}
           >
             -Humanity First-
@@ -172,16 +196,22 @@ const Hero: React.FC = () => {
             className={`font-elegant font-normal text-black tracking-wide leading-tight text-center ${
               isMobile 
                 ? 'text-xl font-bold' 
-                : 'whitespace-nowrap text-3xl md:text-4xl lg:text-5xl'
+                : 'text-3xl md:text-4xl lg:text-5xl'
             }`}
-            style={isMobile ? {
-              textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
-              letterSpacing: '0.03em',
-              fontWeight: '800'
-            } : {
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
-              letterSpacing: '0.05em',
-              fontWeight: '700'
+            style={{
+              ...(isMobile ? {
+                textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
+                letterSpacing: '0.03em',
+                fontWeight: '800'
+              } : {
+                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
+                letterSpacing: '0.05em',
+                fontWeight: '700'
+              }),
+              maxWidth: '100%',
+              boxSizing: 'border-box',
+              wordWrap: 'break-word',
+              padding: '0 10px',
             }}
           >
             Illuminating Lives Through Service

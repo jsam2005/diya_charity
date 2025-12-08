@@ -5,8 +5,10 @@ import { useForm } from 'react-hook-form';
 import { ContactFormData } from '@/types';
 import { isValidEmail, isValidPhone } from '@/utils';
 import { useNotification } from './NotificationProvider';
+import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Contact: React.FC = () => {
+  const { isMobile, isTablet } = useDeviceFeatures();
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -67,32 +69,40 @@ const Contact: React.FC = () => {
     <section
       id="contact"
       ref={ref}
+      style={{ overflow: 'hidden', width: '100%' }}
     >
-      <div className="container-custom-full">
-        <div className="flex justify-center">
+      <div className="container-custom-full" style={{ width: '100%', boxSizing: 'border-box' }}>
+        <div className="flex justify-center" style={{ width: '100%', boxSizing: 'border-box' }}>
           {/* Volunteer Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8 }}
+            style={{ width: '100%', boxSizing: 'border-box' }}
           >
             <div
               style={{
-                backgroundColor: '#1142bd',
+                backgroundImage: 'linear-gradient(135deg, #1C3F75 0%, #2E5A8F 30%, #00A389 70%, #1C7A6B 100%)',
+                backgroundSize: '400% 400%',
                 padding: '24px',
-                borderRadius: '20px',
+                borderRadius: '20px 20px 0 0',
                 width: '100vw',
                 marginLeft: 'calc(-50vw + 50%)',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
+                animation: 'gradient-motion-glow 25s ease infinite alternate',
               }}
             >
             <div
               style={{
                 backgroundColor: '#FFFFFF',
-                padding: '40px',
-                borderRadius: '16px',
+                padding: isMobile ? '30px 20px' : '40px',
+                borderRadius: '16px 16px 0 0',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
-                width: '60%',
+                width: isMobile ? '90%' : isTablet ? '70%' : '60%',
                 margin: '0 auto',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
