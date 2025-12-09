@@ -46,7 +46,11 @@ const DonationForm: React.FC = () => {
   const gridStyle: React.CSSProperties = {
     display: 'grid',
     gap: isMobile ? '30px' : isTablet ? '30px' : '40px',
-    gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr' : '55% 45%',
+    gridTemplateColumns: isMobile
+      ? '1fr'
+      : isTablet
+      ? '1fr'
+      : 'minmax(0, 55%) minmax(0, 45%)',
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
@@ -139,7 +143,7 @@ const DonationForm: React.FC = () => {
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: isMobile ? '1.5rem' : '2.4rem',
                 color: '#FFFFFF',
-                backgroundColor: '#3498DB',
+                backgroundColor: 'rgb(39, 56, 87)',
                 padding: isMobile ? '12px 20px' : '15px 30px',
                 borderRadius: '8px',
                 display: 'inline-block',
@@ -403,7 +407,11 @@ const DonationForm: React.FC = () => {
                 style={{
                   backgroundColor: '#FFFFFF',
                   padding: isMobile ? '15px 12px' : isTablet ? '20px 18px' : '25px',
-                  borderRadius: '12px',
+                  borderRadius: '20px',
+                  borderTopLeftRadius: '20px',
+                  borderTopRightRadius: '20px',
+                  borderBottomLeftRadius: '20px',
+                  borderBottomRightRadius: '20px',
                   border: '1px solid #E0E0E0',
                   marginBottom: '20px',
                   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.05)',
@@ -463,7 +471,11 @@ const DonationForm: React.FC = () => {
                 style={{
                   backgroundColor: '#FFFFFF',
                   padding: isMobile ? '15px 12px' : isTablet ? '20px 18px' : '25px',
-                  borderRadius: '12px',
+                  borderRadius: '20px',
+                  borderTopLeftRadius: '20px',
+                  borderTopRightRadius: '20px',
+                  borderBottomLeftRadius: '20px',
+                  borderBottomRightRadius: '20px',
                   border: '1px solid #E0E0E0',
                   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.05)',
                   borderTop: '5px solid #FF8C42',
@@ -471,7 +483,7 @@ const DonationForm: React.FC = () => {
                   minWidth: 0,
                   maxWidth: '100%',
                   boxSizing: 'border-box',
-                  overflow: 'visible',
+                  overflow: 'hidden',
                   position: 'relative',
                 }}
               >
@@ -599,7 +611,7 @@ const DonationForm: React.FC = () => {
               boxSizing: 'border-box',
             }}
           >
-            METRICS & IMPACTS AREAS
+            METRICS & IMPACT AREAS
           </h3>
           <div
             style={{

@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
 
+const NAVBAR_HEIGHT = 60;
+const RUNNING_LINE_HEIGHT = 30;
+
 const Hero: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -26,7 +29,7 @@ const Hero: React.FC = () => {
   const variants = getAnimationVariants();
   
   const videoSrc = getAssetPath('bg.mp4');
-  const mobileBgImage = getAssetPath('BG_mobile.jpeg');
+  const mobileBgImage = getAssetPath('bg.gif');
   
   // Debug: log the video source path (only in development)
   useEffect(() => {
@@ -54,6 +57,8 @@ const Hero: React.FC = () => {
       className="relative flex flex-col items-center justify-center overflow-hidden"
       style={{ 
         minHeight: isMobile ? 'calc(var(--vh, 1vh) * 100)' : '100vh',
+        paddingTop: NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT,
+        boxSizing: 'border-box'
       }}
     >
       {/* Mobile Background Image */}
@@ -117,10 +122,13 @@ const Hero: React.FC = () => {
         initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`absolute left-0 right-0 z-10 text-center w-full ${
-          isMobile ? 'top-28 px-3' : 'top-24 md:top-28 px-4'
-        }`}
-        style={{ opacity: 1 }}
+        className={`absolute left-0 right-0 text-center w-full px-3 md:px-4`}
+        style={{ 
+          opacity: 1,
+          top: isMobile ? `${NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT + 100}px` : '50px',
+          zIndex: 20,
+          transition: 'top 0.3s ease'
+        }}
       >
         <h2 
           className={`font-elegant text-white tracking-wide ${

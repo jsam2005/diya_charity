@@ -9,29 +9,37 @@ interface ResponsiveState {
   orientation: 'portrait' | 'landscape';
 }
 
+const getSnapshot = (): ResponsiveState => {
+  if (typeof window === 'undefined') {
+    return {
+      isMobile: false,
+      isTablet: false,
+      isDesktop: true,
+      screenWidth: 1200,
+      screenHeight: 800,
+      orientation: 'landscape',
+    };
+  }
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  return {
+    isMobile: width < 768,
+    isTablet: width >= 768 && width < 1024,
+    isDesktop: width >= 1024,
+    screenWidth: width,
+    screenHeight: height,
+    orientation: width > height ? 'landscape' : 'portrait',
+  };
+};
+
 export const useResponsive = (): ResponsiveState => {
-  const [responsiveState, setResponsiveState] = useState<ResponsiveState>({
-    isMobile: false,
-    isTablet: false,
-    isDesktop: false,
-    screenWidth: 0,
-    screenHeight: 0,
-    orientation: 'landscape',
-  });
+  const [responsiveState, setResponsiveState] = useState<ResponsiveState>(getSnapshot());
 
   useEffect(() => {
     const updateResponsiveState = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      
-      setResponsiveState({
-        isMobile: width < 768,
-        isTablet: width >= 768 && width < 1024,
-        isDesktop: width >= 1024,
-        screenWidth: width,
-        screenHeight: height,
-        orientation: width > height ? 'landscape' : 'portrait',
-      });
+      setResponsiveState(getSnapshot());
     };
 
     // Initial call
@@ -53,7 +61,7 @@ export const useResponsive = (): ResponsiveState => {
 
 // Hook for device-specific features
 export const useDeviceFeatures = () => {
-  const { isMobile, isTablet, isDesktop, orientation } = useResponsive();
+  const { isMobile, isTablet, isDesktop, orientation, screenWidth } = useResponsive();
 
   return {
     // Touch support
@@ -75,9 +83,9 @@ export const useDeviceFeatures = () => {
     isOnline: navigator.onLine,
     
     // Custom breakpoints
-    isSmallMobile: isMobile && window.innerWidth < 480,
-    isLargeMobile: isMobile && window.innerWidth >= 480,
-    isSmallTablet: isTablet && window.innerWidth < 900,
-    isLargeTablet: isTablet && window.innerWidth >= 900,
+    isSmallMobile: screenWidth < 480,
+    isLargeMobile: screenWidth >= 480 && screenWidth < 768,
+    isSmallTablet: screenWidth >= 768 && screenWidth < 900,
+    isLargeTablet: screenWidth >= 900 && screenWidth < 1024,
   };
 };

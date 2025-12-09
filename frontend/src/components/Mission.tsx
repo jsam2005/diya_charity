@@ -14,13 +14,14 @@ const Mission: React.FC = () => {
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
   const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
+  const csrLogo = getAssetPath('assets/logos/csr.png');
   const complianceImage = getAssetPath('compilance.png');
 
   const complianceCards = [
     { id: 'card-ngo', logo: ngoLogo, alt: 'NGO & NPO Registration Logo' },
     { id: 'card-darpan', logo: darpanLogo, alt: 'DARPAN Portal Logo' },
     { id: 'card-income-tax-a', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
-    { id: 'card-income-tax-b', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
+    { id: 'card-income-tax-b', logo: csrLogo, alt: 'CSR Logo' },
   ];
 
   const sectionTitleStyle: React.CSSProperties = {
@@ -197,12 +198,15 @@ const Mission: React.FC = () => {
               <p
                 style={{
                   fontFamily: "Calibri, sans-serif",
-                  fontSize: '25px',
+                  fontSize: isMobile ? '16px' : isTablet ? '20px' : '25px',
                   lineHeight: 1.3,
                   color: '#000000',
                   textAlign: 'center',
                   marginTop: '10px',
                   fontWeight: 500,
+                  padding: isMobile ? '0 10px' : '0',
+                  boxSizing: 'border-box',
+                  wordWrap: 'break-word',
                 }}
               >
                 We are here to be a comforting presence - A healing hand to support you, uplift you, and help you move forward.
@@ -210,12 +214,15 @@ const Mission: React.FC = () => {
               <p
                 style={{
                   fontFamily: "Calibri, sans-serif",
-                  fontSize: '25px',
+                  fontSize: isMobile ? '16px' : isTablet ? '20px' : '25px',
                   lineHeight: 1.3,
                   color: '#000000',
                   textAlign: 'center',
                   marginTop: '10px',
                   fontWeight: 500,
+                  padding: isMobile ? '0 10px' : '0',
+                  boxSizing: 'border-box',
+                  wordWrap: 'break-word',
                 }}
               >
                 If you, the reader, feel blessed by God, live in comfort, and feel protected, we invite you to spare your time to join us as a <strong>Volunteer</strong> (OR) contribute by <strong>Donating even a small part of your abundance</strong> . Remember, what goes around comes around in multiples!
@@ -223,12 +230,15 @@ const Mission: React.FC = () => {
               <p
                 style={{
                   fontFamily: "Calibri, sans-serif",
-                  fontSize: '25px',
+                  fontSize: isMobile ? '16px' : isTablet ? '20px' : '25px',
                   lineHeight: 1.3,
                   color: '#000000',
                   textAlign: 'center',
                   marginTop: '10px',
                   fontWeight: 500,
+                  padding: isMobile ? '0 10px' : '0',
+                  boxSizing: 'border-box',
+                  wordWrap: 'break-word',
                 }}
               >
                 Our every outreach would be anonymous. None outside would know except professional volunteers! Reach out to us through whatsapp on 1234567890, you may not get instant replies but for sure we will reach out to you !
@@ -236,12 +246,15 @@ const Mission: React.FC = () => {
               <p
                 style={{
                   fontFamily: "Calibri, sans-serif",
-                  fontSize: '25px',
+                  fontSize: isMobile ? '16px' : isTablet ? '20px' : '25px',
                   lineHeight: 1.3,
                   color: '#000000',
                   textAlign: 'center',
                   marginTop: '10px',
                   fontWeight: 500,
+                  padding: isMobile ? '0 10px' : '0',
+                  boxSizing: 'border-box',
+                  wordWrap: 'break-word',
                 }}
               >
                 It doesn't matter who we are ! Let our actions speak !!
@@ -255,9 +268,11 @@ const Mission: React.FC = () => {
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: '40px',
-                  marginTop: '40px',
+                  gap: isMobile ? '15px' : '40px',
+                  marginTop: isMobile ? '30px' : '40px',
                   flexWrap: 'wrap',
+                  padding: isMobile ? '0 10px' : '0',
+                  boxSizing: 'border-box',
                 }}
               >
                 <motion.button
@@ -268,7 +283,7 @@ const Mission: React.FC = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '15px 35px',
+                    padding: isMobile ? '12px 25px' : '15px 35px',
                     borderRadius: '50px',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
@@ -278,12 +293,14 @@ const Mission: React.FC = () => {
                     WebkitBackdropFilter: 'blur(10px)',
                     boxShadow: 'none',
                     fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '18px',
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 700,
                     color: '#FFFFFF',
                     textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
-                    minWidth: '200px',
-                    maxWidth: '300px',
+                    minWidth: isMobile ? '140px' : '200px',
+                    maxWidth: isMobile ? '100%' : '300px',
+                    width: isMobile ? '100%' : 'auto',
+                    flex: isMobile ? '1 1 calc(50% - 7.5px)' : '0 1 auto',
                   }}
                 >
                   Volunteer
@@ -296,7 +313,7 @@ const Mission: React.FC = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '15px 35px',
+                    padding: isMobile ? '12px 25px' : '15px 35px',
                     borderRadius: '50px',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
@@ -306,12 +323,14 @@ const Mission: React.FC = () => {
                     WebkitBackdropFilter: 'blur(10px)',
                     boxShadow: 'none',
                     fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '18px',
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 700,
                     color: '#FFFFFF',
                     textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
-                    minWidth: '200px',
-                    maxWidth: '300px',
+                    minWidth: isMobile ? '140px' : '200px',
+                    maxWidth: isMobile ? '100%' : '300px',
+                    width: isMobile ? '100%' : 'auto',
+                    flex: isMobile ? '1 1 calc(50% - 7.5px)' : '0 1 auto',
                   }}
                 >
                   Donate
@@ -340,10 +359,10 @@ const Mission: React.FC = () => {
               position: 'relative',
               display: 'block',
               marginTop: '20px',
-              width: '100vw',
-              marginLeft: 'calc(-50vw + 50%)',
-              left: 0,
-              right: 0,
+              width: isMobile ? '100%' : '100vw',
+              marginLeft: isMobile ? '0' : 'calc(-50vw + 50%)',
+              padding: isMobile ? '0 15px' : 0,
+              boxSizing: 'border-box'
             }}
           >
             {/* Background Image Area with Dark Overlay */}
@@ -351,7 +370,7 @@ const Mission: React.FC = () => {
               style={{
                 position: 'relative',
                 width: '100%',
-                height: '400px',
+                height: isMobile ? '250px' : '400px',
                 backgroundImage: `url(${complianceImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
@@ -376,13 +395,14 @@ const Mission: React.FC = () => {
             <div
               style={{
                 position: 'relative',
-                marginTop: '-100px',
+                marginTop: isMobile ? '-40px' : '-100px',
                 zIndex: 10,
                 backgroundColor: 'transparent',
-                padding: '60px 20px 40px 20px',
+                padding: isMobile ? '30px 10px 30px 10px' : '60px 20px 40px 20px',
                 maxWidth: '1400px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                boxSizing: 'border-box'
               }}
             >
               {/* Compliance Credentials Logos - Centered Grid */}
@@ -401,12 +421,12 @@ const Mission: React.FC = () => {
                   style={{
                     display: 'grid',
                     gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                    gap: '25px',
+                    gap: isMobile ? '15px' : '25px',
                     width: '100%',
                     maxWidth: '1200px',
                     margin: '0 auto',
                     boxSizing: 'border-box',
-                    padding: '0 15px',
+                    padding: isMobile ? '0 10px' : '0 15px',
                   }}
                 >
                   {complianceCards.map((card, index) => (
@@ -420,21 +440,23 @@ const Mission: React.FC = () => {
                       style={{
                         background: '#FFFFFF',
                         borderRadius: '12px',
-                        minHeight: '160px',
+                        minHeight: isMobile ? '120px' : '160px',
                         boxShadow: '0 5px 20px rgba(0, 0, 0, 0.08)',
-                        padding: '30px',
+                        padding: '0',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        overflow: 'hidden',
                       }}
                     >
                       <img
                         src={card.logo}
                         alt={card.alt}
                         style={{
-                          maxHeight: '100px',
+                          height: '100%',
                           width: '100%',
                           objectFit: 'contain',
+                          display: 'block',
                         }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
@@ -570,7 +592,7 @@ const Mission: React.FC = () => {
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
                       transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                    className="h-full p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out hover:scale-[1.03] hover:bg-[#EAF4FF]"
+                    className={`h-full bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out hover:scale-[1.03] hover:bg-[#EAF4FF] ${isMobile ? 'p-4' : 'p-[30px]'}`}
                     >
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl" aria-hidden="true">
                         <span>{card.icon}</span>

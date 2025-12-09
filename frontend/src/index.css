@@ -1051,3 +1051,8 @@
     transform: none;
   }
 }
+
+/* Ensure all components use border-box sizing */
+* {
+  box-sizing: border-box;
+}

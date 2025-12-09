@@ -17,12 +17,12 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: '2',
     quote: "The healthcare camps organized by Diya Charity have been a blessing for our village. We are forever grateful.",
-    author: 'Kaviya'
+    author: 'Kannan'
   },
   {
     id: '3',
     quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charity!",
-    author: 'Kannan'
+    author: 'Kaviya'
   }
 ];
 
