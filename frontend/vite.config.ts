@@ -5,7 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/diya_charity/', // GitHub Pages repository name
+  base: '/', // Root path for Vercel deployment
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
