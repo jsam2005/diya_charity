@@ -66,10 +66,10 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
         style={{
           position: 'fixed',
           top: 0,
@@ -129,7 +129,7 @@ const Header: React.FC = () => {
           >
             {/* Social Icons Container */}
             <div
-              style={{
+              style={{ 
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
@@ -199,7 +199,7 @@ const Header: React.FC = () => {
         >
           {/* Logo Container */}
           <div
-            style={{
+            style={{ 
               height: '100%',
               display: 'flex',
               alignItems: 'center'
@@ -238,15 +238,15 @@ const Header: React.FC = () => {
         </div>
         )}
 
-      {/* Mobile Menu */}
+        {/* Mobile Menu */}
       {isMobile && (
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
             style={{
               position: 'fixed',
               top: NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT,
@@ -259,37 +259,37 @@ const Header: React.FC = () => {
               zIndex: 15,
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'
             }}
-          >
+            >
             <div style={{ padding: '0.75rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {/* Social Media Icons */}
+                {/* Social Media Icons */}
               <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem' }}>
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileTap={{ scale: 0.95 }}
+                  {socialLinks.map((social) => (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileTap={{ scale: 0.95 }}
                     style={{
                       fontSize: '24px',
                       display: 'flex',
                       alignItems: 'center',
                       color: social.color
                     }}
-                    aria-label={social.name}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
+                      aria-label={social.name}
+                    >
+                      {social.icon}
+                    </motion.a>
+                  ))}
+                </div>
 
-              {/* Donate Button */}
+                {/* Donate Button */}
               <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '0.5rem' }}>
-                <motion.button
-                  onClick={handleDonate}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{
+                  <motion.button
+                    onClick={handleDonate}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
                     padding: '10px 24px',
                     borderRadius: '4px',
                     fontSize: '15px',
@@ -297,17 +297,17 @@ const Header: React.FC = () => {
                     color: '#FFFFFF',
                     backgroundColor: '#A61426',
                     border: 'none',
-                    cursor: 'pointer',
+                      cursor: 'pointer',
                     fontFamily: 'inherit'
-                  }}
-                >
-                  Donate
-                </motion.button>
+                    }}
+                  >
+                    Donate
+                  </motion.button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
 
       </motion.header>

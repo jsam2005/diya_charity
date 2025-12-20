@@ -22,7 +22,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: '3',
     quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charity!",
-    author: 'Kaviya'
+    author: 'Kaviyaimage.png'
   }
 ];
 
@@ -52,13 +52,13 @@ export const PROCESS_ITEMS: ProcessItem[] = [
 
 // Contact information
 export const CONTACT_INFO: ContactInfo = {
-  phone: '+91 98765 43210',
-  email: 'contact@diyacharity.org',
+  phone: '9445205771',
+  email: 'dctnow.ngo@gmail.com',
   address: {
-    street: '123 Service Lane, Community Center',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    zip: '400001'
+    street: '2/43, Veteran Lines, Pallavaram',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    zip: '600043'
   }
 };
 

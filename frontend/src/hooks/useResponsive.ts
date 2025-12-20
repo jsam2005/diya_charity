@@ -12,25 +12,25 @@ interface ResponsiveState {
 const getSnapshot = (): ResponsiveState => {
   if (typeof window === 'undefined') {
     return {
-      isMobile: false,
-      isTablet: false,
+    isMobile: false,
+    isTablet: false,
       isDesktop: true,
       screenWidth: 1200,
       screenHeight: 800,
-      orientation: 'landscape',
+    orientation: 'landscape',
     };
   }
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
   return {
-    isMobile: width < 768,
-    isTablet: width >= 768 && width < 1024,
-    isDesktop: width >= 1024,
-    screenWidth: width,
-    screenHeight: height,
-    orientation: width > height ? 'landscape' : 'portrait',
+        isMobile: width < 768,
+        isTablet: width >= 768 && width < 1024,
+        isDesktop: width >= 1024,
+        screenWidth: width,
+        screenHeight: height,
+        orientation: width > height ? 'landscape' : 'portrait',
   };
 };
 
