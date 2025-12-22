@@ -27,46 +27,11 @@ const Mission: React.FC = () => {
     { id: 'card-income-tax-b', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
   ];
 
-  const sectionTitleStyle: React.CSSProperties = {
-    fontFamily: "'Poppins', 'EB Garamond', serif",
-    fontSize: '2.5rem',
-    color: '#1C3F75',
-    textAlign: 'center',
-    marginTop: '20px',
-    marginBottom: '20px',
-    display: 'inline-block',
-  };
-
-  const layoutContainerStyle: React.CSSProperties = {
-    backgroundColor: '#F9F9F9',
-    padding: '30px 20px',
-    borderRadius: '1.5rem',
-  };
-
-  const primaryActivitiesGradientStyle: React.CSSProperties = {
-    backgroundImage: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 25%, #60a5fa 50%, #93c5fd 75%, #dbeafe 100%)',
-    backgroundSize: '400% 400%',
-    padding: '30px 20px',
-    borderRadius: '1.5rem',
-    position: 'relative',
-    overflow: 'hidden',
-    animation: 'gradient-motion-glow 25s ease infinite alternate',
-    boxShadow: '0 0 10px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1)',
-  };
-
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '25px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  };
-
   return (
     <section
       id="about"
       ref={ref}
-      className="section-padding bg-white"
+      className="section-padding bg-white overflow-hidden"
     >
       <div
         className="container-custom-full relative z-10"
@@ -74,7 +39,6 @@ const Mission: React.FC = () => {
           backgroundColor: '#ffffff',
           minHeight: '400px',
           borderRadius: '1rem',
-          padding: '0.5rem',
           maxWidth: '95%',
           margin: '0 auto',
         }}
@@ -83,13 +47,11 @@ const Mission: React.FC = () => {
           initial={{ opacity: 1, y: 0 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="relative z-10"
-          style={{ opacity: 1 }}
+          className="relative z-10 p-4 md:p-6"
         >
           <div
             id="primary-activity-section"
-            style={layoutContainerStyle}
-            className="mb-4"
+            className="mb-4 bg-[#F9F9F9] p-5 md:p-8 rounded-[1rem] md:rounded-[1.5rem]"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -97,7 +59,7 @@ const Mission: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h2 style={sectionTitleStyle}>
+              <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-[#1C3F75] mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold">
                 OUR MISSION
               </h2>
             </motion.div>
@@ -106,12 +68,7 @@ const Mission: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              style={{
-                maxWidth: '1950px',
-                margin: '0 auto',
-                padding: '20px',
-                textAlign: 'justify',
-              }}
+              className="max-w-[1950px] mx-auto p-5 text-justify"
             >
               {/* Shared style for all mission paragraphs */}
               {(() => {
@@ -124,53 +81,23 @@ const Mission: React.FC = () => {
                 };
 
                 return (
-                  <>
-                    <p
-                      style={{
-                        ...missionTextStyle,
-                        textAlign: 'justify',
-                      }}
-                    >
+                  <div className="space-y-4">
+                    <p style={{ ...missionTextStyle }}>
                       Have you ever felt the sting of hunger born out of extreme poverty - Even sudden urban poverty due to misfortune so deep that you couldn't share your struggles with anyone because of family dignity? Have you faced the stress of losing a job, along with the emotional turmoil it brings to you and your family? Have you experienced loneliness or depression from being left behind in the race for success or from the challenges that come with age? Or the pain of missing someone, something, or the helplessness of being unable to meet the needs of your loved ones?
                     </p>
-                    <p
-                      style={{
-                        ...missionTextStyle,
-                        textAlign: 'center',
-                        marginTop: '15px',
-                        fontWeight: 'bold',
-                      }}
-                    >
+                    <p style={{ ...missionTextStyle, textAlign: 'center', fontWeight: 'bold' }}>
                       We are here to be a comforting presence - A healing hand to support you, uplift you, and help you move forward.
                     </p>
-                    <p
-                      style={{
-                        ...missionTextStyle,
-                        textAlign: 'center',
-                        marginTop: '15px',
-                      }}
-                    >
+                    <p style={{ ...missionTextStyle, textAlign: 'center' }}>
                       If you, the reader, feel blessed by God, live in comfort, and feel protected, we invite you to spare your time to join us as a <strong>Volunteer (OR) contribute by Donating even a small part of your abundance</strong> . Remember, what goes around comes around in multiples!
                     </p>
-                    <p
-                      style={{
-                        ...missionTextStyle,
-                        textAlign: 'justify',
-                        marginTop: '15px',
-                      }}
-                    >
+                    <p style={{ ...missionTextStyle }}>
                       Our every outreach would be anonymous. None outside would know except professional volunteers! Reach out to us through whatsapp on 1234567890, you may not get instant replies but for sure we will reach out to you !
                     </p>
-                    <p
-                      style={{
-                        ...missionTextStyle,
-                        textAlign: 'center',
-                        marginTop: '15px',
-                      }}
-                    >
+                    <p style={{ ...missionTextStyle, textAlign: 'center' }}>
                       It doesn't matter who we are ! Let our actions speak !!
                     </p>
-                  </>
+                  </div>
                 );
               })()}
 
@@ -179,65 +106,19 @@ const Mission: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '40px',
-                  marginTop: '40px',
-                  flexWrap: 'wrap',
-                }}
+                className="flex flex-wrap justify-center gap-6 md:gap-10 mt-10"
               >
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToElement('contact')}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '15px 35px',
-                    borderRadius: '50px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    background: 'rgba(139, 0, 0, 0.85)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    boxShadow: 'none',
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '18px',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
-                    minWidth: '200px',
-                    maxWidth: '300px',
-                  }}
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
                 >
                   Volunteer
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToElement('donation')}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '15px 35px',
-                    borderRadius: '50px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    background: 'rgba(139, 0, 0, 0.85)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    boxShadow: 'none',
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '18px',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
-                    minWidth: '200px',
-                    maxWidth: '300px',
-                  }}
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
                 >
                   Donate
                 </motion.button>
@@ -250,88 +131,37 @@ const Mission: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-center"
-            style={{ marginTop: '20px', marginBottom: '30px' }}
+            className="text-center mt-5 mb-8"
           >
-            <h2 style={sectionTitleStyle}>
-              OUR COMPILANCE
+            <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-[#1C3F75] mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold">
+              OUR COMPLIANCE
             </h2>
           </motion.div>
 
           {/* Our Compliance Container - Full Width */}
           <div
             id="compliance-section"
-            style={{
-              position: 'relative',
-              display: 'block',
-              marginTop: '20px',
-              width: '100vw',
-              marginLeft: 'calc(-50vw + 50%)',
-              left: 0,
-              right: 0,
-            }}
+            className="relative block mt-5 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]"
           >
             {/* Background Image Area with Dark Overlay */}
             <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                height: '400px',
-                backgroundImage: `url(${complianceImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
+              className="relative w-full h-[200px] md:h-[400px] bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${complianceImage})` }}
             >
               {/* Dark Grayscale Overlay */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6))',
-                }}
-              />
+              <div className="absolute inset-0 bg-black/30 bg-gradient-to-b from-black/30 to-black/60" />
             </div>
 
             {/* Content Container Overlay - Overlaps bottom half of image */}
-            <div
-              style={{
-                position: 'relative',
-                marginTop: '-100px',
-                zIndex: 10,
-                backgroundColor: 'transparent',
-                padding: '60px 20px 40px 20px',
-                maxWidth: '1400px',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-            >
+            <div className="relative -mt-12 md:-mt-24 z-10 bg-transparent py-10 md:py-16 px-4 md:px-5 max-w-[1400px] mx-auto">
               {/* Compliance Credentials Logos - Centered Grid */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
+                className="flex justify-center items-center w-full px-4 md:px-0"
               >
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: '25px',
-                    width: '100%',
-                    maxWidth: '1200px',
-                    margin: '0 auto',
-                  }}
-                >
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-[25px] w-full max-w-[1200px] mx-auto">
                   {complianceCards.map((card, index) => (
                     <motion.div
                       key={card.id}
@@ -340,25 +170,12 @@ const Mission: React.FC = () => {
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
                       transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                      style={{
-                        background: '#FFFFFF',
-                        borderRadius: '12px',
-                        minHeight: '160px',
-                        boxShadow: '0 5px 20px rgba(0, 0, 0, 0.08)',
-                        padding: '30px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
+                      className="bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] p-10 md:p-[30px] flex items-center justify-center min-h-[160px] md:min-h-[160px]"
                     >
                       <img
                         src={card.logo}
                         alt={card.alt}
-                        style={{
-                          maxHeight: '100px',
-                          width: '100%',
-                          objectFit: 'contain',
-                        }}
+                        className="max-h-[120px] md:max-h-[100px] w-full object-contain"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
@@ -374,17 +191,12 @@ const Mission: React.FC = () => {
           {/* Our Primary Activities Section */}
           <div
             id="primary-activities-section"
-            style={primaryActivitiesGradientStyle}
-            className="mb-4"
+            className="mb-4 relative overflow-hidden rounded-[1rem] md:rounded-[1.5rem] py-8 md:py-12 px-4 md:px-5 shadow-[0_0_10px_rgba(59,130,246,0.5),0_0_40px_rgba(59,130,246,0.3),0_0_80px_rgba(59,130,246,0.1)] bg-[linear-gradient(135deg,#1e3a8a_0%,#3b82f6_25%,#60a5fa_50%,#93c5fd_75%,#dbeafe_100%)] bg-[length:400%_400%] animate-[gradient-motion-glow_25s_ease_infinite_alternate]"
           >
             {/* Glitter Noise Overlay - Multiple Layers for Depth */}
             <div
+              className="absolute inset-0 opacity-25 pointer-events-none z-[1] animate-[subtleShift_15s_ease_infinite_alternate] bg-repeat"
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
                 backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(`
                   <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
                     <filter id="noise1">
@@ -395,58 +207,30 @@ const Mission: React.FC = () => {
                   </svg>
                 `)}")`,
                 backgroundSize: '200px 200px',
-                backgroundRepeat: 'repeat',
-                backgroundBlendMode: 'overlay',
-                opacity: 0.25,
-                pointerEvents: 'none',
-                zIndex: 1,
-                animation: 'subtleShift 15s ease infinite alternate',
               }}
             />
             {/* Secondary Glitter Layer */}
             <div
+              className="absolute inset-0 opacity-40 pointer-events-none z-[1] animate-[subtleShift_25s_ease_infinite_alternate-reverse] bg-repeat"
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
                 backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
                 backgroundSize: '50px 50px',
-                backgroundRepeat: 'repeat',
-                backgroundBlendMode: 'screen',
-                opacity: 0.4,
-                pointerEvents: 'none',
-                zIndex: 1,
-                animation: 'subtleShift 25s ease infinite alternate-reverse',
               }}
             />
-            <div style={{ position: 'relative', zIndex: 2 }}>
+            <div className="relative z-[2]">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6 }}
                 className="text-center"
               >
-                <h2 style={{ ...sectionTitleStyle, color: '#FFFFFF', textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)' }}>
+                <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-white mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold drop-shadow-md">
                   Our Primary Activities & Impact Areas
                 </h2>
               </motion.div>
 
               <section aria-labelledby="primary-activities-heading">
-                <h3
-                  id="primary-activities-heading"
-                  style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 600,
-                    color: '#FFFFFF',
-                    textAlign: 'center',
-                    marginBottom: '24px',
-                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
-                  }}
-                >
-                </h3>
-                <div style={gridStyle}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-[25px] max-w-[1200px] mx-auto px-4 md:px-0">
                   {[
                     {
                       id: 'card-budding-minds',
@@ -496,9 +280,9 @@ const Mission: React.FC = () => {
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
                       transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                      className="h-full p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out"
+                      className="h-full p-6 md:p-[30px] bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] text-center transition-all duration-300 ease-out flex flex-col"
                     >
-                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl overflow-hidden" aria-hidden="true">
+                      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FF] text-3xl overflow-hidden shrink-0" aria-hidden="true">
                         {(card as any).image ? (
                           <img src={(card as any).image} alt={card.title} className="h-full w-full object-cover" />
                         ) : (
@@ -516,27 +300,7 @@ const Mission: React.FC = () => {
                         <motion.button
                           whileTap={{ scale: 0.95 }}
                           onClick={() => navigate('/annathanam')}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '10px 25px',
-                            borderRadius: '50px',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            background: 'rgba(139, 0, 0, 0.85)',
-                            border: '1px solid rgba(255, 255, 255, 0.05)',
-                            backdropFilter: 'blur(10px)',
-                            WebkitBackdropFilter: 'blur(10px)',
-                            boxShadow: 'none',
-                            fontFamily: "'Montserrat', sans-serif",
-                            fontSize: '14px',
-                            fontWeight: 700,
-                            color: '#FFFFFF',
-                            textShadow: '0 0 8px rgba(255, 255, 255, 0.3)',
-                            marginTop: 'auto',
-                            width: '100%',
-                          }}
+                          className="mt-auto inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[14px] font-bold text-white w-full"
                         >
                           Explore
                         </motion.button>
@@ -551,26 +315,12 @@ const Mission: React.FC = () => {
           {/* Meal Donation Image Section - Full Width */}
           <div
             id="meal-donation-section"
-            style={{
-              position: 'relative',
-              display: 'block',
-              marginTop: '0px',
-              width: '100vw',
-              marginLeft: 'calc(-50vw + 50%)',
-              left: 0,
-              right: 0,
-              lineHeight: 0,
-            }}
+            className="relative block mt-0 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] leading-[0]"
           >
             <img
               src={mealDonationImage}
               alt="Meal Donation Support"
-              style={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-                objectFit: 'cover',
-              }}
+              className="w-full h-auto block object-cover"
             />
           </div>
         </motion.div>
@@ -581,13 +331,13 @@ const Mission: React.FC = () => {
             initial={{ opacity: 0, scale: 0 }}
             animate={inView ? { opacity: 0.1, scale: 1 } : { opacity: 0, scale: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="absolute top-20 left-10 w-32 h-32 border border-primary-300 rounded-full"
+            className="absolute top-20 left-10 w-32 h-32 border border-blue-300 rounded-full"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={inView ? { opacity: 0.1, scale: 1 } : { opacity: 0, scale: 0 }}
             transition={{ duration: 1, delay: 1 }}
-            className="absolute bottom-20 right-10 w-24 h-24 border border-primary-300 rounded-full"
+            className="absolute bottom-20 right-10 w-24 h-24 border border-blue-300 rounded-full"
           />
         </div>
       </div >
