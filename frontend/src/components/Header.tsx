@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
+import { useLanguage, getLanguageName, Language } from '@/contexts/LanguageContext';
 
 const NAVBAR_HEIGHT = 60;
 const RUNNING_LINE_HEIGHT = 30;
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
   const { isMobile } = useDeviceFeatures();
+
+  const languages: Language[] = ['en', 'ta', 'hi'];
+
+  const handleLanguageChange = (langCode: Language) => {
+    setLanguage(langCode);
+    setIsLanguageDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+  };
 
   const handleDonate = () => {
     scrollToElement('donation');
@@ -16,8 +27,13 @@ const Header: React.FC = () => {
   };
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsLanguageDropdownOpen(false);
+    setIsMobileMenuOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    setIsLanguageDropdownOpen(false);
+  }, [isMobile]);
 
   const trustLogo = getAssetPath('assets/logos/trust logo.png');
 
@@ -124,16 +140,94 @@ const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              gap: '10px'
+              gap: '16px'
             }}
           >
+            {/* Language Selector (Translate button) */}
+            <div style={{ position: 'relative', zIndex: 50 }}>
+              <motion.button
+                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: '#1C3F75',
+                  border: '2px solid #1C3F75',
+                  padding: '8px 18px',
+                  borderRadius: '999px',
+                  cursor: 'pointer',
+                  color: '#FFFFFF',
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  fontFamily: 'inherit',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
+                }}
+              >
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a3 3 0 013 3V16.5a1.5 1.5 0 001.5 1.5h1.39M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"
+                  />
+                </svg>
+                {getLanguageName(language)}
+                <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.button>
+
+              <AnimatePresence>
+                {isLanguageDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: '8px',
+                      boxShadow: '0 10px 18px rgba(0,0,0,0.18)',
+                      border: '1px solid #E5E7EB',
+                      overflow: 'hidden',
+                      minWidth: '140px'
+                    }}
+                  >
+                    {languages.map((langCode) => (
+                      <button
+                        key={langCode}
+                        onClick={() => handleLanguageChange(langCode)}
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '10px 14px',
+                          border: 'none',
+                          backgroundColor: language === langCode ? '#F3F4F6' : '#FFFFFF',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: language === langCode ? 700 : 500,
+                          color: '#1C3F75'
+                        }}
+                      >
+                        {getLanguageName(langCode)}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Social Icons Container */}
             <div
               style={{ 
                 height: '100%',
                 display: 'flex',
-                alignItems: 'center',
-                marginRight: '10px'
+                alignItems: 'center'
               }}
             >
               {socialLinks.map((social) => (
@@ -179,7 +273,7 @@ const Header: React.FC = () => {
                 fontFamily: 'inherit'
               }}
             >
-              Donate
+              {t('donate')}
             </motion.button>
           </div>
         </div>
@@ -221,7 +315,6 @@ const Header: React.FC = () => {
             onClick={toggleMobileMenu}
             whileTap={{ scale: 0.95 }}
             style={{
-              fontSize: '30px',
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
@@ -229,11 +322,23 @@ const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#1C3F75'
+              color: '#1C3F75',
+              minWidth: '44px',
+              minHeight: '44px',
+              zIndex: 100,
+              position: 'relative'
             }}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? '✕' : '☰'}
+            {isMobileMenuOpen ? (
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
           </motion.button>
         </div>
         )}
@@ -301,8 +406,54 @@ const Header: React.FC = () => {
                     fontFamily: 'inherit'
                     }}
                   >
-                    Donate
+                    {t('donate')}
                   </motion.button>
+                </div>
+                {/* Language Selector */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.25rem' }}>
+                  <motion.button
+                    onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      color: '#1C3F75',
+                      fontWeight: 'bold',
+                      borderRadius: '999px',
+                      padding: '10px 18px',
+                      border: '2px solid #FFFFFF',
+                      alignSelf: 'center',
+                      minWidth: '180px'
+                    }}
+                  >
+                    {getLanguageName(language)}
+                  </motion.button>
+                  {isLanguageDropdownOpen && (
+                    <div
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: '12px',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {languages.map((langCode) => (
+                        <button
+                          key={langCode}
+                          onClick={() => handleLanguageChange(langCode)}
+                          style={{
+                            width: '100%',
+                            border: 'none',
+                            backgroundColor: language === langCode ? '#F3F4F6' : '#FFFFFF',
+                            padding: '10px 14px',
+                            textAlign: 'left',
+                            fontWeight: language === langCode ? 700 : 500,
+                            color: '#1C3F75'
+                          }}
+                        >
+                          {getLanguageName(langCode)}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>

@@ -2,12 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { CONTACT_INFO, FOOTER_CONTENT } from '@/data/constants';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+  const { t } = useLanguage();
+
+  const translateLinkLabel = (label: string) => {
+    if (label.toLowerCase().includes('privacy')) return t('privacyPolicy');
+    if (label.toLowerCase().includes('accessibility')) return t('accessibilityStatement');
+    return label;
+  };
 
   return (
     <footer ref={ref} className="relative">
@@ -133,7 +141,7 @@ const Footer: React.FC = () => {
                         whileHover={{ x: 5 }}
                         className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300"
                       >
-                        {link.label}
+                        {translateLinkLabel(link.label)}
                       </motion.a>
                     ))}
                   </div>
@@ -183,10 +191,10 @@ const Footer: React.FC = () => {
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-sm text-gray-200">
-                {FOOTER_CONTENT.copyright}
+                {t('footerCopyright')}
               </p>
               <p className="text-sm text-gray-200">
-                {FOOTER_CONTENT.poweredBy.split(' ').map((word, index) =>
+                {t('footerPoweredBy').split(' ').map((word, index) =>
                   word === 'Wix' ? (
                     <motion.a
                       key={index}

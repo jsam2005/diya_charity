@@ -2,12 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const NAVBAR_HEIGHT = 60;
 const RUNNING_LINE_HEIGHT = 30;
 
 const Hero: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleScrollDown = () => {
@@ -155,7 +157,7 @@ const Hero: React.FC = () => {
             padding: '0 15px',
           }}
         >
-          WELCOME TO DIYA CHARITABLE TRUST(TN)
+          {t('heroWelcome')}
         </h2>
       </motion.div>
 
@@ -195,7 +197,7 @@ const Hero: React.FC = () => {
               padding: '0 10px',
             }}
           >
-            -Humanity First-
+            {t('heroMotto')}
           </motion.h1>
           <motion.h2
             initial={variants.title}
@@ -222,8 +224,25 @@ const Hero: React.FC = () => {
               padding: '0 10px',
             }}
           >
-            Illuminating Lives Through Service
+            {t('heroTitle')}
           </motion.h2>
+          <motion.p
+            initial={variants.title}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className={`font-elegant text-center ${
+              isMobile
+                ? 'text-base font-semibold'
+                : 'text-xl md:text-2xl'
+            }`}
+            style={{
+              color: '#1C1C1C',
+              marginTop: isMobile ? '0.25rem' : '0.5rem',
+              padding: '0 10px'
+            }}
+          >
+            {t('heroSubtitle')}
+          </motion.p>
         </div>
       </motion.div>
 

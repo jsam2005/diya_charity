@@ -6,9 +6,11 @@ import { ContactFormData } from '@/types';
 import { isValidEmail, isValidPhone } from '@/utils';
 import { useNotification } from './NotificationProvider';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
+  const { t } = useLanguage();
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -107,11 +109,16 @@ const Contact: React.FC = () => {
             >
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <h2
-                className="font-serif font-bold mb-6"
+                className="font-serif font-bold mb-3"
                 style={{ fontSize: '28px', color: '#2C3E50' }}
               >
-                Volunteer Sign Up Form
+                {t('contactTitle')}
               </h2>
+              <p
+                className="text-base text-gray-600 mb-6"
+              >
+                {t('contactDescription')}
+              </p>
 
               {/* Personal Information */}
               <div className="mb-6">

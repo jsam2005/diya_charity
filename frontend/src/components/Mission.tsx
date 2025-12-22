@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath, scrollToElement } from '@/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -11,6 +12,7 @@ const Mission: React.FC = () => {
   });
 
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
@@ -60,7 +62,7 @@ const Mission: React.FC = () => {
               className="text-center"
             >
               <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-[#1C3F75] mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold">
-                OUR MISSION
+                {t('missionTitle')}
               </h2>
             </motion.div>
 
@@ -82,6 +84,9 @@ const Mission: React.FC = () => {
 
                 return (
                   <div className="space-y-4">
+                    <p style={{ ...missionTextStyle }}>
+                      {t('missionDescription')}
+                    </p>
                     <p style={{ ...missionTextStyle }}>
                       Have you ever felt the sting of hunger born out of extreme poverty - Even sudden urban poverty due to misfortune so deep that you couldn't share your struggles with anyone because of family dignity? Have you faced the stress of losing a job, along with the emotional turmoil it brings to you and your family? Have you experienced loneliness or depression from being left behind in the race for success or from the challenges that come with age? Or the pain of missing someone, something, or the helplessness of being unable to meet the needs of your loved ones?
                     </p>

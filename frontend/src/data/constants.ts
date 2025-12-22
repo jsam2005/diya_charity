@@ -22,7 +22,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: '3',
     quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charity!",
-    author: 'Kaviyaimage.png'
+    author: 'Kaviya'
   }
 ];
 
