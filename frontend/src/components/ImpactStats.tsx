@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { scrollToElement } from '@/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface StatItem {
   number: string;
@@ -9,34 +10,35 @@ interface StatItem {
   description: string;
 }
 
-const STATS: StatItem[] = [
-  {
-    number: '500+',
-    label: 'Children Educated',
-    description: 'Providing quality education to underprivileged children'
-  },
-  {
-    number: '50+',
-    label: 'Healthcare Camps',
-    description: 'Organizing medical camps in rural areas'
-  },
-  {
-    number: '200+',
-    label: 'Women Empowered',
-    description: 'Training women in vocational skills'
-  },
-  {
-    number: '25+',
-    label: 'Villages Reached',
-    description: 'Extending our services to remote communities'
-  }
-];
-
 const ImpactStats: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+  const { t } = useLanguage();
+
+  const STATS: StatItem[] = [
+    {
+      number: '500+',
+      label: t('childrenEducated'),
+      description: t('childrenEducatedDesc')
+    },
+    {
+      number: '50+',
+      label: t('healthcareCamps'),
+      description: t('healthcareCampsDesc')
+    },
+    {
+      number: '200+',
+      label: t('womenEmpowered'),
+      description: t('womenEmpoweredDesc')
+    },
+    {
+      number: '25+',
+      label: t('villagesReached'),
+      description: t('villagesReachedDesc')
+    }
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,10 +75,10 @@ const ImpactStats: React.FC = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-600 mb-4">
-            Our Impact
+            {t('ourImpact')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Since our inception, we have been making a meaningful difference in the lives of countless individuals and communities.
+            {t('impactDescription')}
           </p>
         </motion.div>
 
@@ -121,10 +123,10 @@ const ImpactStats: React.FC = () => {
         >
           <div className="bg-primary-50 p-8 rounded-lg border border-primary-200">
             <h3 className="text-2xl font-semibold text-primary-600 mb-4">
-              Join Us in Making a Difference
+              {t('joinMakingDifference')}
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Every contribution, no matter how small, helps us reach more people and create lasting change in communities.
+              {t('joinMakingDifferenceDesc')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -133,7 +135,7 @@ const ImpactStats: React.FC = () => {
                 onClick={() => scrollToElement('donate')}
                 className="btn-primary"
               >
-                Donate Now
+                {t('donateNow')}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -141,7 +143,7 @@ const ImpactStats: React.FC = () => {
                 onClick={() => scrollToElement('contact')}
                 className="btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white"
               >
-                Volunteer
+                {t('volunteer')}
               </motion.button>
             </div>
           </div>

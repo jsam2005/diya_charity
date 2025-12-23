@@ -1,13 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { TESTIMONIALS } from '@/data/constants';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CommunityFeedback: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+  const { t } = useLanguage();
+
+  const testimonials = [
+    {
+      id: '1',
+      quote: t('testimonial1Quote'),
+      author: t('testimonial1Author')
+    },
+    {
+      id: '2',
+      quote: t('testimonial2Quote'),
+      author: t('testimonial2Author')
+    },
+    {
+      id: '3',
+      quote: t('testimonial3Quote'),
+      author: t('testimonial3Author')
+    }
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -45,7 +64,7 @@ const CommunityFeedback: React.FC = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-600 mb-4">
-            Community Feedback
+            {t('communityFeedback')}
           </h2>
         </motion.div>
 
@@ -55,7 +74,7 @@ const CommunityFeedback: React.FC = () => {
           animate={inView ? "visible" : "hidden"}
           className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {TESTIMONIALS.map((testimonial, index) => (
+          {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.id}
               variants={itemVariants}

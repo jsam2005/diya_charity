@@ -5,12 +5,14 @@ import { PROCESS_ITEMS } from '@/data/constants';
 import { scrollToElement } from '@/utils';
 // import { useDeviceFeatures } from '@/hooks/useResponsive';
 import { ResponsiveGrid } from './ResponsiveLayout';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Process: React.FC = () => {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+  const { t } = useLanguage();
 
   // const { isMobile, isTablet } = useDeviceFeatures();
 
@@ -55,7 +57,7 @@ const Process: React.FC = () => {
             className="mb-8 lg:mb-0"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-600 mb-6">
-              Our Process
+              {t('ourProcess')}
             </h2>
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
@@ -63,7 +65,7 @@ const Process: React.FC = () => {
               onClick={handleJoinUs}
               className="btn-primary btn-lg"
             >
-              Join Us
+              {t('joinUs')}
             </motion.button>
           </motion.div>
 

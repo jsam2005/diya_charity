@@ -39,32 +39,32 @@ const Contact: React.FC = () => {
   };
 
   const validateEmail = (email: string) => {
-    return isValidEmail(email) || 'Please enter a valid email address';
+    return isValidEmail(email) || t('emailAddress') + ' is invalid';
   };
 
   const validatePhone = (phone: string) => {
     if (!phone) return true; // Phone is optional
-    return isValidPhone(phone) || 'Please enter a valid phone number';
+    return isValidPhone(phone) || t('phoneNumber') + ' is invalid';
   };
 
   const volunteerPreferenceOptions = [
-    'Event Setup',
-    'Registration Desk',
-    'Hospitality/Guest Services',
-    'Workshop Facilitation',
-    'Marketing/Promotion',
-    'Fundraising',
-    'General Support',
-    'Teaching',
+    t('eventSetup'),
+    t('registrationDesk'),
+    t('hospitalityGuestServices'),
+    t('workshopFacilitation'),
+    t('marketingPromotion'),
+    t('fundraising'),
+    t('generalSupport'),
+    t('teaching'),
   ];
 
   const availabilityOptions = [
-    'Morning (8am-12pm)',
-    'Afternoon (12pm-5pm)',
-    'Evening (5pm-9pm)',
-    'Weekdays',
-    'Weekends',
-    'Flexible Schedule',
+    t('morning'),
+    t('afternoon'),
+    t('evening'),
+    t('weekdays'),
+    t('weekends'),
+    t('flexibleSchedule'),
   ];
 
   return (
@@ -112,7 +112,7 @@ const Contact: React.FC = () => {
                 className="font-serif font-bold mb-3"
                 style={{ fontSize: '28px', color: '#2C3E50' }}
               >
-                {t('contactTitle')}
+                {t('volunteerSignUp')}
               </h2>
               <p
                 className="text-base text-gray-600 mb-6"
@@ -126,7 +126,7 @@ const Contact: React.FC = () => {
                   className="mb-3 font-semibold"
                   style={{ fontSize: '20px', color: '#2C3E50' }}
                 >
-                  Personal Information
+                  {t('personalInformation')}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -134,17 +134,17 @@ const Contact: React.FC = () => {
                       htmlFor="firstName"
                       className="form-label font-semibold"
                     >
-                      First Name *
+                      {t('firstName')}
                     </label>
                     <input
                       {...register('firstName', {
-                        required: 'First name is required',
+                        required: t('firstName') + ' is required',
                       })}
                       type="text"
                       id="firstName"
                       className={`form-input ${errors.firstName ? 'border-red-500' : ''
                         }`}
-                      placeholder="Enter your first name"
+                      placeholder={t('enterFirstName')}
                     />
                     {errors.firstName && (
                       <p className="form-error">{errors.firstName.message}</p>
@@ -156,7 +156,7 @@ const Contact: React.FC = () => {
                       htmlFor="gender"
                       className="form-label font-semibold"
                     >
-                      Gender
+                      {t('gender')}
                     </label>
                     <select
                       id="gender"
@@ -165,12 +165,12 @@ const Contact: React.FC = () => {
                       defaultValue=""
                     >
                       <option value="" disabled>
-                        Select gender
+                        {t('selectGender')}
                       </option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Non-Binary">Non-Binary</option>
-                      <option value="Prefer Not To Say">Prefer Not To Say</option>
+                      <option value="Male">{t('male')}</option>
+                      <option value="Female">{t('female')}</option>
+                      <option value="Non-Binary">{t('nonBinary')}</option>
+                      <option value="Prefer Not To Say">{t('preferNotToSay')}</option>
                     </select>
                   </div>
                 </div>
@@ -181,11 +181,11 @@ const Contact: React.FC = () => {
                       htmlFor="email"
                       className="form-label font-semibold"
                     >
-                      Email Address *
+                      {t('emailAddress')}
                     </label>
                     <input
                       {...register('email', {
-                        required: 'Email is required',
+                        required: t('emailAddress') + ' is required',
                         validate: validateEmail,
                       })}
                       type="email"
@@ -204,7 +204,7 @@ const Contact: React.FC = () => {
                       htmlFor="phone"
                       className="form-label font-semibold"
                     >
-                      Phone Number
+                      {t('phoneNumber')}
                     </label>
                     <div className="relative">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
@@ -243,7 +243,7 @@ const Contact: React.FC = () => {
                   className="mb-3 font-semibold"
                   style={{ fontSize: '20px', color: '#2C3E50' }}
                 >
-                  Volunteer Preferences
+                  {t('volunteerPreferences')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {volunteerPreferenceOptions.map((option) => (
@@ -270,7 +270,7 @@ const Contact: React.FC = () => {
                   className="mb-3 font-semibold"
                   style={{ fontSize: '20px', color: '#2C3E50' }}
                 >
-                  Availability
+                  {t('availability')}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {availabilityOptions.map((option) => (
@@ -295,13 +295,13 @@ const Contact: React.FC = () => {
                   className="mb-3 font-semibold"
                   style={{ fontSize: '20px', color: '#2C3E50' }}
                 >
-                  Additional Comments
+                  {t('additionalComments')}
                 </h3>
                 <label
                   htmlFor="message"
                   className="form-label font-semibold"
                 >
-                  Tell us why you want to volunteer
+                  {t('tellUsWhy')}
                 </label>
                 <textarea
                   {...register('message')}
@@ -309,7 +309,7 @@ const Contact: React.FC = () => {
                   rows={5}
                   className="form-input resize-none"
                   style={{ minHeight: '100px' }}
-                  placeholder="Enter any additional notes, skills, or specific time constraints..."
+                  placeholder={t('enterAdditionalNotes')}
                 />
               </div>
 
@@ -332,14 +332,14 @@ const Contact: React.FC = () => {
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <div className="spinner mr-2" />
-                      Sending...
+                      {t('sending')}
                     </span>
                   ) : (
-                    'Submit Volunteer Application'
+                    t('submitVolunteerApplication')
                   )}
                 </motion.button>
                 <p className="text-sm text-gray-500">
-                  By submitting, you agree to our volunteer terms and conditions.
+                  {t('volunteerTerms')}
                 </p>
               </div>
             </form>

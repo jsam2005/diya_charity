@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4">Contact Us</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">{t('contactUs')}</h4>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 text-primary-500 mt-0.5">
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-gray-100 font-medium">{CONTACT_INFO.phone}</p>
-                    <p className="text-sm text-gray-300">Mon-Fri: 9AM-6PM</p>
+                    <p className="text-sm text-gray-300">{t('mondayFriday')}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-gray-100 font-medium">{CONTACT_INFO.email}</p>
-                    <p className="text-sm text-gray-300">General Inquiries</p>
+                    <p className="text-sm text-gray-300">{t('generalInquiries')}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-100 font-medium">Emergency</p>
+                    <p className="text-gray-100 font-medium">{t('emergency')}</p>
                     <p className="text-sm text-gray-300">9445205771</p>
                   </div>
                 </div>
@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4">Office Location</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">{t('officeLocation')}</h4>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <div className="w-5 h-5 text-primary-500 mt-0.5">
@@ -104,7 +104,7 @@ const Footer: React.FC = () => {
                     <p className="text-gray-100">
                       {CONTACT_INFO.address.city}, {CONTACT_INFO.address.state} {CONTACT_INFO.address.zip}
                     </p>
-                    <p className="text-sm text-gray-300 mt-1">India</p>
+                    <p className="text-sm text-gray-300 mt-1">{t('india')}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -114,10 +114,10 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-100 font-medium">Office Hours</p>
-                    <p className="text-sm text-gray-300">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                    <p className="text-sm text-gray-300">Saturday: 10:00 AM - 4:00 PM</p>
-                    <p className="text-sm text-gray-300">Sunday: Closed</p>
+                    <p className="text-gray-100 font-medium">{t('officeHours')}</p>
+                    <p className="text-sm text-gray-300">{t('mondayFriday')}</p>
+                    <p className="text-sm text-gray-300">{t('saturday')}</p>
+                    <p className="text-sm text-gray-300">{t('sunday')}</p>
                   </div>
                 </div>
               </div>
@@ -129,10 +129,10 @@ const Footer: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">{t('quickLinks')}</h4>
               <div className="space-y-3">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-100 mb-2">Legal</h5>
+                  <h5 className="text-sm font-medium text-gray-100 mb-2">{t('legal')}</h5>
                   <div className="space-y-1">
                     {FOOTER_CONTENT.links.map((link, index) => (
                       <motion.a
@@ -147,7 +147,7 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <h5 className="text-sm font-medium text-gray-100 mb-2">Follow Us</h5>
+                  <h5 className="text-sm font-medium text-gray-100 mb-2">{t('followUs')}</h5>
                   <div className="flex space-x-3">
                     <motion.a
                       href="#"

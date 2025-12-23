@@ -35,6 +35,23 @@ const Header: React.FC = () => {
     setIsLanguageDropdownOpen(false);
   }, [isMobile]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('[data-language-selector]')) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    if (isLanguageDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isLanguageDropdownOpen]);
+
   const trustLogo = getAssetPath('assets/logos/trust logo.png');
 
   const socialLinks = [
@@ -97,7 +114,7 @@ const Header: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
         justifyContent: 'space-between',
-          zIndex: 20,
+          zIndex: 9999,
           width: '100%'
         }}
       >
@@ -144,9 +161,12 @@ const Header: React.FC = () => {
             }}
           >
             {/* Language Selector (Translate button) */}
-            <div style={{ position: 'relative', zIndex: 50 }}>
+            <div style={{ position: 'relative', zIndex: 10000 }} data-language-selector>
               <motion.button
-                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
@@ -162,7 +182,8 @@ const Header: React.FC = () => {
                   fontSize: '14px',
                   fontWeight: 700,
                   fontFamily: 'inherit',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                  position: 'relative'
                 }}
               >
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,6 +206,7 @@ const Header: React.FC = () => {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
+                    onClick={(e) => e.stopPropagation()}
                     style={{
                       position: 'absolute',
                       top: '100%',
@@ -195,13 +217,17 @@ const Header: React.FC = () => {
                       boxShadow: '0 10px 18px rgba(0,0,0,0.18)',
                       border: '1px solid #E5E7EB',
                       overflow: 'hidden',
-                      minWidth: '140px'
+                      minWidth: '140px',
+                      zIndex: 10001
                     }}
                   >
                     {languages.map((langCode) => (
                       <button
                         key={langCode}
-                        onClick={() => handleLanguageChange(langCode)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLanguageChange(langCode);
+                        }}
                         style={{
                           width: '100%',
                           textAlign: 'left',
@@ -211,7 +237,18 @@ const Header: React.FC = () => {
                           cursor: 'pointer',
                           fontSize: '14px',
                           fontWeight: language === langCode ? 700 : 500,
-                          color: '#1C3F75'
+                          color: '#1C3F75',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (language !== langCode) {
+                            e.currentTarget.style.backgroundColor = '#F9FAFB';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (language !== langCode) {
+                            e.currentTarget.style.backgroundColor = '#FFFFFF';
+                          }
                         }}
                       >
                         {getLanguageName(langCode)}
@@ -361,7 +398,7 @@ const Header: React.FC = () => {
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
               overflow: 'hidden',
-              zIndex: 15,
+              zIndex: 9998,
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'
             }}
             >
@@ -410,9 +447,12 @@ const Header: React.FC = () => {
                   </motion.button>
                 </div>
                 {/* Language Selector */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.25rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.25rem', position: 'relative', zIndex: 10000 }} data-language-selector>
                   <motion.button
-                    onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+                    }}
                     whileTap={{ scale: 0.95 }}
                     style={{
                       backgroundColor: '#FFFFFF',
@@ -422,23 +462,34 @@ const Header: React.FC = () => {
                       padding: '10px 18px',
                       border: '2px solid #FFFFFF',
                       alignSelf: 'center',
-                      minWidth: '180px'
+                      minWidth: '180px',
+                      cursor: 'pointer'
                     }}
                   >
                     {getLanguageName(language)}
                   </motion.button>
                   {isLanguageDropdownOpen && (
-                    <div
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      onClick={(e) => e.stopPropagation()}
                       style={{
                         backgroundColor: '#FFFFFF',
                         borderRadius: '12px',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        boxShadow: '0 10px 18px rgba(0,0,0,0.18)',
+                        border: '1px solid #E5E7EB',
+                        zIndex: 10001
                       }}
                     >
                       {languages.map((langCode) => (
                         <button
                           key={langCode}
-                          onClick={() => handleLanguageChange(langCode)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLanguageChange(langCode);
+                          }}
                           style={{
                             width: '100%',
                             border: 'none',
@@ -446,13 +497,25 @@ const Header: React.FC = () => {
                             padding: '10px 14px',
                             textAlign: 'left',
                             fontWeight: language === langCode ? 700 : 500,
-                            color: '#1C3F75'
+                            color: '#1C3F75',
+                            cursor: 'pointer',
+                            transition: 'background-color 0.2s'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (language !== langCode) {
+                              e.currentTarget.style.backgroundColor = '#F9FAFB';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (language !== langCode) {
+                              e.currentTarget.style.backgroundColor = '#FFFFFF';
+                            }
                           }}
                         >
                           {getLanguageName(langCode)}
                         </button>
                       ))}
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               </div>
@@ -477,7 +540,7 @@ const Header: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: '14px',
-          zIndex: 19
+          zIndex: 9997
         }}
       >
         <p

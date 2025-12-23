@@ -70,7 +70,7 @@ const Mission: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-[1950px] mx-auto p-5 text-justify"
+              className="max-w-[1950px] mx-auto p-5 text-left md:text-justify"
             >
               {/* Shared style for all mission paragraphs */}
               {(() => {
@@ -88,19 +88,19 @@ const Mission: React.FC = () => {
                       {t('missionDescription')}
                     </p>
                     <p style={{ ...missionTextStyle }}>
-                      Have you ever felt the sting of hunger born out of extreme poverty - Even sudden urban poverty due to misfortune so deep that you couldn't share your struggles with anyone because of family dignity? Have you faced the stress of losing a job, along with the emotional turmoil it brings to you and your family? Have you experienced loneliness or depression from being left behind in the race for success or from the challenges that come with age? Or the pain of missing someone, something, or the helplessness of being unable to meet the needs of your loved ones?
+                      {t('missionQuestion1')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: 'center', fontWeight: 'bold' }}>
-                      We are here to be a comforting presence - A healing hand to support you, uplift you, and help you move forward.
+                      {t('missionComfort')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: 'center' }}>
-                      If you, the reader, feel blessed by God, live in comfort, and feel protected, we invite you to spare your time to join us as a <strong>Volunteer (OR) contribute by Donating even a small part of your abundance</strong> . Remember, what goes around comes around in multiples!
+                      {t('missionInvitation')}
                     </p>
                     <p style={{ ...missionTextStyle }}>
-                      Our every outreach would be anonymous. None outside would know except professional volunteers! Reach out to us through whatsapp on 1234567890, you may not get instant replies but for sure we will reach out to you !
+                      {t('missionAnonymous')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: 'center' }}>
-                      It doesn't matter who we are ! Let our actions speak !!
+                      {t('missionActions')}
                     </p>
                   </div>
                 );
@@ -118,14 +118,14 @@ const Mission: React.FC = () => {
                   onClick={() => scrollToElement('contact')}
                   className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
                 >
-                  Volunteer
+                  {t('volunteer')}
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToElement('donation')}
                   className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
                 >
-                  Donate
+                  {t('donate')}
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -139,7 +139,7 @@ const Mission: React.FC = () => {
             className="text-center mt-5 mb-8"
           >
             <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-[#1C3F75] mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold">
-              OUR COMPLIANCE
+              {t('ourCompliance')}
             </h2>
           </motion.div>
 
@@ -230,7 +230,7 @@ const Mission: React.FC = () => {
                 className="text-center"
               >
                 <h2 className="font-['Poppins','EB_Garamond',serif] text-[1.75rem] md:text-[2.5rem] text-white mt-2 md:mt-5 mb-2 md:mb-5 inline-block font-bold drop-shadow-md">
-                  Our Primary Activities & Impact Areas
+                  {t('primaryActivitiesTitle')}
                 </h2>
               </motion.div>
 
@@ -239,40 +239,39 @@ const Mission: React.FC = () => {
                   {[
                     {
                       id: 'card-budding-minds',
-                      title: 'Budding Minds',
-                      content: 'Bridging school dropout gaps, skill training, and job placement assistance for underprivileged youth.',
+                      title: t('buddingMinds'),
+                      content: t('buddingMindsDesc'),
                       icon: '🌱',
                     },
                     {
                       id: 'card-youth-leap',
-                      title: 'Youth Leap',
-                      content: 'Skill training, psychological counseling, and placement support specifically designed for youth empowerment.',
+                      title: t('youthLeap'),
+                      content: t('youthLeapDesc'),
                       icon: '🚀',
                     },
                     {
                       id: 'card-vulnerable-families',
-                      title: 'Vulnerable Women & Families',
-                      content: 'Skill training, job placement, and self-help group formation focused on economic stability for women.',
+                      title: t('vulnerableWomenFamilies'),
+                      content: t('vulnerableWomenFamiliesDesc'),
                       icon: '💪',
                     },
                     {
                       id: 'card-old-age-care',
-                      title: 'Old Age Care',
-                      content: 'Palliative care, counseling, and accessible healthcare services for the elderly community.',
+                      title: t('oldAgeCare'),
+                      content: t('oldAgeCareDesc'),
                       icon: '❤️',
                     },
                     {
                       id: 'card-sustainability',
-                      title: 'Support & Sustainability',
-                      content: 'Awareness campaigns and sustainability efforts for long-term community resilience.',
+                      title: t('supportSustainability'),
+                      content: t('supportSustainabilityDesc'),
                       icon: '🌱',
                       image: sustainabilityImage,
                     },
                     {
                       id: 'card-annathanam',
-                      title: 'Annathanam',
-                      content: `Annadhanam is not charity - it’s service.
-                  You don’t give food to someone; you serve food to God through them.`,
+                      title: t('annathanam'),
+                      content: `${t('annathanamQuote')}\n${t('annathanamDesc1')}`,
                       icon: '🍲',
                       image: annathanamImage,
                       hasExplore: true,
@@ -297,7 +296,7 @@ const Mission: React.FC = () => {
                       <h4 className="text-xl font-bold text-[#1C3F75] mb-3">
                         {card.title}
                       </h4>
-                      <p className="text-lg text-[#333333] leading-relaxed text-justify whitespace-pre-line mb-4 flex-grow">
+                      <p className="text-lg text-[#333333] leading-relaxed text-left whitespace-pre-line mb-4 flex-grow">
                         {card.content}
                       </p>
 
@@ -307,7 +306,7 @@ const Mission: React.FC = () => {
                           onClick={() => navigate('/annathanam')}
                           className="mt-auto inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[14px] font-bold text-white w-full"
                         >
-                          Explore
+                          {t('explore')}
                         </motion.button>
                       )}
                     </motion.div>

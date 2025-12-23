@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
 import { getAssetPath } from '@/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const DONATION_AMOUNTS = [250, 500, 1000, 1500, 2000];
 
@@ -32,6 +33,7 @@ const DonationForm: React.FC = () => {
   });
 
   const { isMobile, isTablet } = useDeviceFeatures();
+  const { t } = useLanguage();
 
   const sponsor1 = getAssetPath('assets/sponsors1.jpg');
   const sponsor2 = getAssetPath('assets/sponsors2.jpg');
@@ -158,7 +160,7 @@ const DonationForm: React.FC = () => {
                   wordWrap: 'break-word',
                 }}
               >
-                NEED SUPPORT - DONATE
+                {t('needSupport')}
               </h2>
               <p
                 style={{
@@ -175,7 +177,7 @@ const DonationForm: React.FC = () => {
                   padding: '0 10px',
                 }}
               >
-                Get Tax Benefit (Under 80G)
+                {t('taxBenefit')}
               </p>
               <p
                 style={{
@@ -193,16 +195,16 @@ const DonationForm: React.FC = () => {
                   padding: '0 10px',
                 }}
               >
-                Donations are eligible for Section 80G exemption. Just share your PAN on our{' '}
+                {t('taxBenefitDesc')}{' '}
                 <a
                   href="https://wa.me/9894728646?text=I%20have%20donated%20and%20would%20like%20to%20share%20my%20PAN%20for%2080G%20receipt."
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#2563EB', textDecoration: 'underline', fontWeight: 600 }}
                 >
-                  WhatsApp
-                </a>{' '}
-                after donating.
+                  {t('whatsapp')}
+                </a>
+                {' '}{t('taxBenefitDescAfter')}
               </p>
               <div
                 style={{
@@ -228,7 +230,7 @@ const DonationForm: React.FC = () => {
                     padding: '0 10px',
                   }}
                 >
-                  LIFE IS AN ECHO
+                  {t('lifeIsEcho')}
                 </h2>
                 <p
                   style={{
@@ -245,7 +247,7 @@ const DonationForm: React.FC = () => {
                     padding: '0 10px',
                   }}
                 >
-                  <strong>What you send out comes back. What you sow you reap.</strong>
+                  <strong>{t('echo1')}</strong>
                 </p>
                 <p
                   style={{
@@ -262,7 +264,7 @@ const DonationForm: React.FC = () => {
                     padding: '0 10px',
                   }}
                 >
-                  <strong>What you give you get. What you see in others exists in you.</strong>
+                  <strong>{t('echo2')}</strong>
                 </p>
               </div>
             </motion.div>
@@ -280,12 +282,12 @@ const DonationForm: React.FC = () => {
                   maxWidth: '100%',
                   boxSizing: 'border-box'
                 }}>
-                  Donor Information &amp; Contribution
+                  {t('donorInfo')}
                 </h3>
                 <form onSubmit={handleSubmit} className="space-y-6" style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}>
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
-                      Donor Name *
+                      {t('donorName')}
                     </label>
                     <input
                       type="text"
@@ -301,7 +303,7 @@ const DonationForm: React.FC = () => {
 
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
-                      Phone Number *
+                      {t('phoneNumber')}
                     </label>
                     <input
                       type="tel"
@@ -317,7 +319,7 @@ const DonationForm: React.FC = () => {
 
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
-                      Email Address *
+                      {t('emailAddress')}
                     </label>
                     <input
                       type="email"
@@ -333,7 +335,7 @@ const DonationForm: React.FC = () => {
 
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
-                      Select Donation Amount (INR)
+                      {t('selectAmount')}
                     </label>
                     <div
                       className="flex flex-wrap gap-3"
@@ -366,14 +368,14 @@ const DonationForm: React.FC = () => {
                     </div>
                     <div className="space-y-2">
                       <label className="block text-[#333333] font-semibold">
-                        Other Amount
+                        {t('otherAmount')}
                       </label>
                       <input
                         type="number"
                         name="customAmount"
                         value={formData.customAmount}
                         onChange={handleInputChange}
-                        placeholder="Enter custom amount"
+                        placeholder={t('enterCustomAmount')}
                         className="form-input text-lg"
                         min={100}
                         style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
@@ -395,7 +397,7 @@ const DonationForm: React.FC = () => {
                     }}
                     className="font-semibold w-full"
                   >
-                    Proceed to Payment
+                    {t('proceedPayment')}
                   </motion.button>
                 </form>
               </motion.div>
@@ -415,7 +417,7 @@ const DonationForm: React.FC = () => {
                   marginBottom: isMobile ? '20px' : '24px',
                   overflow: 'hidden'
                 }}>
-                  Direct Payment Details
+                  {t('directPayment')}
                 </h3>
 
                 {/* UPI Card */}
@@ -449,7 +451,7 @@ const DonationForm: React.FC = () => {
                       minWidth: 0,
                       maxWidth: '100%'
                     }}>
-                      Scan &amp; Pay (UPI)
+                      {t('scanPay')}
                     </p>
                   </div>
                   <div
@@ -469,7 +471,7 @@ const DonationForm: React.FC = () => {
                       flexShrink: 0,
                     }}
                   >
-                    UPI QR
+                    {t('upiQr')}
                   </div>
                   <p className="text-sm text-gray-500 text-center" style={{
                     wordWrap: 'break-word',
@@ -478,7 +480,7 @@ const DonationForm: React.FC = () => {
                     fontSize: isMobile ? '0.75rem' : '0.875rem',
                     boxSizing: 'border-box'
                   }}>
-                    [Placeholder for Trust&apos;s UPI QR Code Image]
+                    {t('upiPlaceholder')}
                   </p>
                 </div>
 
@@ -513,7 +515,7 @@ const DonationForm: React.FC = () => {
                       maxWidth: '100%',
                       fontSize: isMobile ? '1rem' : '1.125rem'
                     }}>
-                      Bank Transfer Details
+                      {t('bankTransfer')}
                     </p>
                   </div>
                   <div className="space-y-3" style={{
@@ -594,7 +596,7 @@ const DonationForm: React.FC = () => {
                       overflow: 'hidden',
                     }}
                   >
-                    *Please share transaction details via email/WhatsApp for 80G receipt.*
+                    {t('transactionNote')}
                   </p>
                 </div>
               </motion.div>
@@ -629,7 +631,7 @@ const DonationForm: React.FC = () => {
               marginBottom: '20px',
               display: 'inline-block',
             }}>
-              OUR CORPORATE & GOVERNMENT SPONSORS
+              {t('corporateSponsors')}
             </h2>
             <h1 style={{
               fontFamily: "'Poppins', 'EB Garamond', serif",
@@ -640,7 +642,7 @@ const DonationForm: React.FC = () => {
               marginBottom: '20px',
               display: 'block',
             }}>
-              UNDER CSR INITIATIVES
+              {t('underCSR')}
             </h1>
           </motion.div>
           <div style={{
@@ -701,7 +703,7 @@ const DonationForm: React.FC = () => {
                             marginBottom: '8px',
                           }}
                         >
-                          Corporate Partner {i}
+                          {t('corporatePartner')} {i}
                         </h3>
                         <p
                           style={{
@@ -711,7 +713,7 @@ const DonationForm: React.FC = () => {
                             lineHeight: 1.6,
                           }}
                         >
-                          Anticipating Your CSR Sponsorship here.
+                          {t('anticipatingCSR')}
                         </p>
                       </>
                     )}
@@ -747,7 +749,7 @@ const DonationForm: React.FC = () => {
               boxSizing: 'border-box',
             }}
           >
-            METRICS & IMPACT AREAS
+            {t('metricsImpact')}
           </h3>
           <div
             style={{
@@ -764,16 +766,16 @@ const DonationForm: React.FC = () => {
           >
             {[
               {
-                title: 'Education & Youth',
+                title: t('educationYouth'),
               },
               {
-                title: 'Elderly Care',
+                title: t('elderlyCare'),
               },
               {
-                title: 'Women & Families',
+                title: t('womenFamilies'),
               },
               {
-                title: 'Emergency Relief',
+                title: t('emergencyRelief'),
               },
             ].map((impact, index) => (
               <div
@@ -817,7 +819,7 @@ const DonationForm: React.FC = () => {
               boxSizing: 'border-box',
             }}
           >
-            ---------- <strong>Will be Shared with program sponsors</strong> -------------
+            {t('willBeShared')}
           </p>
         </div>
       </section>
