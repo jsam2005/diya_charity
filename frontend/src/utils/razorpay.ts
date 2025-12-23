@@ -33,8 +33,8 @@ export interface DonationPayload {
 
 export interface RazorpayOptions {
   key: string;
-  amount: number;
-  currency: string;
+  amount?: number;
+  currency?: string;
   name: string;
   description: string;
   order_id?: string;
@@ -246,7 +246,7 @@ export const initMonthlySubscription = async (
   try {
     await loadRazorpayScript();
 
-    const options: RazorpayOptions = {
+    const options: any = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
       subscription_id: subscriptionId,
       name: 'Diya Charitable Trust',
