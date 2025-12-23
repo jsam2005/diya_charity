@@ -26,6 +26,8 @@ const DonationForm: React.FC = () => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(
     DONATION_AMOUNTS[2]
   );
+  const [donationType, setDonationType] = useState<'one-time' | 'monthly'>('one-time');
+  const [upiCopied, setUpiCopied] = useState(false);
 
   const [ref, inView] = useInView({
     threshold: 0.1,
@@ -38,6 +40,19 @@ const DonationForm: React.FC = () => {
   const sponsor1 = getAssetPath('assets/sponsors1.jpg');
   const sponsor2 = getAssetPath('assets/sponsors2.jpg');
   const sponsor3 = getAssetPath('assets/sponsors3.jpg');
+  const qrCodeImage = getAssetPath('assets/payment/qr.jpg');
+  const paymentOptionsImage = getAssetPath('assets/payment/payement_option.png');
+  const UPI_ID = 'diyacharitabletrust.82130163@hdfcbank';
+
+  const handleCopyUPI = async () => {
+    try {
+      await navigator.clipboard.writeText(UPI_ID);
+      setUpiCopied(true);
+      setTimeout(() => setUpiCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy UPI ID:', err);
+    }
+  };
 
   const layoutContainerStyle: React.CSSProperties = {
     backgroundColor: '#F9F9F9',
@@ -107,18 +122,41 @@ const DonationForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, customAmount: '' }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const amount = selectedAmount ?? Number(formData.customAmount || 0);
+    
+    if (amount <= 0) {
+      alert('Please select or enter a valid donation amount.');
+      return;
+    }
+
     const payload = {
       ...formData,
-      amount: selectedAmount ?? Number(formData.customAmount || 0),
+      amount,
+      donationType,
     };
+
+    // For now, log the payload. In production, this will call the payment gateway
     console.log('Donation submission:', payload);
-    alert(
-      'Thank you for your willingness to contribute! Our team will reach out shortly.'
-    );
+
+    if (donationType === 'one-time') {
+      // Handle one-time payment
+      // TODO: Integrate Razorpay one-time payment
+      alert(
+        'Thank you for your willingness to contribute! Our team will reach out shortly for payment processing.'
+      );
+    } else {
+      // Handle monthly recurring payment
+      // TODO: Integrate Razorpay subscription
+      alert(
+        'Thank you for choosing monthly donations! Our team will reach out shortly to set up your recurring payment.'
+      );
+    }
+
     setFormData(INITIAL_FORM_STATE);
     setSelectedAmount(DONATION_AMOUNTS[2]);
+    setDonationType('one-time');
   };
 
   return (
@@ -284,6 +322,81 @@ const DonationForm: React.FC = () => {
                 }}>
                   {t('donorInfo')}
                 </h3>
+                
+                {/* Donation Type Selector */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ 
+                    fontSize: isMobile ? '16px' : '18px', 
+                    fontWeight: 600, 
+                    marginBottom: '12px', 
+                    display: 'block',
+                    color: '#333333'
+                  }}>
+                    {t('donationType')}
+                  </label>
+                  <div style={{ 
+                    display: 'flex', 
+                    gap: '12px', 
+                    flexWrap: 'wrap' 
+                  }}>
+                    <motion.button
+                      type="button"
+                      onClick={() => setDonationType('one-time')}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      style={{
+                        flex: 1,
+                        minWidth: '140px',
+                        padding: isMobile ? '12px 20px' : '14px 24px',
+                        borderRadius: '8px',
+                        border: donationType === 'one-time' ? '2px solid #1C3F75' : '2px solid #E0E0E0',
+                        backgroundColor: donationType === 'one-time' ? '#1C3F75' : '#FFFFFF',
+                        color: donationType === 'one-time' ? '#FFFFFF' : '#333333',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        fontSize: isMobile ? '14px' : '16px',
+                        transition: 'all 0.3s ease',
+                        boxShadow: donationType === 'one-time' ? '0 2px 8px rgba(28, 63, 117, 0.2)' : 'none',
+                      }}
+                    >
+                      {t('oneTimeDonation')}
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      onClick={() => setDonationType('monthly')}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      style={{
+                        flex: 1,
+                        minWidth: '140px',
+                        padding: isMobile ? '12px 20px' : '14px 24px',
+                        borderRadius: '8px',
+                        border: donationType === 'monthly' ? '2px solid #1C3F75' : '2px solid #E0E0E0',
+                        backgroundColor: donationType === 'monthly' ? '#1C3F75' : '#FFFFFF',
+                        color: donationType === 'monthly' ? '#FFFFFF' : '#333333',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        fontSize: isMobile ? '14px' : '16px',
+                        transition: 'all 0.3s ease',
+                        boxShadow: donationType === 'monthly' ? '0 2px 8px rgba(28, 63, 117, 0.2)' : 'none',
+                      }}
+                    >
+                      {t('monthlyDonation')}
+                    </motion.button>
+                  </div>
+                  {donationType === 'monthly' && (
+                    <p style={{ 
+                      marginTop: '10px', 
+                      fontSize: isMobile ? '13px' : '14px', 
+                      color: '#666666', 
+                      fontStyle: 'italic',
+                      lineHeight: 1.5
+                    }}>
+                      {t('monthlyDonationNote')}
+                    </p>
+                  )}
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6" style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}>
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
@@ -397,7 +510,10 @@ const DonationForm: React.FC = () => {
                     }}
                     className="font-semibold w-full"
                   >
-                    {t('proceedPayment')}
+                    {donationType === 'monthly' 
+                      ? `${t('proceedPayment')} (${t('monthlyDonation')})`
+                      : t('proceedPayment')
+                    }
                   </motion.button>
                 </form>
               </motion.div>
@@ -454,34 +570,130 @@ const DonationForm: React.FC = () => {
                       {t('scanPay')}
                     </p>
                   </div>
+                  {/* QR Code Image */}
                   <div
                     style={{
-                      width: isMobile ? '120px' : isTablet ? '150px' : '200px',
-                      height: isMobile ? '120px' : isTablet ? '150px' : '200px',
+                      width: isMobile ? '200px' : isTablet ? '250px' : '300px',
+                      height: isMobile ? '200px' : isTablet ? '250px' : '300px',
                       margin: '15px auto',
-                      border: '4px solid #16A34A',
                       borderRadius: '10px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontWeight: 600,
-                      color: '#16A34A',
                       maxWidth: 'calc(100% - 24px)',
                       boxSizing: 'border-box',
                       flexShrink: 0,
+                      overflow: 'hidden',
                     }}
                   >
-                    {t('upiQr')}
+                    <img
+                      src={qrCodeImage}
+                      alt={t('upiQr')}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        borderRadius: '10px',
+                      }}
+                    />
                   </div>
-                  <p className="text-sm text-gray-500 text-center" style={{
-                    wordWrap: 'break-word',
-                    padding: '0 5px',
-                    maxWidth: '100%',
-                    fontSize: isMobile ? '0.75rem' : '0.875rem',
-                    boxSizing: 'border-box'
-                  }}>
-                    {t('upiPlaceholder')}
-                  </p>
+                  
+                  {/* UPI ID Section */}
+                  <div
+                    style={{
+                      margin: '20px auto',
+                      textAlign: 'center',
+                      maxWidth: 'calc(100% - 24px)',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: '#333333',
+                        margin: 0,
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      <span style={{ fontWeight: 500 }}>
+                        {t('upiId')}:
+                      </span>
+                      <span
+                        style={{
+                          color: '#1C3F75',
+                          fontWeight: 600,
+                          wordBreak: 'break-all',
+                          fontFamily: 'monospace',
+                        }}
+                      >
+                        {UPI_ID}
+                      </span>
+                      <motion.button
+                        onClick={handleCopyUPI}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          backgroundColor: 'transparent',
+                          color: upiCopied ? '#16A34A' : '#1C3F75',
+                          border: 'none',
+                          padding: '4px 8px',
+                          fontSize: isMobile ? '12px' : '14px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          textDecoration: 'underline',
+                          transition: 'color 0.3s ease',
+                        }}
+                      >
+                        {upiCopied ? (
+                          <>
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            {t('copied')}
+                          </>
+                        ) : (
+                          <>
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            {t('copy')}
+                          </>
+                        )}
+                      </motion.button>
+                    </p>
+                  </div>
+                  
+                  {/* Payment Options Image */}
+                  <div
+                    style={{
+                      width: '100%',
+                      maxWidth: isMobile ? '280px' : isTablet ? '350px' : '400px',
+                      margin: '20px auto 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <img
+                      src={paymentOptionsImage}
+                      alt="Payment Options"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        borderRadius: '8px',
+                      }}
+                    />
+                  </div>
                 </div>
 
                 {/* Bank Transfer Card */}
@@ -602,6 +814,54 @@ const DonationForm: React.FC = () => {
               </motion.div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Property Donation Section */}
+      <section
+        style={{
+          backgroundColor: '#FFFFFF',
+          padding: isMobile ? '40px 20px' : '60px 40px',
+          overflow: 'hidden',
+          width: '100%',
+        }}
+      >
+        <div className="container-custom-full" style={{ width: '100%', boxSizing: 'border-box', maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+            style={{
+              backgroundColor: '#F8F9FA',
+              padding: isMobile ? '30px 20px' : '40px 50px',
+              borderRadius: '16px',
+              border: '1px solid #E0E0E0',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'Calibri, sans-serif',
+                fontSize: isMobile ? '16px' : '18px',
+                lineHeight: 1.8,
+                color: '#333333',
+                textAlign: 'left',
+              }}
+            >
+              <p style={{ marginBottom: '20px', fontWeight: 500 }}>
+                {t('propertyDonationPara1')}
+              </p>
+              <p style={{ marginBottom: '20px' }}>
+                {t('propertyDonationPara2')}
+              </p>
+              <p style={{ marginBottom: '20px', fontWeight: 600, color: '#1C3F75' }}>
+                {t('propertyDonationNote')}
+              </p>
+              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#666666' }}>
+                {t('propertyDonationContact')}
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
