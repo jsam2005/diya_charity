@@ -17,6 +17,7 @@ const Mission: React.FC = () => {
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
   const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
+  const csrLogo = getAssetPath('assets/logos/csr.png');
   const complianceImage = getAssetPath('compilance.png');
   const sustainabilityImage = getAssetPath('assets/sustainability.jpg');
   const annathanamImage = getAssetPath('assets/annathanam.jpg');
@@ -25,8 +26,8 @@ const Mission: React.FC = () => {
   const complianceCards = [
     { id: 'card-ngo', logo: ngoLogo, alt: 'NGO & NPO Registration Logo' },
     { id: 'card-darpan', logo: darpanLogo, alt: 'DARPAN Portal Logo' },
-    { id: 'card-income-tax-a', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
-    { id: 'card-income-tax-b', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
+    { id: 'card-income-tax', logo: incomeTaxLogo, alt: 'Income Tax Registration Logo' },
+    { id: 'card-csr', logo: csrLogo, alt: 'CSR Logo' },
   ];
 
   return (

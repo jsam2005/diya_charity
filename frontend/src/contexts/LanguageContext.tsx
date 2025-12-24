@@ -126,7 +126,7 @@ const translations: Record<Language, Record<string, string>> = {
     vulnerableWomenFamiliesDesc: 'Skill training, job placement, and self-help group formation focused on economic stability for women.',
     oldAgeCare: 'Old Age Care',
     oldAgeCareDesc: 'Palliative care, counseling, and accessible healthcare services for the elderly community.',
-    supportSustainability: 'Support & Sustainability',
+    supportSustainability: 'Environment & Sustainability',
     supportSustainabilityDesc: 'Awareness campaigns and sustainability efforts for long-term community resilience.',
     explore: 'Explore',
     // Volunteer Form
@@ -297,7 +297,7 @@ const translations: Record<Language, Record<string, string>> = {
     vulnerableWomenFamiliesDesc: 'பெண்களுக்கான பொருளாதார நிலைத்தன்மையில் கவனம் செலுத்தும் திறன் பயிற்சி, வேலை வைப்பு, மற்றும் சுய உதவி குழு உருவாக்கம்.',
     oldAgeCare: 'முதியோர் பராமரிப்பு',
     oldAgeCareDesc: 'முதியோர் சமூகத்திற்கான பராமரிப்பு சிகிச்சை, ஆலோசனை, மற்றும் அணுகக்கூடிய சுகாதார சேவைகள்.',
-    supportSustainability: 'ஆதரவு & நிலைத்தன்மை',
+    supportSustainability: 'சூழல் & நிலைத்தன்மை',
     supportSustainabilityDesc: 'நீண்ட கால சமூக நிலைத்தன்மைக்கான விழிப்புணர்வு பிரச்சாரங்கள் மற்றும் நிலைத்தன்மை முயற்சிகள்.',
     explore: 'ஆராயவும்',
     // Volunteer Form
@@ -468,7 +468,7 @@ const translations: Record<Language, Record<string, string>> = {
     vulnerableWomenFamiliesDesc: 'महिलाओं के लिए आर्थिक स्थिरता पर केंद्रित कौशल प्रशिक्षण, नौकरी प्लेसमेंट, और स्वयं सहायता समूह गठन।',
     oldAgeCare: 'वृद्ध देखभाल',
     oldAgeCareDesc: 'बुजुर्ग समुदाय के लिए पैलिएटिव केयर, परामर्श, और सुलभ स्वास्थ्य सेवाएं।',
-    supportSustainability: 'समर्थन और स्थिरता',
+    supportSustainability: 'पर्यावरण और स्थिरता',
     supportSustainabilityDesc: 'दीर्घकालिक सामुदायिक लचीलापन के लिए जागरूकता अभियान और स्थिरता प्रयास।',
     explore: 'अन्वेषण करें',
     // Volunteer Form

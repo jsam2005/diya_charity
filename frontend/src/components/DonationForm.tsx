@@ -832,32 +832,33 @@ const DonationForm: React.FC = () => {
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
             style={{
-              backgroundColor: '#F8F9FA',
+              backgroundColor: '#E8F4F8',
               padding: isMobile ? '30px 20px' : '40px 50px',
               borderRadius: '16px',
-              border: '1px solid #E0E0E0',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+              border: '2px solid #1C3F75',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             }}
           >
             <div
               style={{
                 fontFamily: 'Calibri, sans-serif',
-                fontSize: isMobile ? '16px' : '18px',
+                fontSize: isMobile ? '18px' : '22px',
                 lineHeight: 1.8,
                 color: '#333333',
                 textAlign: 'left',
+                fontWeight: 600,
               }}
             >
-              <p style={{ marginBottom: '20px', fontWeight: 500 }}>
+              <p style={{ marginBottom: '20px', fontWeight: 600 }}>
                 {t('propertyDonationPara1')}
               </p>
-              <p style={{ marginBottom: '20px' }}>
+              <p style={{ marginBottom: '20px', fontWeight: 600 }}>
                 {t('propertyDonationPara2')}
               </p>
-              <p style={{ marginBottom: '20px', fontWeight: 600, color: '#1C3F75' }}>
+              <p style={{ marginBottom: '20px', fontWeight: 700, color: '#1C3F75', fontSize: isMobile ? '19px' : '23px' }}>
                 {t('propertyDonationNote')}
               </p>
-              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#666666' }}>
+              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#666666', fontWeight: 600 }}>
                 {t('propertyDonationContact')}
               </p>
             </div>
