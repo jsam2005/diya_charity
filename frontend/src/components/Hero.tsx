@@ -31,19 +31,18 @@ const Hero: React.FC = () => {
   const variants = getAnimationVariants();
   
   const videoSrc = getAssetPath('bg.mp4');
-  const mobileBgImage = getAssetPath('bg.gif');
   
   // Debug: log the video source path (only in development)
   useEffect(() => {
-    if (import.meta.env.DEV && !isMobile) {
+    if (import.meta.env.DEV) {
       console.log('Video source path:', videoSrc);
       console.log('BASE_URL:', import.meta.env.BASE_URL);
     }
-  }, [videoSrc, isMobile]);
+  }, [videoSrc]);
 
   useEffect(() => {
-    // Ensure video plays when component mounts
-    if (videoRef.current && !isMobile) {
+    // Ensure video plays when component mounts (for both mobile and desktop)
+    if (videoRef.current) {
       videoRef.current.play().catch((error) => {
         // Silently handle autoplay restrictions
         if (import.meta.env.DEV) {
@@ -51,7 +50,7 @@ const Hero: React.FC = () => {
         }
       });
     }
-  }, [isMobile]);
+  }, []);
 
   return (
     <section
@@ -63,58 +62,41 @@ const Hero: React.FC = () => {
         boxSizing: 'border-box'
       }}
     >
-      {/* Mobile Background Image */}
-      {isMobile ? (
-        <div
-          className="absolute top-0 left-0 w-full h-full z-0"
-          style={{
-            backgroundImage: `url(${mobileBgImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            width: '100%',
-            height: '100%',
-            minWidth: '100%',
-            minHeight: '100%',
-          }}
-        />
-      ) : (
-        /* Video Background for Desktop/Tablet */
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          style={{
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-          }}
-          onLoadedData={() => {
-            if (videoRef.current) {
-              videoRef.current.play().catch((error) => {
-                // Silently handle autoplay restrictions
-                if (import.meta.env.DEV) {
-                  console.warn('Video autoplay prevented:', error);
-                }
-              });
-            }
-          }}
-          onError={(e) => {
-            // Handle video loading errors gracefully
-            if (import.meta.env.DEV) {
-              console.warn('Video loading error:', e);
-            }
-          }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+      {/* Video Background for both Mobile and Desktop */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        style={{
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+        }}
+        onLoadedData={() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              // Silently handle autoplay restrictions
+              if (import.meta.env.DEV) {
+                console.warn('Video autoplay prevented:', error);
+              }
+            });
+          }
+        }}
+        onError={(e) => {
+          // Handle video loading errors gracefully
+          if (import.meta.env.DEV) {
+            console.warn('Video loading error:', e);
+          }
+        }}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       
       {/* Background Overlay - Very light for better visibility */}
       <div className={`absolute inset-0 z-[1] ${isMobile ? 'bg-black/10' : 'bg-black/20'}`} />
@@ -135,13 +117,14 @@ const Hero: React.FC = () => {
         <h2 
           className={`font-elegant text-white tracking-wide ${
             isMobile 
-              ? 'text-3xl leading-tight' 
+              ? 'text-5xl leading-tight' 
               : isTablet 
                 ? 'text-3xl md:text-4xl' 
                 : 'text-4xl lg:text-5xl xl:text-6xl'
           }`}
           style={{
             ...(isMobile ? {
+              fontSize: '2.5rem',
               textShadow: '4px 4px 16px rgba(0, 0, 0, 0.95), 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8)',
               letterSpacing: '0.08em',
               fontWeight: '900',

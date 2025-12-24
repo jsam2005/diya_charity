@@ -187,42 +187,6 @@ async function addHeaders(spreadsheetId, sheetName) {
         values: [headers],
       },
     });
-
-    // Format header row
-    await sheets.spreadsheets.batchUpdate({
-      spreadsheetId,
-      resource: {
-        requests: [
-          {
-            repeatCell: {
-              range: {
-                sheetId: await getSheetId(spreadsheetId, sheetName),
-                startRowIndex: 0,
-                endRowIndex: 1,
-              },
-              cell: {
-                userEnteredFormat: {
-                  backgroundColor: {
-                    red: 0.2,
-                    green: 0.4,
-                    blue: 0.6,
-                  },
-                  textFormat: {
-                    foregroundColor: {
-                      red: 1,
-                      green: 1,
-                      blue: 1,
-                    },
-                    bold: true,
-                  },
-                },
-              },
-              fields: 'userEnteredFormat(backgroundColor,textFormat)',
-            },
-          },
-        ],
-      },
-    });
   } catch (error) {
     console.error('Error adding headers:', error);
     throw error;

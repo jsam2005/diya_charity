@@ -22,8 +22,22 @@ const Header: React.FC = () => {
   };
 
   const handleDonate = () => {
-    scrollToElement('donation');
     setIsMobileMenuOpen(false);
+    // Use a small delay to ensure menu closes first, then scroll
+    setTimeout(() => {
+      const donationElement = document.getElementById('donation');
+      if (donationElement) {
+        const navbarHeight = NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT;
+        const elementPosition = donationElement.offsetTop - navbarHeight;
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth',
+        });
+      } else {
+        // Fallback: try scrollToElement if element not found immediately
+        scrollToElement('donation', NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT);
+      }
+    }, isMobile ? 300 : 0);
   };
 
   const toggleMobileMenu = () => {

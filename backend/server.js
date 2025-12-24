@@ -47,6 +47,27 @@ app.post('/api/volunteer/submit', async (req, res) => {
   }
 });
 
+// Helpful message for GET requests to volunteer endpoint
+app.get('/api/volunteer/submit', (req, res) => {
+  res.status(405).json({
+    success: false,
+    error: 'Method not allowed',
+    message: 'This endpoint only accepts POST requests. Use POST to submit volunteer form data.',
+    example: {
+      method: 'POST',
+      url: '/api/volunteer/submit',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phone: '+91 1234567890'
+      }
+    }
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
