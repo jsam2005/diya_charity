@@ -8,6 +8,7 @@ export interface ContactFormData {
   message: string;
   volunteerPreferences?: string[];
   availability?: string[];
+  acceptTerms?: boolean;
 }
 
 export interface FormFieldError {

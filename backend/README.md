@@ -69,3 +69,4 @@ The backend automatically creates a sheet with the following columns:
 
 See [SETUP.md](./SETUP.md) for detailed troubleshooting guide.
 
+

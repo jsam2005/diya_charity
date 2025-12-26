@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { CONTACT_INFO, FOOTER_CONTENT } from '@/data/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
+import PolicyModal from './PolicyModal';
 
 const Footer: React.FC = () => {
   const [ref, inView] = useInView({
@@ -10,11 +11,21 @@ const Footer: React.FC = () => {
     triggerOnce: true,
   });
   const { t } = useLanguage();
+  const [openModal, setOpenModal] = useState<'privacy' | 'cancellation' | 'legal' | null>(null);
 
   const translateLinkLabel = (label: string) => {
     if (label.toLowerCase().includes('privacy')) return t('privacyPolicy');
+    if (label.toLowerCase().includes('cancellation')) return t('cancellationRefundsPolicy');
+    if (label.toLowerCase().includes('legal')) return t('legalDisclaimerCompliance');
     if (label.toLowerCase().includes('accessibility')) return t('accessibilityStatement');
     return label;
+  };
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: any) => {
+    e.preventDefault();
+    if (link.type && ['privacy', 'cancellation', 'legal'].includes(link.type)) {
+      setOpenModal(link.type as 'privacy' | 'cancellation' | 'legal');
+    }
   };
 
   return (
@@ -132,14 +143,14 @@ const Footer: React.FC = () => {
               <h4 className="text-lg font-semibold text-white mb-4">{t('quickLinks')}</h4>
               <div className="space-y-3">
                 <div>
-                  <h5 className="text-sm font-medium text-gray-100 mb-2">{t('legal')}</h5>
                   <div className="space-y-1">
                     {FOOTER_CONTENT.links.map((link, index) => (
                       <motion.a
                         key={index}
                         href={link.href}
+                        onClick={(e) => handleLinkClick(e, link)}
                         whileHover={{ x: 5 }}
-                        className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300"
+                        className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
                       >
                         {translateLinkLabel(link.label)}
                       </motion.a>
@@ -213,6 +224,23 @@ const Footer: React.FC = () => {
           </motion.div>
         </div>
       </motion.div>
+
+      {/* Policy Modals */}
+      <PolicyModal
+        isOpen={openModal === 'privacy'}
+        onClose={() => setOpenModal(null)}
+        type="privacy"
+      />
+      <PolicyModal
+        isOpen={openModal === 'cancellation'}
+        onClose={() => setOpenModal(null)}
+        type="cancellation"
+      />
+      <PolicyModal
+        isOpen={openModal === 'legal'}
+        onClose={() => setOpenModal(null)}
+        type="legal"
+      />
     </footer>
   );
 };

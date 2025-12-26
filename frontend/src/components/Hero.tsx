@@ -155,33 +155,6 @@ const Hero: React.FC = () => {
         <div className={`text-backdrop rounded-t-2xl mb-0 w-full ${
           isMobile ? 'p-3 px-4' : 'p-2 md:p-3 px-4 md:px-0'
         }`}>
-          <motion.h1
-            initial={variants.title}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className={`font-elegant font-normal text-black tracking-wide leading-tight text-center ${
-              isMobile 
-                ? 'text-xl font-bold mb-2' 
-                : 'text-3xl md:text-4xl lg:text-5xl mb-3'
-            }`}
-            style={{
-              ...(isMobile ? {
-                textShadow: '2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(0, 0, 0, 0.3)',
-                letterSpacing: '0.03em',
-                fontWeight: '800'
-              } : {
-                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.2)',
-                letterSpacing: '0.05em',
-                fontWeight: '700'
-              }),
-              maxWidth: '100%',
-              boxSizing: 'border-box',
-              wordWrap: 'break-word',
-              padding: '0 10px',
-            }}
-          >
-            {t('heroMotto')}
-          </motion.h1>
           <motion.h2
             initial={variants.title}
             animate={{ opacity: 1, y: 0 }}

@@ -77,8 +77,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Volunteer form submissions will be saved to Google Sheets`);
-});
+// Export for Vercel serverless
+export default app;
+
+// Only listen if not in Vercel environment
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 Volunteer form submissions will be saved to Google Sheets`);
+  });
+}
 

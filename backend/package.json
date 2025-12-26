@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "build": "echo 'No build step required'"
   },
   "keywords": ["ngo", "volunteer", "google-sheets"],
   "author": "",
@@ -18,4 +19,5 @@
     "googleapis": "^128.0.0"
   }
 }
+
 

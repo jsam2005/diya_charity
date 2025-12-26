@@ -90,7 +90,9 @@ export const FOOTER_CONTENT = {
   copyright: '© 2035 by Diya Charity.',
   poweredBy: 'Powered and secured by Wix',
   links: [
-    { label: 'Privacy Policy', href: '#privacy' },
-    { label: 'Accessibility Statement', href: '#accessibility' }
+    { label: 'Privacy Policy', href: '#privacy', type: 'privacy' },
+    { label: 'Cancellation & Refunds Policy', href: '#cancellation', type: 'cancellation' },
+    { label: 'Legal Disclaimer & Compliance', href: '#legal', type: 'legal' },
+    { label: 'Accessibility Statement', href: '#accessibility', type: 'accessibility' }
   ]
 };

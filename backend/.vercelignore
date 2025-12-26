@@ -1,0 +1,11 @@
+node_modules
+.env
+*.log
+*.md
+test-*.ps1
+check-*.ps1
+create-*.ps1
+SETUP.md
+README.md
+VERCEL_DEPLOYMENT.md
+

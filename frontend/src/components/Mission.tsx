@@ -86,9 +86,6 @@ const Mission: React.FC = () => {
                 return (
                   <div className="space-y-4">
                     <p style={{ ...missionTextStyle }}>
-                      {t('missionDescription')}
-                    </p>
-                    <p style={{ ...missionTextStyle }}>
                       {t('missionQuestion1')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: 'center', fontWeight: 'bold' }}>

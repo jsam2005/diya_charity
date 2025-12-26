@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useForm } from 'react-hook-form';
@@ -18,16 +18,29 @@ const Contact: React.FC = () => {
   });
 
   const { showNotification } = useNotification();
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<ContactFormData>();
+    watch,
+  } = useForm<ContactFormData>({
+    defaultValues: {
+      acceptTerms: false,
+    },
+  });
+
+  const acceptTerms = watch('acceptTerms');
 
   const onSubmit = async (data: ContactFormData) => {
     try {
+      // Log submission attempt (for debugging)
+      if (import.meta.env.DEV) {
+        console.log('Submitting volunteer form:', data);
+      }
+
       // Submit to backend API
       const response = await submitVolunteerForm(data);
       
@@ -39,9 +52,21 @@ const Contact: React.FC = () => {
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : 'Sorry, there was an error sending your message. Please try again.';
+      
+      // More detailed error handling
+      let errorMessage = 'Sorry, there was an error sending your message. Please try again.';
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+        
+        // Check for specific error types
+        if (error.message.includes('Cannot connect') || error.message.includes('fetch')) {
+          errorMessage = 'Cannot connect to server. Please ensure the backend is running and accessible.';
+        } else if (error.message.includes('Network error')) {
+          errorMessage = 'Network error. Please check your internet connection and try again.';
+        }
+      }
+      
       showNotification(errorMessage, 'error');
     }
   };
@@ -320,20 +345,93 @@ const Contact: React.FC = () => {
                 />
               </div>
 
+              {/* Terms & Conditions */}
+              <div className="mb-6">
+                <div
+                  className="border border-gray-300 rounded-lg p-4"
+                  style={{ backgroundColor: '#F9FAFB' }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsTermsOpen(!isTermsOpen)}
+                    className="w-full text-left flex items-center justify-between"
+                    style={{ color: '#1C3F75', fontWeight: 600 }}
+                  >
+                    <span>{t('volunteerTermsTitle')}</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform ${isTermsOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  
+                  {isTermsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-4 space-y-3 text-sm text-gray-700"
+                      style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}
+                    >
+                      <p><strong>{t('volunteerTermsSubtitle')}</strong></p>
+                      <p>{t('volunteerTermsContent')}</p>
+                      <p><strong>{t('volunteerTermsOpportunities')}</strong></p>
+                      <p>{t('volunteerTermsOpportunitiesDesc')}</p>
+                      <p>{t('volunteerTermsMedia')}</p>
+                      <p>{t('volunteerTermsBelongings')}</p>
+                      <p>{t('volunteerTermsLiability')}</p>
+                      <p>{t('volunteerTermsConfidential')}</p>
+                      <p>{t('volunteerTermsConduct')}</p>
+                      <p>{t('volunteerTermsSubstances')}</p>
+                      <p>{t('volunteerTermsStandards')}</p>
+                      <p>{t('volunteerTermsDocumentation')}</p>
+                      <p>{t('volunteerTermsForceMajeure')}</p>
+                      <p>{t('volunteerTermsCancellation')}</p>
+                      <p>{t('volunteerTermsCancellationLiability')}</p>
+                      <p>{t('volunteerTermsConsent')}</p>
+                      <p>{t('volunteerTermsFinal')}</p>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Accept Terms Checkbox */}
+                <div className="mt-4">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      {...register('acceptTerms', {
+                        required: t('acceptTermsRequired'),
+                      })}
+                      className="mt-1 w-5 h-5 text-[#FF8C42] border-gray-300 rounded focus:ring-[#FF8C42]"
+                    />
+                    <span className="text-sm text-gray-700">
+                      {t('acceptTerms')}
+                    </span>
+                  </label>
+                  {errors.acceptTerms && (
+                    <p className="form-error mt-1">{errors.acceptTerms.message}</p>
+                  )}
+                </div>
+              </div>
+
               {/* Submit */}
               <div className="space-y-3">
                 <motion.button
                   type="submit"
-                  disabled={isSubmitting}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting || !acceptTerms}
+                  whileHover={{ scale: acceptTerms ? 1.02 : 1, y: acceptTerms ? -2 : 0 }}
+                  whileTap={{ scale: acceptTerms ? 0.98 : 1 }}
                   className="w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
-                    backgroundColor: '#FF8C42',
+                    backgroundColor: acceptTerms ? '#FF8C42' : '#CCCCCC',
                     color: '#FFFFFF',
                     padding: '15px 30px',
                     borderRadius: '8px',
                     fontWeight: 600,
+                    cursor: acceptTerms ? 'pointer' : 'not-allowed',
                   }}
                 >
                   {isSubmitting ? (
@@ -345,9 +443,6 @@ const Contact: React.FC = () => {
                     t('submitVolunteerApplication')
                   )}
                 </motion.button>
-                <p className="text-sm text-gray-500">
-                  {t('volunteerTerms')}
-                </p>
               </div>
             </form>
             </div>

@@ -30,3 +30,4 @@ if (Test-Path $envFile) {
     Write-Host "❌ .env file not found!" -ForegroundColor Red
 }
 
+
