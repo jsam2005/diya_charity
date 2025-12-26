@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 interface PolicyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: 'privacy' | 'cancellation' | 'legal';
+  type: 'privacy' | 'cancellation' | 'legal' | 'accessibility';
 }
 
 const PolicyModal: React.FC<PolicyModalProps> = ({ isOpen, onClose, type }) => {
@@ -37,6 +37,13 @@ const PolicyModal: React.FC<PolicyModalProps> = ({ isOpen, onClose, type }) => {
           { heading: '', text: t('cancellationPolicyDesc3') },
           { heading: '', text: t('cancellationPolicyDesc4') },
           { heading: '', text: t('cancellationPolicyDesc5') },
+        ],
+      };
+    } else if (type === 'accessibility') {
+      return {
+        title: t('accessibilityStatement'),
+        content: [
+          { heading: '', text: t('accessibilityStatementDesc') },
         ],
       };
     } else {
@@ -75,27 +82,33 @@ const PolicyModal: React.FC<PolicyModalProps> = ({ isOpen, onClose, type }) => {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={(e) => e.stopPropagation()}
+            style={{ paddingTop: '60px', paddingBottom: '20px' }}
           >
             <div
-              className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
-              style={{ backgroundColor: '#FFFFFF' }}
+              className="bg-white rounded-lg shadow-xl max-w-4xl w-full overflow-hidden flex flex-col"
+              style={{ 
+                backgroundColor: '#FFFFFF',
+                maxHeight: 'calc(100vh - 80px)',
+                marginTop: '0'
+              }}
             >
               {/* Header */}
-              <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-[#1C3F75]">{title}</h2>
+              <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1C3F75] pr-2">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  className="text-gray-500 hover:text-gray-700 text-2xl sm:text-3xl font-bold flex-shrink-0"
                   aria-label="Close"
+                  style={{ lineHeight: '1' }}
                 >
                   ×
                 </button>
               </div>
 
               {/* Content */}
-              <div className="px-6 py-4 overflow-y-auto flex-1" style={{ maxHeight: 'calc(90vh - 120px)' }}>
+              <div className="px-4 sm:px-6 py-3 sm:py-4 overflow-y-auto flex-1" style={{ maxHeight: 'calc(100vh - 180px)' }}>
                 <div className="space-y-4 text-gray-700">
                   {content.map((item, index) => (
                     <div key={index}>

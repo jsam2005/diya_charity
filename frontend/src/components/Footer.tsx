@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     triggerOnce: true,
   });
   const { t } = useLanguage();
-  const [openModal, setOpenModal] = useState<'privacy' | 'cancellation' | 'legal' | null>(null);
+  const [openModal, setOpenModal] = useState<'privacy' | 'cancellation' | 'legal' | 'accessibility' | null>(null);
 
   const translateLinkLabel = (label: string) => {
     if (label.toLowerCase().includes('privacy')) return t('privacyPolicy');
@@ -23,8 +23,8 @@ const Footer: React.FC = () => {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: any) => {
     e.preventDefault();
-    if (link.type && ['privacy', 'cancellation', 'legal'].includes(link.type)) {
-      setOpenModal(link.type as 'privacy' | 'cancellation' | 'legal');
+    if (link.type && ['privacy', 'cancellation', 'legal', 'accessibility'].includes(link.type)) {
+      setOpenModal(link.type as 'privacy' | 'cancellation' | 'legal' | 'accessibility');
     }
   };
 
@@ -240,6 +240,11 @@ const Footer: React.FC = () => {
         isOpen={openModal === 'legal'}
         onClose={() => setOpenModal(null)}
         type="legal"
+      />
+      <PolicyModal
+        isOpen={openModal === 'accessibility'}
+        onClose={() => setOpenModal(null)}
+        type="accessibility"
       />
     </footer>
   );
