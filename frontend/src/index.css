@@ -1056,3 +1056,9 @@
 * {
   box-sizing: border-box;
 }
+
+/* Property Donation Content - Override global EB Garamond font */
+.property-donation-content,
+.property-donation-content p {
+  font-family: 'Calibri', 'Calibri', sans-serif !important;
+}

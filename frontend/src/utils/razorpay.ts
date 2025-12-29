@@ -29,6 +29,7 @@ export interface DonationPayload {
   amount: number;
   donationType: 'one-time' | 'monthly';
   customAmount?: string;
+  upiId?: string;
 }
 
 export interface RazorpayOptions {
@@ -235,7 +236,7 @@ export const initOneTimePayment = async (
 };
 
 /**
- * Initialize Razorpay checkout for monthly subscription
+ * Initialize Razorpay checkout for monthly subscription with UPI mandate
  */
 export const initMonthlySubscription = async (
   payload: DonationPayload,
@@ -250,11 +251,21 @@ export const initMonthlySubscription = async (
       key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
       subscription_id: subscriptionId,
       name: 'Diya Charitable Trust',
-      description: `Monthly donation of ₹${payload.amount}`,
+      description: `Monthly donation of ₹${payload.amount} - UPI Auto-debit`,
       prefill: {
         name: payload.name,
         email: payload.email,
         contact: payload.phone,
+      },
+      // Enable UPI AutoPay
+      recurring: {
+        enable: true,
+      },
+      // UPI specific options
+      method: {
+        upi: {
+          flow: 'collect', // For UPI mandate
+        },
       },
       handler: async (response: RazorpayResponse) => {
         // Save subscription details on backend
@@ -295,6 +306,106 @@ export const initMonthlySubscription = async (
 };
 
 /**
+ * Create UPI mandate for auto-debit
+ */
+export const createUPIMandate = async (
+  payload: DonationPayload,
+  subscriptionId: string,
+  onSuccess: (response: RazorpayResponse) => void,
+  onError: (error: any) => void
+): Promise<void> => {
+  try {
+    if (!payload.upiId) {
+      onError(new Error('UPI ID is required for auto-debit'));
+      return;
+    }
+
+    // Create mandate order
+    const response = await fetch('/api/donations/create-upi-mandate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: payload.amount,
+        customerDetails: {
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+        },
+        upiId: payload.upiId,
+        subscriptionId,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to create UPI mandate');
+    }
+
+    const { orderId } = await response.json();
+
+    // Initialize Razorpay checkout for mandate
+    await loadRazorpayScript();
+
+    const options: any = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
+      amount: payload.amount * 100,
+      currency: 'INR',
+      name: 'Diya Charitable Trust',
+      description: `Set up UPI Auto-debit for monthly donation of ₹${payload.amount}`,
+      order_id: orderId,
+      prefill: {
+        name: payload.name,
+        email: payload.email,
+        contact: payload.phone,
+      },
+      // UPI mandate specific options
+      method: {
+        upi: {
+          flow: 'collect',
+          vpa: payload.upiId, // Pre-fill UPI ID
+        },
+      },
+      handler: async (response: RazorpayResponse) => {
+        // Verify and save mandate
+        try {
+          const verifyResponse = await fetch('/api/donations/verify-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...response,
+              donationData: payload,
+            }),
+          });
+
+          if (verifyResponse.ok) {
+            onSuccess(response);
+          } else {
+            onError(new Error('Mandate verification failed'));
+          }
+        } catch (error) {
+          onError(error);
+        }
+      },
+      modal: {
+        ondismiss: () => {
+          onError(new Error('Mandate setup cancelled by user'));
+        },
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  } catch (error) {
+    console.error('Error creating UPI mandate:', error);
+    onError(error);
+  }
+};
+
+/**
  * Process donation based on type
  */
 export const processDonation = async (
@@ -308,10 +419,40 @@ export const processDonation = async (
       const orderId = await createOneTimePayment(payload);
       await initOneTimePayment(payload, orderId, onSuccess, onError);
     } else {
-      // Create plan, then subscription for monthly payment
+      // Monthly donation with UPI auto-debit
+      if (payload.upiId) {
+        // Create plan and subscription first
+        const planId = await createSubscriptionPlan(payload.amount);
+        const subscriptionResponse = await fetch('/api/donations/create-subscription', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            planId,
+            customerDetails: {
+              name: payload.name,
+              email: payload.email,
+              phone: payload.phone,
+            },
+            upiId: payload.upiId,
+          }),
+        });
+
+        if (!subscriptionResponse.ok) {
+          throw new Error('Failed to create subscription');
+        }
+
+        const { subscriptionId } = await subscriptionResponse.json();
+        
+        // Create UPI mandate for auto-debit
+        await createUPIMandate(payload, subscriptionId, onSuccess, onError);
+      } else {
+        // Fallback to regular subscription without UPI mandate
       const planId = await createSubscriptionPlan(payload.amount);
       const subscriptionId = await createSubscription(planId);
       await initMonthlySubscription(payload, subscriptionId, onSuccess, onError);
+      }
     }
   } catch (error) {
     console.error('Error processing donation:', error);

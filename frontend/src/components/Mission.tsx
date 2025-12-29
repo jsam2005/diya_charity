@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath, scrollToElement } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -13,6 +14,7 @@ const Mission: React.FC = () => {
 
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { isMobile } = useDeviceFeatures();
 
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
@@ -81,6 +83,7 @@ const Mission: React.FC = () => {
                   lineHeight: 1.6,
                   color: '#000000',
                   fontWeight: 500,
+                  textAlign: isMobile ? 'justify' : 'left',
                 };
 
                 return (

@@ -63,40 +63,40 @@ const Hero: React.FC = () => {
       }}
     >
       {/* Video Background for both Mobile and Desktop */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        style={{
-          minWidth: '100%',
-          minHeight: '100%',
-          width: 'auto',
-          height: 'auto',
-        }}
-        onLoadedData={() => {
-          if (videoRef.current) {
-            videoRef.current.play().catch((error) => {
-              // Silently handle autoplay restrictions
-              if (import.meta.env.DEV) {
-                console.warn('Video autoplay prevented:', error);
-              }
-            });
-          }
-        }}
-        onError={(e) => {
-          // Handle video loading errors gracefully
-          if (import.meta.env.DEV) {
-            console.warn('Video loading error:', e);
-          }
-        }}
-      >
-        <source src={videoSrc} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          style={{
+            minWidth: '100%',
+            minHeight: '100%',
+            width: 'auto',
+            height: 'auto',
+          }}
+          onLoadedData={() => {
+            if (videoRef.current) {
+              videoRef.current.play().catch((error) => {
+                // Silently handle autoplay restrictions
+                if (import.meta.env.DEV) {
+                  console.warn('Video autoplay prevented:', error);
+                }
+              });
+            }
+          }}
+          onError={(e) => {
+            // Handle video loading errors gracefully
+            if (import.meta.env.DEV) {
+              console.warn('Video loading error:', e);
+            }
+          }}
+        >
+          <source src={videoSrc} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       
       {/* Background Overlay - Very light for better visibility */}
       <div className={`absolute inset-0 z-[1] ${isMobile ? 'bg-black/10' : 'bg-black/20'}`} />

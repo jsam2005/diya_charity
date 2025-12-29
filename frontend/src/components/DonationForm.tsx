@@ -12,6 +12,7 @@ const INITIAL_FORM_STATE = {
   phone: '',
   email: '',
   customAmount: '',
+  upiId: '', // UPI ID for monthly auto-debit
 };
 
 const BANK_DETAILS = [
@@ -52,6 +53,17 @@ const DonationForm: React.FC = () => {
     } catch (err) {
       console.error('Failed to copy UPI ID:', err);
     }
+  };
+
+  const showUPIPaymentInstructions = (amount: number) => {
+    const message = `To complete your donation of ₹${amount}:\n\n` +
+      `1. Open GPay, PhonePe, Paytm, or any UPI app\n` +
+      `2. Send payment to: ${UPI_ID}\n` +
+      `3. Enter amount: ₹${amount}\n` +
+      `4. Add note: "Donation to Diya Charitable Trust"\n\n` +
+      `Or scan the QR code shown on this page.`;
+    
+    alert(message);
   };
 
   const layoutContainerStyle: React.CSSProperties = {
@@ -113,13 +125,21 @@ const DonationForm: React.FC = () => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (name === 'customAmount') {
-      setSelectedAmount(null);
+      // Clear selected amount if user manually edits the custom amount
+      const numValue = Number(value);
+      const isPredefinedAmount = DONATION_AMOUNTS.includes(numValue);
+      if (!isPredefinedAmount) {
+        setSelectedAmount(null);
+      } else {
+        // If the entered value matches a predefined amount, select that button
+        setSelectedAmount(numValue);
+      }
     }
   };
 
   const handleAmountSelect = (amount: number) => {
     setSelectedAmount(amount);
-    setFormData((prev) => ({ ...prev, customAmount: '' }));
+    setFormData((prev) => ({ ...prev, customAmount: amount.toString() }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -131,32 +151,115 @@ const DonationForm: React.FC = () => {
       return;
     }
 
+    // For one-time donations, redirect to GPay/UPI
+    if (donationType === 'one-time') {
+      // Create UPI payment link (works with GPay and all UPI apps)
+      const merchantName = encodeURIComponent('Diya Charitable Trust');
+      const transactionNote = encodeURIComponent(`Donation of ₹${amount} to Diya Charitable Trust`);
+      
+      // Universal UPI link (works with all UPI apps including GPay)
+      const upiLink = `upi://pay?pa=${UPI_ID}&pn=${merchantName}&am=${amount}&cu=INR&tn=${transactionNote}`;
+      
+      // Check if we're on mobile device
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (isMobileDevice) {
+        // On mobile, try to open UPI app
+        // Suppress console errors by wrapping in try-catch
+        try {
+          // Method 1: Try using window.location (most reliable)
+          window.location.href = upiLink;
+          
+          // If that doesn't work, try creating a link element
+          setTimeout(() => {
+            try {
+              const link = document.createElement('a');
+              link.href = upiLink;
+              link.style.display = 'none';
+              document.body.appendChild(link);
+              link.click();
+              setTimeout(() => {
+                if (document.body.contains(link)) {
+                  document.body.removeChild(link);
+                }
+              }, 100);
+            } catch (e) {
+              // Silently fail - user can use QR code or manual payment
+              console.log('UPI app not available. Please use QR code or manual payment.');
+            }
+          }, 100);
+        } catch (error) {
+          // Silently handle - user can use QR code shown on page
+          console.log('Please use the QR code or UPI ID shown on this page to complete payment.');
+        }
+        
+        // Show helpful message
+        setTimeout(() => {
+          alert(
+            `Opening payment app...\n\n` +
+            `If the app doesn't open automatically:\n` +
+            `• Scan the QR code on this page\n` +
+            `• Or send ₹${amount} to: ${UPI_ID}\n` +
+            `• Use any UPI app: GPay, PhonePe, Paytm, etc.`
+          );
+        }, 500);
+      } else {
+        // On desktop, show instructions (UPI apps typically work on mobile)
+        showUPIPaymentInstructions(amount);
+      }
+      
+      return;
+    }
+
+    // For monthly donations, use Razorpay
+    // Validate UPI ID for monthly donations
+    if (donationType === 'monthly' && !formData.upiId) {
+      alert('Please enter your UPI ID to set up automatic monthly donations.');
+      return;
+    }
+
+    // Validate UPI ID format (basic validation)
+    if (donationType === 'monthly' && formData.upiId) {
+      const upiPattern = /^[\w.-]+@[\w]+$/;
+      if (!upiPattern.test(formData.upiId)) {
+        alert('Please enter a valid UPI ID (e.g., yourname@paytm, yourname@ybl, yourname@phonepe)');
+        return;
+      }
+    }
+
+    // Import Razorpay utility
+    const { processDonation } = await import('@/utils/razorpay');
+
     const payload = {
       ...formData,
       amount,
       donationType,
     };
 
-    // For now, log the payload. In production, this will call the payment gateway
-    console.log('Donation submission:', payload);
-
-    if (donationType === 'one-time') {
-      // Handle one-time payment
-      // TODO: Integrate Razorpay one-time payment
-      alert(
-        'Thank you for your willingness to contribute! Our team will reach out shortly for payment processing.'
-      );
+    try {
+      await processDonation(
+        payload,
+        (_response) => {
+          // Success handler
+          if (donationType === 'monthly') {
+            alert(`✅ Monthly donation setup successful! Your UPI ID ${formData.upiId} has been registered for automatic monthly debits of ₹${amount}. You will receive a confirmation email shortly.`);
     } else {
-      // Handle monthly recurring payment
-      // TODO: Integrate Razorpay subscription
-      alert(
-        'Thank you for choosing monthly donations! Our team will reach out shortly to set up your recurring payment.'
-      );
+            alert('✅ Payment successful! Thank you for your donation.');
     }
-
     setFormData(INITIAL_FORM_STATE);
     setSelectedAmount(DONATION_AMOUNTS[2]);
     setDonationType('one-time');
+        },
+        (error) => {
+          // Error handler
+          console.error('Payment error:', error);
+          alert(`Payment failed: ${error.message || 'Please try again.'}`);
+        }
+      );
+    } catch (error) {
+      console.error('Error processing donation:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -385,6 +488,7 @@ const DonationForm: React.FC = () => {
                     </motion.button>
                   </div>
                   {donationType === 'monthly' && (
+                    <>
                     <p style={{ 
                       marginTop: '10px', 
                       fontSize: isMobile ? '13px' : '14px', 
@@ -394,6 +498,31 @@ const DonationForm: React.FC = () => {
                     }}>
                       {t('monthlyDonationNote')}
                     </p>
+                      <div className="space-y-3" style={{ marginTop: '16px' }}>
+                        <label className="block text-[#333333] font-semibold">
+                          {t('upiIdForAutoDebit')} <span style={{ color: '#FF0000' }}>*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="upiId"
+                          value={formData.upiId}
+                          onChange={handleInputChange}
+                          required={donationType === 'monthly'}
+                          placeholder="e.g., yourname@paytm, yourname@ybl, yourname@phonepe"
+                          className="form-input text-lg"
+                          style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
+                        />
+                        <p style={{ 
+                          fontSize: isMobile ? '12px' : '13px', 
+                          color: '#666666', 
+                          fontStyle: 'italic',
+                          lineHeight: 1.4,
+                          marginTop: '4px'
+                        }}>
+                          {t('upiAutoDebitNote')}
+                        </p>
+                      </div>
+                    </>
                   )}
                 </div>
 
@@ -840,25 +969,54 @@ const DonationForm: React.FC = () => {
             }}
           >
             <div
+              className="property-donation-content"
               style={{
                 fontFamily: 'Calibri, sans-serif',
-                fontSize: isMobile ? '18px' : '22px',
-                lineHeight: 1.8,
-                color: '#333333',
-                textAlign: 'left',
-                fontWeight: 600,
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
+                color: '#000000',
+                textAlign: isMobile ? 'justify' : 'left',
+                fontWeight: 500,
               }}
             >
-              <p style={{ marginBottom: '20px', fontWeight: 600 }}>
+              <p style={{ 
+                marginBottom: '20px', 
+                fontWeight: 500, 
+                fontFamily: 'Calibri, sans-serif',
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
+                color: '#000000',
+              }}>
                 {t('propertyDonationPara1')}
               </p>
-              <p style={{ marginBottom: '20px', fontWeight: 600 }}>
+              <p style={{ 
+                marginBottom: '20px', 
+                fontWeight: 500, 
+                fontFamily: 'Calibri, sans-serif',
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
+                color: '#000000',
+              }}>
                 {t('propertyDonationPara2')}
               </p>
-              <p style={{ marginBottom: '20px', fontWeight: 700, color: '#1C3F75', fontSize: isMobile ? '19px' : '23px' }}>
+              <p style={{ 
+                marginBottom: '20px', 
+                fontWeight: 500, 
+                fontFamily: 'Calibri, sans-serif',
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
+                color: '#000000',
+              }}>
                 {t('propertyDonationNote')}
               </p>
-              <p style={{ marginTop: '20px', fontStyle: 'italic', color: '#666666', fontWeight: 600 }}>
+              <p style={{ 
+                marginTop: '20px', 
+                fontWeight: 500, 
+                fontFamily: 'Calibri, sans-serif',
+                fontSize: '1.25rem',
+                lineHeight: 1.6,
+                color: '#000000',
+              }}>
                 {t('propertyDonationContact')}
               </p>
             </div>

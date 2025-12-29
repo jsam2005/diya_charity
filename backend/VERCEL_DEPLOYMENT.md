@@ -222,3 +222,5 @@ If you encounter issues:
 3. Test API endpoints directly
 4. Check Google Sheets permissions
 
+
+

@@ -45,7 +45,7 @@ const Contact: React.FC = () => {
       const response = await submitVolunteerForm(data);
       
       if (response.success) {
-        reset();
+      reset();
         showNotification('Thank you for your volunteer application! We will get back to you soon.', 'success');
       } else {
         throw new Error(response.error || 'Failed to submit form');
