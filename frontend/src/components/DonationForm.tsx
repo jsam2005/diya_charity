@@ -41,8 +41,8 @@ const DonationForm: React.FC = () => {
   const sponsor1 = getAssetPath('assets/sponsors1.jpg');
   const sponsor2 = getAssetPath('assets/sponsors2.jpg');
   const sponsor3 = getAssetPath('assets/sponsors3.jpg');
-  const qrCodeImage = getAssetPath('assets/payment/qr.jpg');
-  const paymentOptionsImage = getAssetPath('assets/payment/payement_option.png');
+  const qrCodeImage = getAssetPath('assets/payment/general_donation/qr.png');
+  const paymentOptionsImage = getAssetPath('assets/payment/general_donation/payement_option.png');
   const UPI_ID = 'diyacharitabletrust.82130163@hdfcbank';
 
   const handleCopyUPI = async () => {
@@ -153,6 +153,26 @@ const DonationForm: React.FC = () => {
 
     // For one-time donations, redirect to GPay/UPI
     if (donationType === 'one-time') {
+      // Save donor details to Google Sheets before redirecting
+      try {
+        await fetch('/api/donations/save-upi-donation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            amount: amount,
+            donationType: 'one-time',
+          }),
+        });
+      } catch (error) {
+        console.error('Failed to save donor details:', error);
+        // Continue with payment flow even if save fails
+      }
+      
       // Create UPI payment link (works with GPay and all UPI apps)
       const merchantName = encodeURIComponent('Diya Charitable Trust');
       const transactionNote = encodeURIComponent(`Donation of ₹${amount} to Diya Charitable Trust`);
@@ -338,7 +358,7 @@ const DonationForm: React.FC = () => {
               >
                 {t('taxBenefitDesc')}{' '}
                 <a
-                  href="https://wa.me/9894728646?text=I%20have%20donated%20and%20would%20like%20to%20share%20my%20PAN%20for%2080G%20receipt."
+                  href="https://wa.me/9445205771?text=I%20have%20donated%20and%20would%20like%20to%20share%20my%20PAN%20for%2080G%20receipt."
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#2563EB', textDecoration: 'underline', fontWeight: 600 }}
@@ -1043,7 +1063,7 @@ const DonationForm: React.FC = () => {
           >
             <h2 style={{
               fontFamily: "'Poppins', 'EB Garamond', serif",
-              fontSize: '2.5rem',
+              fontSize: isMobile ? '1.5rem' : '2.5rem',
               color: '#1C3F75',
               textAlign: 'center',
               marginTop: '20px',

@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const { isMobile } = useDeviceFeatures();
 
-  const languages: Language[] = ['en', 'ta', 'hi'];
+  const languages: Language[] = ['en', 'ta'];
 
   const handleLanguageChange = (langCode: Language) => {
     setLanguage(langCode);
@@ -339,7 +339,8 @@ const Header: React.FC = () => {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            padding: '0 15px'
+            padding: '0 15px',
+            position: 'relative'
           }}
         >
           {/* Logo Container */}
@@ -361,36 +362,135 @@ const Header: React.FC = () => {
               }}
             />
           </div>
-          {/* Mobile Menu Icon */}
-          <motion.button
-            onClick={toggleMobileMenu}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#1C3F75',
-              minWidth: '44px',
-              minHeight: '44px',
-              zIndex: 100,
-              position: 'relative'
-            }}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? (
-              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </motion.button>
+          
+          {/* Right Side - Language Button and Menu Icon */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '12px' 
+          }}>
+            {/* Language Switch Button - Circular */}
+            <motion.button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                backgroundColor: '#1C3F75',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                fontSize: '20px',
+                fontWeight: 700,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                position: 'relative',
+                zIndex: 10001
+              }}
+              aria-label="Switch language"
+              data-language-selector
+            >
+              🌐
+            </motion.button>
+
+            {/* Language Dropdown for Mobile */}
+            <AnimatePresence>
+              {isLanguageDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    right: '60px',
+                    marginTop: '8px',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                    border: '1px solid #E5E7EB',
+                    overflow: 'hidden',
+                    minWidth: '140px',
+                    zIndex: 10002
+                  }}
+                >
+                  {languages.map((langCode) => (
+                    <button
+                      key={langCode}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLanguageChange(langCode);
+                      }}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '12px 16px',
+                        border: 'none',
+                        backgroundColor: language === langCode ? '#F3F4F6' : '#FFFFFF',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        fontWeight: language === langCode ? 700 : 500,
+                        color: '#1C3F75',
+                        transition: 'background-color 0.2s',
+                        borderBottom: langCode !== languages[languages.length - 1] ? '1px solid #F3F4F6' : 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (language !== langCode) {
+                          e.currentTarget.style.backgroundColor = '#F9FAFB';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (language !== langCode) {
+                          e.currentTarget.style.backgroundColor = '#FFFFFF';
+                        }
+                      }}
+                    >
+                      {getLanguageName(langCode)}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Mobile Menu Icon */}
+            <motion.button
+              onClick={toggleMobileMenu}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#1C3F75',
+                minWidth: '44px',
+                minHeight: '44px',
+                zIndex: 100,
+                position: 'relative'
+              }}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </motion.button>
+          </div>
         </div>
         )}
 
@@ -552,22 +652,28 @@ const Header: React.FC = () => {
           color: '#FFFFFF',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          overflow: 'hidden',
           fontSize: '14px',
           zIndex: 9997
         }}
       >
-        <p
+        <div
           style={{
-            margin: 0,
+            display: 'flex',
             whiteSpace: 'nowrap',
-            animation: 'hero-ticker 18s linear infinite',
-            color: '#FFFFFF',
-            fontWeight: 600
+            animation: 'hero-ticker 40s linear infinite'
           }}
         >
-          RUNNING LINE PLACEHOLDER
-        </p>
+          <span style={{ color: '#FFFFFF', fontWeight: 600, marginRight: '50px' }}>
+            {t('runningLine')}
+          </span>
+          <span style={{ color: '#FFFFFF', fontWeight: 600, marginRight: '50px' }}>
+            {t('runningLine')}
+          </span>
+          <span style={{ color: '#FFFFFF', fontWeight: 600 }}>
+            {t('runningLine')}
+          </span>
+        </div>
       </div>
 
       {/* Spacer to prevent overlap with content */}

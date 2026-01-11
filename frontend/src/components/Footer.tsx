@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { CONTACT_INFO, FOOTER_CONTENT } from '@/data/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
-import PolicyModal from './PolicyModal';
 
 const Footer: React.FC = () => {
   const [ref, inView] = useInView({
@@ -11,7 +10,6 @@ const Footer: React.FC = () => {
     triggerOnce: true,
   });
   const { t } = useLanguage();
-  const [openModal, setOpenModal] = useState<'privacy' | 'cancellation' | 'legal' | 'accessibility' | null>(null);
 
   const translateLinkLabel = (label: string) => {
     if (label.toLowerCase().includes('privacy')) return t('privacyPolicy');
@@ -22,10 +20,8 @@ const Footer: React.FC = () => {
   };
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: any) => {
-    e.preventDefault();
-    if (link.type && ['privacy', 'cancellation', 'legal', 'accessibility'].includes(link.type)) {
-      setOpenModal(link.type as 'privacy' | 'cancellation' | 'legal' | 'accessibility');
-    }
+    // Open in new tab - no preventDefault needed
+    // Links will open in new tab via target="_blank"
   };
 
   return (
@@ -66,7 +62,7 @@ const Footer: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-gray-100 font-medium">{CONTACT_INFO.phone}</p>
+                    <p className="text-gray-100 font-medium">9342767239</p>
                     <p className="text-sm text-gray-300">{t('mondayFriday')}</p>
                   </div>
                 </div>
@@ -90,7 +86,7 @@ const Footer: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-gray-100 font-medium">{t('emergency')}</p>
-                    <p className="text-sm text-gray-300">9445205771</p>
+                    <p className="text-sm text-gray-300">9342767239</p>
                   </div>
                 </div>
               </div>
@@ -144,17 +140,23 @@ const Footer: React.FC = () => {
               <div className="space-y-3">
                 <div>
                   <div className="space-y-1">
-                    {FOOTER_CONTENT.links.map((link, index) => (
-                      <motion.a
-                        key={index}
-                        href={link.href}
-                        onClick={(e) => handleLinkClick(e, link)}
-                        whileHover={{ x: 5 }}
-                        className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
-                      >
-                        {translateLinkLabel(link.label)}
-                      </motion.a>
-                    ))}
+                    {FOOTER_CONTENT.links.map((link, index) => {
+                      // Create absolute URL for Razorpay setup
+                      const absoluteUrl = `${window.location.origin}${link.href}`;
+                      return (
+                        <motion.a
+                          key={index}
+                          href={absoluteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => handleLinkClick(e, link)}
+                          whileHover={{ x: 5 }}
+                          className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
+                        >
+                          {translateLinkLabel(link.label)}
+                        </motion.a>
+                      );
+                    })}
                   </div>
                 </div>
                 <div>
@@ -200,52 +202,15 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="mt-12 pt-8 border-t border-gray-300"
           >
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex justify-center items-center">
               <p className="text-sm text-gray-200">
-                {t('footerCopyright')}
-              </p>
-              <p className="text-sm text-gray-200">
-                {t('footerPoweredBy').split(' ').map((word, index) =>
-                  word === 'Wix' ? (
-                    <motion.a
-                      key={index}
-                      href="#"
-                      whileHover={{ scale: 1.05 }}
-                      className="underline hover:text-primary-500 transition-colors duration-300"
-                    >
-                      {word}
-                    </motion.a>
-                  ) : (
-                    <span key={index}>{word} </span>
-                  )
-                )}
+                All Rights Reserved 2024 / Powered By DFC
               </p>
             </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Policy Modals */}
-      <PolicyModal
-        isOpen={openModal === 'privacy'}
-        onClose={() => setOpenModal(null)}
-        type="privacy"
-      />
-      <PolicyModal
-        isOpen={openModal === 'cancellation'}
-        onClose={() => setOpenModal(null)}
-        type="cancellation"
-      />
-      <PolicyModal
-        isOpen={openModal === 'legal'}
-        onClose={() => setOpenModal(null)}
-        type="legal"
-      />
-      <PolicyModal
-        isOpen={openModal === 'accessibility'}
-        onClose={() => setOpenModal(null)}
-        type="accessibility"
-      />
     </footer>
   );
 };

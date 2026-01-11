@@ -1,6 +1,6 @@
-# Diya Charity - React TypeScript Website
+# Diya Charitable Trust - React TypeScript Website
 
-A modern, production-ready React TypeScript website for Diya Charity built with Vite, featuring a clean, nature-inspired design that's fully responsive for both desktop and mobile devices.
+A modern, production-ready React TypeScript website for Diya Charitable Trust built with Vite, featuring a clean, nature-inspired design that's fully responsive for both desktop and mobile devices.
 
 ## 🚀 Features
 
@@ -245,7 +245,7 @@ The built application can be deployed to any static hosting service:
 
 ## 📄 License
 
-This project is created for Diya Charity. All rights reserved.
+This project is created for Diya Charitable Trust. All rights reserved.
 
 ## 🤝 Contributing
 

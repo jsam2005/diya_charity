@@ -109,7 +109,7 @@ const Hero: React.FC = () => {
         className={`absolute left-0 right-0 text-center w-full px-3 md:px-4`}
         style={{ 
           opacity: 1,
-          top: isMobile ? `${NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT + 100}px` : '50px',
+          top: isMobile ? `${NAVBAR_HEIGHT + RUNNING_LINE_HEIGHT + 30}px` : '50px',
           zIndex: 20,
           transition: 'top 0.3s ease'
         }}

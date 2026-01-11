@@ -41,7 +41,7 @@ const GoogleTranslate: React.FC = () => {
               new window.google.translate.TranslateElement(
                 {
                   pageLanguage: 'en',
-                  includedLanguages: 'en,ta,hi',
+                  includedLanguages: 'en,ta',
                   layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
                   autoDisplay: false,
                 },

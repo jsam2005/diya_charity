@@ -258,3 +258,8 @@ Examples:
 **Note**: This implementation uses Razorpay's UPI eMandate feature, which is similar to how JioStar, Netflix, and other subscription services work. Once the mandate is approved, payments are automatically processed each month without requiring donor intervention.
 
 
+
+
+
+
+

@@ -213,3 +213,170 @@ async function getSheetId(spreadsheetId, sheetName) {
   }
 }
 
+/**
+ * Submit donor details to Google Sheets
+ * @param {Object} donorData - Donor and payment data
+ * @returns {Promise<Object>} Result of the operation
+ */
+export async function submitDonorDetails(donorData) {
+  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+  const sheetName = process.env.GOOGLE_DONOR_SHEET_NAME || 'Donors';
+
+  if (!spreadsheetId) {
+    throw new Error('GOOGLE_SHEET_ID is not configured');
+  }
+
+  // Format the data as a row
+  const timestamp = new Date().toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    dateStyle: 'short',
+    timeStyle: 'medium'
+  });
+
+  const row = [
+    timestamp,
+    donorData.name || '',
+    donorData.email || '',
+    donorData.phone || '',
+    donorData.amount || '',
+    donorData.donationType || '',
+    donorData.upiId || '',
+    donorData.razorpay_payment_id || '',
+    donorData.razorpay_order_id || '',
+    donorData.razorpay_subscription_id || '',
+    'Success', // Payment status
+  ];
+
+  try {
+    // First, check if sheet exists and has headers
+    const sheetExists = await checkSheetExists(spreadsheetId, sheetName);
+    
+    if (!sheetExists) {
+      // Create sheet with headers
+      await createDonorSheetWithHeaders(spreadsheetId, sheetName);
+    }
+
+    // Check if headers exist
+    const hasHeaders = await checkDonorHeadersExist(spreadsheetId, sheetName);
+    
+    if (!hasHeaders) {
+      // Add headers
+      await addDonorHeaders(spreadsheetId, sheetName);
+    }
+
+    // Append the row
+    const response = await sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range: `${sheetName}!A:K`,
+      valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
+      resource: {
+        values: [row],
+      },
+    });
+
+    return {
+      success: true,
+      updatedRows: response.data.updates?.updatedRows || 0,
+      spreadsheetId,
+      sheetName,
+    };
+  } catch (error) {
+    console.error('Error writing donor details to Google Sheets:', error);
+    throw new Error(`Failed to write donor details to Google Sheets: ${error.message}`);
+  }
+}
+
+/**
+ * Create a new donor sheet with headers
+ */
+async function createDonorSheetWithHeaders(spreadsheetId, sheetName) {
+  try {
+    await sheets.spreadsheets.batchUpdate({
+      spreadsheetId,
+      resource: {
+        requests: [
+          {
+            addSheet: {
+              properties: {
+                title: sheetName,
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    // Add headers
+    await addDonorHeaders(spreadsheetId, sheetName);
+  } catch (error) {
+    console.error('Error creating donor sheet:', error);
+    throw error;
+  }
+}
+
+/**
+ * Check if donor sheet headers exist
+ */
+async function checkDonorHeadersExist(spreadsheetId, sheetName) {
+  try {
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${sheetName}!A1:K1`,
+    });
+
+    const headers = response.data.values?.[0] || [];
+    const expectedHeaders = [
+      'Timestamp',
+      'Name',
+      'Email',
+      'Phone',
+      'Amount',
+      'Donation Type',
+      'UPI ID',
+      'Payment ID',
+      'Order ID',
+      'Subscription ID',
+      'Status',
+    ];
+
+    return headers.length > 0 && headers[0] === expectedHeaders[0];
+  } catch (error) {
+    // If range doesn't exist, headers don't exist
+    return false;
+  }
+}
+
+/**
+ * Add headers to the donor sheet
+ */
+async function addDonorHeaders(spreadsheetId, sheetName) {
+  const headers = [
+    'Timestamp',
+    'Name',
+    'Email',
+    'Phone',
+    'Amount',
+    'Donation Type',
+    'UPI ID',
+    'Payment ID',
+    'Order ID',
+    'Subscription ID',
+    'Status',
+  ];
+
+  try {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: `${sheetName}!A1:K1`,
+      valueInputOption: 'USER_ENTERED',
+      resource: {
+        values: [headers],
+      },
+    });
+  } catch (error) {
+    console.error('Error adding donor headers:', error);
+    throw error;
+  }
+}
+

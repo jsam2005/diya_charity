@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Diya Charity Website Installation Script
+# Diya Charitable Trust Website Installation Script
 
-echo "🌱 Installing Diya Charity Website..."
+echo "🌱 Installing Diya Charitable Trust Website..."
 echo "=================================="
 
 # Check if Node.js is installed

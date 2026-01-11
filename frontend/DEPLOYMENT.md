@@ -1,6 +1,6 @@
 # 🚀 GitHub Pages Deployment Guide
 
-This guide will help you deploy your Diya Charity website to GitHub Pages.
+This guide will help you deploy your Diya Charitable Trust website to GitHub Pages.
 
 ## 📋 Prerequisites
 
@@ -29,7 +29,7 @@ git init
 git add .
 
 # Commit your changes
-git commit -m "Initial commit: Diya Charity website"
+git commit -m "Initial commit: Diya Charitable Trust website"
 
 # Add your GitHub repository as remote
 git remote add origin https://github.com/[your-username]/DiyaWeb.git
@@ -133,6 +133,6 @@ If you encounter any issues:
 
 ## 🎉 Success!
 
-Once deployed, your Diya Charity website will be live and accessible worldwide!
+Once deployed, your Diya Charitable Trust website will be live and accessible worldwide!
 
 **Website URL**: `https://[your-username].github.io/DiyaWeb/`

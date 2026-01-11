@@ -8,7 +8,7 @@
 :root {
   --vh: 1vh;
   
-  /* Colors - Diya Charity Palette */
+  /* Colors - Diya Charitable Trust Palette */
   /* Primary: Deep Corporate Blue (Trust) */
   --color-primary: #1C3F75;
   /* Secondary: Vibrant Teal (Growth/Hope) */
@@ -1003,10 +1003,10 @@
 
 @keyframes hero-ticker {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(calc(-33.33% - 50px));
   }
 }
 

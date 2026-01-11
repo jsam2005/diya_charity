@@ -11,17 +11,17 @@ export const NAV_ITEMS: NavItem[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
-    quote: "Diya Charity has transformed our community by providing free education to our children. They truly light up lives!",
+    quote: "Diya Charitable Trust has transformed our community by providing free education to our children. They truly light up lives!",
     author: 'Vijaya'
   },
   {
     id: '2',
-    quote: "The healthcare camps organized by Diya Charity have been a blessing for our village. We are forever grateful.",
+    quote: "The healthcare camps organized by Diya Charitable Trust have been a blessing for our village. We are forever grateful.",
     author: 'Kannan'
   },
   {
     id: '3',
-    quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charity!",
+    quote: "Through their women empowerment programs, I learned skills that helped me start my own business. Thank you Diya Charitable Trust!",
     author: 'Kaviya'
   }
 ];
@@ -52,7 +52,7 @@ export const PROCESS_ITEMS: ProcessItem[] = [
 
 // Contact information
 export const CONTACT_INFO: ContactInfo = {
-  phone: '9445205771',
+  phone: '9342767239',
   email: 'dctnow.ngo@gmail.com',
   address: {
     street: '2/43, Veteran Lines, Pallavaram',
@@ -65,8 +65,8 @@ export const CONTACT_INFO: ContactInfo = {
 // Mission content
 export const MISSION_CONTENT = {
   title: 'Our Mission',
-  description: `At Diya Charity, we are a newly established NGO dedicated to serving society through comprehensive social welfare programs. Our mission is to illuminate lives and bring hope to underserved communities through education, healthcare, women's empowerment, and environmental sustainability. Like a diya (lamp) that dispels darkness, we strive to light up the path towards a better tomorrow for all.`,
-  aboutUs: `Founded in 2024, Diya Charity emerged from a simple yet powerful vision: to be the light that guides communities out of darkness. As a startup NGO, we believe that every individual deserves access to quality education, healthcare, and opportunities for growth. Our name "Diya" symbolizes the light of hope, knowledge, and compassion that we bring to every life we touch.`,
+  description: `At Diya Charitable Trust, we are a newly established NGO dedicated to serving society through comprehensive social welfare programs. Our mission is to illuminate lives and bring hope to underserved communities through education, healthcare, women's empowerment, and environmental sustainability. Like a diya (lamp) that dispels darkness, we strive to light up the path towards a better tomorrow for all.`,
+  aboutUs: `Founded in 2024, Diya Charitable Trust emerged from a simple yet powerful vision: to be the light that guides communities out of darkness. As a startup NGO, we believe that every individual deserves access to quality education, healthcare, and opportunities for growth. Our name "Diya" symbolizes the light of hope, knowledge, and compassion that we bring to every life we touch.`,
   vision: `To create a world where no one is left behind, where every child has access to education, every family has healthcare, and every woman has the power to shape her own destiny.`,
   values: `Compassion, Integrity, Transparency, and Service to Humanity are the core values that guide everything we do.`
 };
@@ -86,13 +86,13 @@ export const CONTACT_CONTENT = {
 
 // Footer content
 export const FOOTER_CONTENT = {
-  organizationName: 'Diya Charity',
-  copyright: '© 2035 by Diya Charity.',
+  organizationName: 'Diya Charitable Trust',
+  copyright: '© 2035 by Diya Charitable Trust.',
   poweredBy: 'Powered and secured by Wix',
   links: [
-    { label: 'Privacy Policy', href: '#privacy', type: 'privacy' },
-    { label: 'Cancellation & Refunds Policy', href: '#cancellation', type: 'cancellation' },
-    { label: 'Legal Disclaimer & Compliance', href: '#legal', type: 'legal' },
-    { label: 'Accessibility Statement', href: '#accessibility', type: 'accessibility' }
+    { label: 'Privacy Policy', href: '/privacy-policy', type: 'privacy' },
+    { label: 'Cancellation & Refunds Policy', href: '/cancellation-policy', type: 'cancellation' },
+    { label: 'Legal Disclaimer & Compliance', href: '/legal-disclaimer', type: 'legal' },
+    { label: 'Accessibility Statement', href: '/accessibility-statement', type: 'accessibility' }
   ]
 };

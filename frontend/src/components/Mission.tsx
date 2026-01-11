@@ -91,16 +91,16 @@ const Mission: React.FC = () => {
                     <p style={{ ...missionTextStyle }}>
                       {t('missionQuestion1')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'center', fontWeight: 'bold' }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'left', fontWeight: 'bold' }}>
                       {t('missionComfort')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'center' }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'left' }}>
                       {t('missionInvitation')}
                     </p>
                     <p style={{ ...missionTextStyle }}>
                       {t('missionAnonymous')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'center' }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'left' }}>
                       {t('missionActions')}
                     </p>
                   </div>
@@ -159,15 +159,15 @@ const Mission: React.FC = () => {
             </div>
 
             {/* Content Container Overlay - Overlaps bottom half of image */}
-            <div className="relative -mt-12 md:-mt-24 z-10 bg-transparent py-10 md:py-16 px-4 md:px-5 max-w-[1400px] mx-auto">
+            <div className="relative -mt-12 md:-mt-24 z-10 bg-transparent py-10 md:py-16 px-4 md:px-6 max-w-[100%] mx-auto">
               {/* Compliance Credentials Logos - Centered Grid */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="flex justify-center items-center w-full px-4 md:px-0"
+                className="flex justify-center items-center w-full"
               >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-[25px] w-full max-w-[1200px] mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 w-full max-w-[95%] mx-auto">
                   {complianceCards.map((card, index) => (
                     <motion.div
                       key={card.id}
@@ -176,12 +176,18 @@ const Mission: React.FC = () => {
                         inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
                       }
                       transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
-                      className="bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] p-10 md:p-[30px] flex items-center justify-center min-h-[160px] md:min-h-[160px]"
+                      className="bg-white rounded-[12px] shadow-[0_5px_20px_rgba(0,0,0,0.08)] p-2 md:p-3 flex items-center justify-center min-h-[160px] md:min-h-[180px] overflow-hidden"
                     >
                       <img
                         src={card.logo}
                         alt={card.alt}
-                        className="max-h-[120px] md:max-h-[100px] w-full object-contain"
+                        className="w-full h-full object-contain"
+                        style={{ 
+                          minHeight: '160px',
+                          maxHeight: '100%',
+                          width: '100%',
+                          height: 'auto'
+                        }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';

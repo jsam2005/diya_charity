@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import { submitVolunteerForm } from './services/googleSheets.js';
+import { submitVolunteerForm, submitDonorDetails } from './services/googleSheets.js';
 
 dotenv.config();
 
@@ -29,6 +29,53 @@ app.use(express.json());
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
+});
+
+// Save one-time UPI donation details (before redirecting to UPI app)
+app.post('/api/donations/save-upi-donation', async (req, res) => {
+  try {
+    const { name, email, phone, amount, donationType } = req.body;
+    
+    // Validate required fields
+    if (!name || !email || !amount) {
+      return res.status(400).json({
+        success: false,
+        error: 'Name, email, and amount are required'
+      });
+    }
+
+    // Save donor details to Google Sheets
+    const donorDataToSave = {
+      name,
+      email,
+      phone: phone || '',
+      amount,
+      donationType: donationType || 'one-time',
+      upiId: '',
+      razorpay_payment_id: '',
+      razorpay_order_id: '',
+      razorpay_subscription_id: '',
+    };
+    
+    try {
+      await submitDonorDetails(donorDataToSave);
+      console.log('✅ One-time UPI donor details saved to Google Sheets');
+    } catch (error) {
+      console.error('⚠️ Failed to save one-time UPI donor details:', error);
+      // Don't fail the request if Google Sheets save fails
+    }
+    
+    res.json({
+      success: true,
+      message: 'Donor details saved successfully'
+    });
+  } catch (error) {
+    console.error('Error saving one-time UPI donation:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to save donation details'
+    });
+  }
 });
 
 // Volunteer form submission endpoint
@@ -308,9 +355,21 @@ app.post('/api/donations/verify-payment', async (req, res) => {
       .digest('hex');
 
     if (generated_signature === razorpay_signature) {
-      // Payment verified - save to database
-      // TODO: Save donationData to your database
-      console.log('Payment verified:', donationData);
+      // Payment verified - save donor details to Google Sheets
+      try {
+        const donorDataToSave = {
+          ...donationData,
+          razorpay_payment_id: razorpay_payment_id,
+          razorpay_order_id: razorpay_order_id,
+        };
+        
+        await submitDonorDetails(donorDataToSave);
+        console.log('✅ Donor details saved to Google Sheets');
+      } catch (error) {
+        console.error('⚠️ Failed to save donor details to Google Sheets:', error);
+        // Don't fail the payment verification if Google Sheets save fails
+      }
+      
       res.json({
         success: true,
         status: 'success',
@@ -360,12 +419,21 @@ app.post('/api/donations/save-subscription', async (req, res) => {
       }
     }
 
-    // TODO: Save subscription to database
-    // Store: subscription_id, donor details, amount, start_date, status, upi_id
-    console.log('Subscription saved:', {
-      subscription_id: razorpay_subscription_id,
-      donationData
-    });
+    // Save subscription and donor details to Google Sheets
+    try {
+      const donorDataToSave = {
+        ...donationData,
+        razorpay_subscription_id: razorpay_subscription_id,
+        razorpay_payment_id: razorpay_payment_id || '',
+        razorpay_order_id: '',
+      };
+      
+      await submitDonorDetails(donorDataToSave);
+      console.log('✅ Subscription and donor details saved to Google Sheets');
+    } catch (error) {
+      console.error('⚠️ Failed to save subscription details to Google Sheets:', error);
+      // Don't fail the subscription save if Google Sheets save fails
+    }
     
     res.json({
       success: true,

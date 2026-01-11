@@ -29,7 +29,7 @@ git init
 git add .
 
 # Commit
-git commit -m "Initial commit: Diya Charity website"
+git commit -m "Initial commit: Diya Charitable Trust website"
 
 # Add remote
 git remote add origin https://github.com/jsam2005/diya_charity.git
@@ -69,6 +69,6 @@ deploy.bat
 ```
 
 ### 🎉 Success!
-Your Diya Charity website will be live and accessible worldwide!
+Your Diya Charitable Trust website will be live and accessible worldwide!
 
 **Need help?** Check the full `DEPLOYMENT.md` guide for detailed instructions.

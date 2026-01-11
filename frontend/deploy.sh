@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# GitHub Pages Deployment Script for Diya Charity Website
+# GitHub Pages Deployment Script for Diya Charitable Trust Website
 
 echo "🚀 Starting GitHub Pages deployment..."
 

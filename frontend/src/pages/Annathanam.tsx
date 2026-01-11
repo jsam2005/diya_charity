@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
@@ -7,11 +7,17 @@ import ScrollToTop from '@/components/ScrollToTop';
 import ViewportMeta from '@/components/ViewportMeta';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
+import AnnathanamDonationForm from '@/components/AnnathanamDonationForm';
 
 const Annathanam: React.FC = () => {
     const { t } = useLanguage();
     const navigate = useNavigate();
     const { isMobile } = useDeviceFeatures();
+    
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }, []);
     
     return (
         <>
@@ -86,6 +92,85 @@ const Annathanam: React.FC = () => {
                             </div>
                         </div>
                     </div>
+                    
+                    {/* Donation Table */}
+                    <div className="max-w-4xl mx-auto mt-8 mb-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <table
+                                style={{
+                                    width: '100%',
+                                    borderCollapse: 'collapse',
+                                    border: '1px solid #E0E0E0',
+                                    borderRadius: '8px',
+                                    overflow: 'hidden',
+                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                                    backgroundColor: '#FFFFFF'
+                                }}
+                            >
+                                <thead>
+                                    <tr style={{ backgroundColor: '#1C3F75' }}>
+                                        <th
+                                            style={{
+                                                padding: isMobile ? '12px 10px' : '15px',
+                                                textAlign: 'left',
+                                                color: '#FFFFFF',
+                                                fontWeight: 600,
+                                                fontSize: isMobile ? '14px' : '16px',
+                                                borderRight: '1px solid rgba(255, 255, 255, 0.2)'
+                                            }}
+                                        >
+                                            Donation
+                                        </th>
+                                        <th
+                                            style={{
+                                                padding: isMobile ? '12px 10px' : '15px',
+                                                textAlign: 'left',
+                                                color: '#FFFFFF',
+                                                fontWeight: 600,
+                                                fontSize: isMobile ? '14px' : '16px'
+                                            }}
+                                        >
+                                            Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style={{ backgroundColor: '#FFFFFF' }}>
+                                        <td
+                                            style={{
+                                                padding: isMobile ? '12px 10px' : '15px',
+                                                borderRight: '1px solid #E0E0E0',
+                                                borderTop: '1px solid #E0E0E0',
+                                                color: '#333333',
+                                                fontSize: isMobile ? '14px' : '16px',
+                                                fontWeight: 500
+                                            }}
+                                        >
+                                            Lunch
+                                        </td>
+                                        <td
+                                            style={{
+                                                padding: isMobile ? '12px 10px' : '15px',
+                                                borderTop: '1px solid #E0E0E0',
+                                                color: '#333333',
+                                                fontSize: isMobile ? '14px' : '16px',
+                                                fontWeight: 600
+                                            }}
+                                        >
+                                            ₹ 1,600
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </motion.div>
+                    </div>
+                    
+                    {/* Donation Form Section */}
+                    <AnnathanamDonationForm />
                 </main>
                 <Footer />
                 <ScrollToTop />
