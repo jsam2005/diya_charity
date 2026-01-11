@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
     return label;
   };
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: any) => {
+  const handleLinkClick = () => {
     // Open in new tab - no preventDefault needed
     // Links will open in new tab via target="_blank"
   };
@@ -149,7 +149,7 @@ const Footer: React.FC = () => {
                           href={absoluteUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => handleLinkClick(e, link)}
+                          onClick={handleLinkClick}
                           whileHover={{ x: 5 }}
                           className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
                         >
