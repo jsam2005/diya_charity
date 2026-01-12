@@ -111,7 +111,7 @@ const Mission: React.FC = () => {
                     <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionQuestion1')}
                     </p>
-                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: textAlignment as any }}>
+                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center' }}>
                       {t('missionComfort')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
@@ -127,35 +127,12 @@ const Mission: React.FC = () => {
                 );
               })()}
 
-              {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="flex flex-wrap justify-center gap-6 md:gap-10 mt-10"
-              >
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => scrollToElement('contact')}
-                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
-                >
-                  {t('volunteer')}
-                </motion.button>
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => scrollToElement('donation')}
-                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
-                >
-                  {t('donate')}
-                </motion.button>
-              </motion.div>
-
               {/* Property Donation Content Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="mt-10 pt-8 border-t border-gray-300"
+                className="mt-6"
                 style={{
                   textAlign: (isMobile && language === 'ta') ? 'left' : 'justify',
                 }}
@@ -202,6 +179,29 @@ const Mission: React.FC = () => {
                     </div>
                   );
                 })()}
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                className="flex flex-wrap justify-center gap-6 md:gap-10 mt-6"
+              >
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToElement('contact')}
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
+                >
+                  {t('volunteer')}
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToElement('donation')}
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white min-w-[200px] max-w-[300px]"
+                >
+                  {t('donate')}
+                </motion.button>
               </motion.div>
             </motion.div>
           </div>
