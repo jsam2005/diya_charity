@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { scrollToElement, getAssetPath } from '@/utils';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
@@ -11,8 +11,6 @@ const Hero: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
   const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
   const handleScrollDown = () => {
     scrollToElement('about');
@@ -34,22 +32,13 @@ const Hero: React.FC = () => {
   
   const videoSrc = getAssetPath('bg.mp4');
   
-  // Start loading video immediately but with optimized preload
+  // Optimized video loading - start loading immediately
   useEffect(() => {
-    setShouldLoadVideo(true);
-  }, []);
-
-  // Optimized video loading - only load metadata first, then play
-  useEffect(() => {
-    if (videoRef.current && shouldLoadVideo) {
+    if (videoRef.current) {
       const video = videoRef.current;
       
-      // Load video metadata first (faster)
-      video.load();
-      
-      // Once metadata is loaded, start playing
+      // Start playing as soon as possible
       const handleCanPlay = () => {
-        setVideoLoaded(true);
         video.play().catch((error) => {
           // Silently handle autoplay restrictions
           if (import.meta.env.DEV) {
@@ -58,14 +47,13 @@ const Hero: React.FC = () => {
         });
       };
 
-      // Use canplay event for better performance
       video.addEventListener('canplay', handleCanPlay, { once: true });
       
       return () => {
         video.removeEventListener('canplay', handleCanPlay);
       };
     }
-  }, [shouldLoadVideo]);
+  }, []);
 
   return (
     <section
@@ -78,59 +66,41 @@ const Hero: React.FC = () => {
       }}
     >
       {/* Video Background for both Mobile and Desktop */}
-      {shouldLoadVideo && (
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          style={{
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            opacity: videoLoaded ? 1 : 0,
-            transition: 'opacity 0.5s ease-in',
-          }}
-          onCanPlay={() => {
-            setVideoLoaded(true);
-          }}
-          onLoadedData={() => {
-            setVideoLoaded(true);
-            if (videoRef.current) {
-              videoRef.current.play().catch((error) => {
-                // Silently handle autoplay restrictions
-                if (import.meta.env.DEV) {
-                  console.warn('Video autoplay prevented:', error);
-                }
-              });
-            }
-          }}
-          onError={(e) => {
-            // Handle video loading errors gracefully
-            if (import.meta.env.DEV) {
-              console.warn('Video loading error:', e);
-            }
-          }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
-      
-      {/* Loading placeholder - shows until video is ready */}
-      {!videoLoaded && (
-        <div 
-          className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-900 to-blue-700 z-0"
-          style={{
-            minWidth: '100%',
-            minHeight: '100%',
-          }}
-        />
-      )}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        style={{
+          minWidth: '100%',
+          minHeight: '100%',
+          width: 'auto',
+          height: 'auto',
+          backgroundColor: 'transparent',
+        }}
+        onCanPlay={() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              // Silently handle autoplay restrictions
+              if (import.meta.env.DEV) {
+                console.warn('Video autoplay prevented:', error);
+              }
+            });
+          }
+        }}
+        onError={(e) => {
+          // Handle video loading errors gracefully
+          if (import.meta.env.DEV) {
+            console.warn('Video loading error:', e);
+          }
+        }}
+      >
+        <source src={videoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       
       {/* Background Overlay - Very light for better visibility */}
       <div className={`absolute inset-0 z-[1] ${isMobile ? 'bg-black/10' : 'bg-black/20'}`} />

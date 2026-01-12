@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath, scrollToElement } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -12,7 +13,8 @@ const Mission: React.FC = () => {
   });
 
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { isMobile } = useDeviceFeatures();
 
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
@@ -71,34 +73,52 @@ const Mission: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-[1950px] mx-auto p-5 text-justify"
+              className="max-w-[1950px] mx-auto p-5"
+              style={{
+                textAlign: (isMobile && language === 'ta') ? 'left' : 'justify',
+                width: '100%',
+              }}
             >
               {/* Shared style for all mission paragraphs */}
               {(() => {
+                // For Tamil in mobile: left align, otherwise justify
+                const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
+                
                 const missionTextStyle: React.CSSProperties = {
                   fontFamily: "Calibri, sans-serif",
                   fontSize: '1.25rem',
                   lineHeight: 1.6,
                   color: '#000000',
                   fontWeight: 500,
-                  textAlign: 'justify',
+                  textAlign: textAlignment as 'left' | 'justify' | 'center',
+                  margin: 0,
+                  padding: 0,
+                  width: '100%',
+                  display: 'block',
                 };
 
                 return (
-                  <div className="space-y-4">
-                    <p style={{ ...missionTextStyle }}>
+                  <div 
+                    className="space-y-4" 
+                    style={{ 
+                      textAlign: textAlignment as any,
+                      width: '100%',
+                      display: 'block',
+                    }}
+                  >
+                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionQuestion1')}
                     </p>
-                    <p style={{ ...missionTextStyle, fontWeight: 'bold' }}>
+                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: textAlignment as any }}>
                       {t('missionComfort')}
                     </p>
-                    <p style={{ ...missionTextStyle }}>
+                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionInvitation')}
                     </p>
-                    <p style={{ ...missionTextStyle }}>
+                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionAnonymous')}
                     </p>
-                    <p style={{ ...missionTextStyle }}>
+                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionActions')}
                     </p>
                   </div>
@@ -126,6 +146,58 @@ const Mission: React.FC = () => {
                 >
                   {t('donate')}
                 </motion.button>
+              </motion.div>
+
+              {/* Property Donation Content Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="mt-10 pt-8 border-t border-gray-300"
+                style={{
+                  textAlign: (isMobile && language === 'ta') ? 'left' : 'justify',
+                }}
+              >
+                {(() => {
+                  // For Tamil in mobile: left align, otherwise justify
+                  const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
+                  
+                  const propertyTextStyle: React.CSSProperties = {
+                    fontFamily: "Calibri, sans-serif",
+                    fontSize: '1.25rem',
+                    lineHeight: 1.6,
+                    color: '#000000',
+                    fontWeight: 500,
+                    textAlign: textAlignment as any,
+                    margin: 0,
+                    padding: 0,
+                    width: '100%',
+                  };
+
+                  return (
+                    <div 
+                      className="space-y-4" 
+                      style={{ 
+                        textAlign: textAlignment as any,
+                        width: '100%',
+                        display: 'block',
+                      }}
+                    >
+                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
+                        {t('propertyDonationPara1')}
+                      </p>
+                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
+                        {t('propertyDonationPara2')}
+                      </p>
+                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
+                        {t('propertyDonationNote')}
+                      </p>
+                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
+                        {t('propertyDonationContact')}
+                      </p>
+                    </div>
+                  );
+                })()}
               </motion.div>
             </motion.div>
           </div>
