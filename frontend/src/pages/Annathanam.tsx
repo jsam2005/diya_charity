@@ -150,7 +150,7 @@ const Annathanam: React.FC = () => {
                                                 fontWeight: 500
                                             }}
                                         >
-                                            Lunch
+                                            {t('lunchMassFeeding')}
                                         </td>
                                         <td
                                             style={{

@@ -81,6 +81,7 @@ const translations: Record<Language, Record<string, string>> = {
     ourCompliance: 'OUR COMPLIANCE',
     // Donation
     needSupport: 'NEED SUPPORT - DONATE',
+    forCorpusFund: '(For Corpus Fund)',
     taxBenefit: 'Get Tax Benefit (Under 80G)',
     taxBenefitDesc: 'Donations are eligible for Section 80G exemption. Just share your PAN on our',
     taxBenefitDescAfter: 'after donating.',
@@ -157,6 +158,7 @@ const translations: Record<Language, Record<string, string>> = {
     annathanamQuote2: 'The one who eats is God in disguise.',
     annathanamDesc3: 'You need to experience extreme hunger due to abject poverty to realise Annadhan ! Well apart from abject poverty, many hesitate to seek help due to pride and self-respect - such as displaced students, children of daily labourers, labourers themselves, orphaned nomads, or even those who earn a small income but still struggle to make ends meet.',
     annathanamDesc4: 'If our Annadhan can ease their burden and help them move up the economic ladder, then why not? We serve food beyond caste creed gender or religion to anyone who walks in without pride !',
+    lunchMassFeeding: 'Lunch (Mass Feeding per Day)',
     // Primary Activities
     primaryActivitiesTitle: 'Our Primary Activities & Impact Areas',
     buddingMinds: 'Budding Minds',
@@ -249,7 +251,7 @@ const translations: Record<Language, Record<string, string>> = {
     donate: 'நன்கொடை',
     runningLine: 'எங்கள் பணி பரந்தது, ஆனால் எங்களின் உடனடி முன்னுரிமை பார்வை விளிம்புநிலை மக்களின் கல்வி முன்னேற்றம் மற்றும் குழந்தை, முதியோர் பிரிவு மற்றும் வறியோருக்கு உணவளித்தல். உங்கள் நன்கொடைகள் அல்லது தன்னார்வலர் மூலம் Diya Charitable Trust-ஐ ஆதரிக்கவும்.',
     // Hero
-    heroWelcome: 'Diya Charitable Trust (TN) உங்களை வரவேற்கிறது',
+    heroWelcome: 'தீயா அறக்கட்டளை (TN) உங்களை வரவேற்கிறது',
     heroMotto: '-மனிதாபிமானம் முதலில்-',
     heroTitle: 'சேவையின் வழியே வாழ்க்கையை ஒளிரச் செய்தல்',
     heroSubtitle: '',
@@ -265,7 +267,7 @@ const translations: Record<Language, Record<string, string>> = {
     footerPoweredBy: 'Wix மூலம் இயக்கப்பட்டது மற்றும் பாதுகாக்கப்பட்டது',
     privacyPolicy: 'தனியுரிமைக் கொள்கை',
     accessibilityStatement: 'அணுகல்தன்மை அறிக்கை',
-    accessibilityStatementDesc: 'Diya Charitable Trust மாற்றுத்திறனாளிகள் உட்பட அனைவருக்கும் டிஜிட்டல் அணுகலை உறுதிசெய்ய அர்ப்பணிக்கப்பட்டுள்ளது. நாங்கள் தொடர்ந்து அனைவருக்கும் பயனர் அனுபவத்தை மேம்படுத்தி தொடர்புடைய அணுகல் தரங்களைப் பயன்படுத்துகிறோம். வலை உள்ளடக்க அணுகல் வழிகாட்டுதல்கள் (WCAG) 2.1 நிலை AA தரங்களுக்கு இணங்க நாங்கள் நோக்கமாகக் கொண்டுள்ளோம். எங்கள் வலைத்தளத்தில் எந்த அணுகல் தடைகளையும் நீங்கள் எதிர்கொண்டால், தயவுசெய்து dctnow.ngo@gmail.com இல் எங்களைத் தொடர்பு கொள்ளவும், நாங்கள் பிரச்சினையைத் தீர்ப்போம்.',
+    accessibilityStatementDesc: 'தீயா அறக்கட்டளை மாற்றுத்திறனாளிகள் உட்பட அனைவருக்கும் டிஜிட்டல் அணுகலை உறுதிசெய்ய அர்ப்பணிக்கப்பட்டுள்ளது. நாங்கள் தொடர்ந்து அனைவருக்கும் பயனர் அனுபவத்தை மேம்படுத்தி தொடர்புடைய அணுகல் தரங்களைப் பயன்படுத்துகிறோம். வலை உள்ளடக்க அணுகல் வழிகாட்டுதல்கள் (WCAG) 2.1 நிலை AA தரங்களுக்கு இணங்க நாங்கள் நோக்கமாகக் கொண்டுள்ளோம். எங்கள் வலைத்தளத்தில் எந்த அணுகல் தடைகளையும் நீங்கள் எதிர்கொண்டால், தயவுசெய்து dctnow.ngo@gmail.com இல் எங்களைத் தொடர்பு கொள்ளவும், நாங்கள் பிரச்சினையைத் தீர்ப்போம்.',
     cancellationRefundsPolicy: 'ரத்துசெய்தல் & பணத்திரும்பப்பெறுதல் கொள்கை',
     legalDisclaimerCompliance: 'சட்ட விலக்கு & இணக்கம்',
     close: 'மூடு',
@@ -313,6 +315,7 @@ const translations: Record<Language, Record<string, string>> = {
     ourCompliance: 'எங்கள் இணக்கம்',
     // Donation
     needSupport: 'ஆதரவு தேவை — நன்கொடை',
+    forCorpusFund: '(மூலதன நிதிக்காக)',
     taxBenefit: 'வரி சலுகை பெறுங்கள் (80G பிரிவின் கீழ்)',
     taxBenefitDesc: 'நன்கொடைகள் வருமான வரி சட்டத்தின் 80G பிரிவின் கீழ் வரிவிலக்கு பெற தகுதியானவை. நன்கொடை வழங்கிய பிறகு, 80G ரசீது பெற உங்கள் PAN எண்ணை WhatsApp மூலம் எங்களுடன் பகிரவும்.',
     taxBenefitDescAfter: '',
@@ -389,6 +392,7 @@ const translations: Record<Language, Record<string, string>> = {
     annathanamQuote2: 'உணவு உண்ணுபவன் இறைவன் வேடம் தரித்தவனே.',
     annathanamDesc3: 'அன்னதானத்தின் உண்மையான பெருமையை உணர, கொடிய வறுமையால் உண்டாகும் கடும் பசியை ஒருவர் அனுபவித்திருக்க வேண்டும். ஆனால் வறுமை மட்டும் காரணமல்ல; அகந்தை, சுயமரியாதை, சமூகக் கட்டுப்பாடுகள் போன்ற காரணங்களால் பலர் உதவி நாடுவதையே தயங்குகின்றனர். இடம்பெயர்ந்த மாணவர்கள், தினக்கூலி தொழிலாளர்களின் பிள்ளைகள், தாங்களே உழைத்து வாழும் தொழிலாளர்கள், பெற்றோரை இழந்த இடம்பெயரும் மக்களுடைய பிள்ளைகள், குறைந்த வருமானம் இருந்தும் வாழ்க்கைச் சுமையைச் சுமப்பவர்கள் — இவர்கள் அனைவரும் இதற்கு சாட்சிகள்.',
     annathanamDesc4: 'எங்களின் அன்னதானம் அவர்களின் வாழ்க்கைச் சுமையை ஓரளவு குறைத்து, பொருளாதார முன்னேற்றத்திற்கு ஒரு அடிக்கல்லாக அமையுமானால், அதனைச் செய்வது எங்கள் கடமையல்லவா? ஜாதி, மதம், பாலினம், இனம் என்ற எந்த வேற்றுமையும் இன்றி, அகந்தையற்ற மனதுடன் எங்களை அணுகும் யாவருக்கும் அன்புடன் அன்னம் வழங்குவதே எங்கள் சேவை.',
+    lunchMassFeeding: 'மதிய உணவு (ஒரு நாளில் பெருமளவு உணவு வழங்கல்)',
     // Primary Activities
     primaryActivitiesTitle: 'எங்கள் முதன்மை செயல்பாடுகள் & தாக்க பகுதிகள்',
     buddingMinds: 'முளைக்கும் மனங்கள்',

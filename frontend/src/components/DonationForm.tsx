@@ -88,13 +88,14 @@ const DonationForm: React.FC = () => {
     width: '100%',
     maxWidth: '100%',
     boxSizing: 'border-box',
-    gridAutoRows: 'min-content',
+    alignItems: 'stretch',
     overflow: 'hidden',
   };
 
   const leftColumnStyle: React.CSSProperties = {
     backgroundColor: '#FFFFFF',
     padding: isMobile ? '20px 15px' : '30px',
+    paddingBottom: isMobile ? '20px' : '30px',
     borderRadius: '12px',
     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
     textAlign: 'left',
@@ -103,19 +104,22 @@ const DonationForm: React.FC = () => {
     maxWidth: '100%',
     boxSizing: 'border-box',
     overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   };
 
   const rightColumnStyle: React.CSSProperties = {
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
     width: '100%',
     minWidth: 0, // Prevents flex items from overflowing
     maxWidth: '100%',
     boxSizing: 'border-box',
     overflow: 'hidden',
-    alignSelf: 'start', // Prevents stretching
+    alignSelf: 'stretch',
+    height: '100%',
   };
 
   const amountButtonClass =
@@ -322,6 +326,16 @@ const DonationForm: React.FC = () => {
                 }}
               >
                 {t('needSupport')}
+                <br />
+                <span style={{ 
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: isMobile ? '1.2rem' : '1.9rem',
+                  fontWeight: 500,
+                  display: 'block',
+                  marginTop: '4px'
+                }}>
+                  {t('forCorpusFund')}
+                </span>
               </h2>
               <p
                 style={{
@@ -546,7 +560,14 @@ const DonationForm: React.FC = () => {
                   )}
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6" style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}>
+                <form onSubmit={handleSubmit} className="space-y-6" style={{ 
+                  width: '100%', 
+                  boxSizing: 'border-box', 
+                  maxWidth: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flexGrow: 1,
+                }}>
                   <div className="space-y-3">
                     <label className="block text-[#333333] font-semibold">
                       {t('donorName')}
@@ -655,7 +676,8 @@ const DonationForm: React.FC = () => {
                       padding: '12px 25px',
                       borderRadius: '8px',
                       fontSize: '1.1rem',
-                      marginTop: '30px',
+                      marginTop: 'auto',
+                      marginBottom: 0,
                     }}
                     className="font-semibold w-full"
                   >
@@ -673,20 +695,21 @@ const DonationForm: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 style={rightColumnStyle}
               >
-                <h3 className="text-2xl font-semibold text-primary mb-6" style={{
-                  fontSize: isMobile ? '1.25rem' : isTablet ? '1.5rem' : '1.75rem',
-                  wordWrap: 'break-word',
-                  maxWidth: '100%',
-                  boxSizing: 'border-box',
-                  padding: '0',
-                  marginBottom: isMobile ? '20px' : '24px',
-                  overflow: 'hidden'
-                }}>
-                  {t('directPayment')}
-                </h3>
+                <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <h3 className="text-2xl font-semibold text-primary mb-6" style={{
+                    fontSize: isMobile ? '1.25rem' : isTablet ? '1.5rem' : '1.75rem',
+                    wordWrap: 'break-word',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
+                    padding: '0',
+                    marginBottom: isMobile ? '20px' : '24px',
+                    overflow: 'hidden'
+                  }}>
+                    {t('directPayment')}
+                  </h3>
 
-                {/* UPI Card */}
-                <div
+                  {/* UPI Card */}
+                  <div
                   style={{
                     backgroundColor: '#FFFFFF',
                     padding: isMobile ? '15px 12px' : isTablet ? '20px 18px' : '25px',
@@ -844,124 +867,135 @@ const DonationForm: React.FC = () => {
                     />
                   </div>
                 </div>
-
-                {/* Bank Transfer Card */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    padding: isMobile ? '15px 12px' : isTablet ? '20px 18px' : '25px',
-                    borderRadius: '20px',
-                    borderTopLeftRadius: '20px',
-                    borderTopRightRadius: '20px',
-                    borderBottomLeftRadius: '20px',
-                    borderBottomRightRadius: '20px',
-                    border: '1px solid #E0E0E0',
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.05)',
-                    borderTop: '5px solid #FF8C42',
-                    width: '100%',
-                    minWidth: 0,
-                    maxWidth: '100%',
-                    boxSizing: 'border-box',
-                    overflow: 'hidden',
-                    position: 'relative',
-                  }}
-                >
-                  <div className="flex items-center gap-2 mb-4" style={{ width: '100%', boxSizing: 'border-box' }}>
-                    <span className="text-[#FF8C42] text-xl flex-shrink-0" aria-hidden="true">
-                      🏦
-                    </span>
-                    <p className="text-lg font-semibold text-primary mb-0" style={{
-                      wordWrap: 'break-word',
-                      minWidth: 0,
-                      maxWidth: '100%',
-                      fontSize: isMobile ? '1rem' : '1.125rem'
-                    }}>
-                      {t('bankTransfer')}
-                    </p>
-                  </div>
-                  <div className="space-y-3" style={{
-                    width: '100%',
-                    boxSizing: 'border-box',
-                    maxWidth: '100%',
-                  }}>
-                    {BANK_DETAILS.map((detail) => {
-                      let icon = '🏛️';
-                      switch (detail.label) {
-                        case 'Trust Name':
-                          icon = '🤝';
-                          break;
-                        case 'Bank Name':
-                          icon = '🏦';
-                          break;
-                        case 'Account Number':
-                          icon = '💳';
-                          break;
-                        case 'IFSC Code':
-                          icon = '🏷️';
-                          break;
-                        default:
-                          icon = '🏛️';
-                      }
-                      return (
-                        <div
-                          key={detail.label}
-                          className="flex items-start gap-3"
-                          style={{
-                            flexWrap: 'wrap',
-                            width: '100%',
-                            minWidth: 0,
-                            maxWidth: '100%',
-                            boxSizing: 'border-box',
-                          }}
-                        >
-                          <div className="flex items-center gap-2 flex-shrink-0" style={{
-                            minWidth: 'fit-content',
-                          }}>
-                            <span
-                              className="text-[#FF8C42] text-lg"
-                              aria-hidden="true"
-                              style={{ fontSize: isMobile ? '1rem' : '1.125rem' }}
-                            >
-                              {icon}
-                            </span>
-                            <span className="font-semibold text-[#666666] whitespace-nowrap" style={{
-                              fontSize: isMobile ? '0.875rem' : '1rem'
-                            }}>
-                              {detail.label}:
-                            </span>
-                          </div>
-                          <span className="font-bold text-[#333333] flex-1" style={{
-                            wordWrap: 'break-word',
-                            textAlign: isMobile ? 'left' : 'left',
-                            minWidth: 0,
-                            fontSize: isMobile ? '0.875rem' : '1rem',
-                            overflowWrap: 'break-word',
-                          }}>
-                            {detail.value}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <p
-                    className="mt-4"
-                    style={{
-                      fontStyle: 'italic',
-                      fontSize: isMobile ? '0.7rem' : isTablet ? '0.75rem' : '0.85rem',
-                      color: '#666666',
-                      wordWrap: 'break-word',
-                      padding: '0 5px',
-                      maxWidth: '100%',
-                      boxSizing: 'border-box',
-                      lineHeight: 1.4,
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {t('transactionNote')}
-                  </p>
                 </div>
+                
+                {/* Spacer to match left column height - pushes content to top and fills remaining space */}
+                <div style={{ flexGrow: 1, flexShrink: 1, minHeight: 0, width: '100%' }} />
               </motion.div>
             </div>
+
+            {/* Bank Transfer Card - Centered below grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '40px',
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  padding: isMobile ? '15px 12px' : isTablet ? '20px 18px' : '25px',
+                  borderRadius: '20px',
+                  border: '1px solid #E0E0E0',
+                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.05)',
+                  borderTop: '5px solid #FF8C42',
+                  width: '100%',
+                  maxWidth: isMobile ? '100%' : '600px',
+                  boxSizing: 'border-box',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}
+              >
+                <div className="flex items-center gap-2 mb-4" style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <span className="text-[#FF8C42] text-xl flex-shrink-0" aria-hidden="true">
+                    🏦
+                  </span>
+                  <p className="text-lg font-semibold text-primary mb-0" style={{
+                    wordWrap: 'break-word',
+                    minWidth: 0,
+                    maxWidth: '100%',
+                    fontSize: isMobile ? '1rem' : '1.125rem'
+                  }}>
+                    {t('bankTransfer')}
+                  </p>
+                </div>
+                <div className="space-y-3" style={{
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  maxWidth: '100%',
+                }}>
+                  {BANK_DETAILS.map((detail) => {
+                    let icon = '🏛️';
+                    switch (detail.label) {
+                      case 'Trust Name':
+                        icon = '🤝';
+                        break;
+                      case 'Bank Name':
+                        icon = '🏦';
+                        break;
+                      case 'Account Number':
+                        icon = '💳';
+                        break;
+                      case 'IFSC Code':
+                        icon = '🏷️';
+                        break;
+                      default:
+                        icon = '🏛️';
+                    }
+                    return (
+                      <div
+                        key={detail.label}
+                        className="flex items-start gap-3"
+                        style={{
+                          flexWrap: 'wrap',
+                          width: '100%',
+                          minWidth: 0,
+                          maxWidth: '100%',
+                          boxSizing: 'border-box',
+                        }}
+                      >
+                        <div className="flex items-center gap-2 flex-shrink-0" style={{
+                          minWidth: 'fit-content',
+                        }}>
+                          <span
+                            className="text-[#FF8C42] text-lg"
+                            aria-hidden="true"
+                            style={{ fontSize: isMobile ? '1rem' : '1.125rem' }}
+                          >
+                            {icon}
+                          </span>
+                          <span className="font-semibold text-[#666666] whitespace-nowrap" style={{
+                            fontSize: isMobile ? '0.875rem' : '1rem'
+                          }}>
+                            {detail.label}:
+                          </span>
+                        </div>
+                        <span className="font-bold text-[#333333] flex-1" style={{
+                          wordWrap: 'break-word',
+                          textAlign: isMobile ? 'left' : 'left',
+                          minWidth: 0,
+                          fontSize: isMobile ? '0.875rem' : '1rem',
+                          overflowWrap: 'break-word',
+                        }}>
+                          {detail.value}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p
+                  className="mt-4"
+                  style={{
+                    fontStyle: 'italic',
+                    fontSize: isMobile ? '0.7rem' : isTablet ? '0.75rem' : '0.85rem',
+                    color: '#666666',
+                    wordWrap: 'break-word',
+                    padding: '0 5px',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
+                    lineHeight: 1.4,
+                    overflow: 'hidden',
+                  }}
+                >
+                  {t('transactionNote')}
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -988,6 +1022,19 @@ const DonationForm: React.FC = () => {
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             }}
           >
+            <h2
+              style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: isMobile ? '1.8rem' : '2.5rem',
+                fontWeight: 900,
+                color: '#1C3F75',
+                marginBottom: isMobile ? '20px' : '30px',
+                textAlign: 'center',
+                lineHeight: 1.2,
+              }}
+            >
+              An Appeal !
+            </h2>
             <div
               className="property-donation-content"
               style={{

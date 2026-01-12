@@ -250,6 +250,16 @@ const AnnathanamDonationForm: React.FC = () => {
               }}
             >
               {t('needSupport')}
+              <br />
+              <span style={{ 
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: isMobile ? '1.2rem' : '1.9rem',
+                fontWeight: 500,
+                display: 'block',
+                marginTop: '4px'
+              }}>
+                {t('forCorpusFund')}
+              </span>
             </h2>
           </motion.div>
 

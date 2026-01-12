@@ -111,7 +111,7 @@ const Mission: React.FC = () => {
                     <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionQuestion1')}
                     </p>
-                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center' }}>
+                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center', marginBottom: '1.5rem' }}>
                       {t('missionComfort')}
                     </p>
                     <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
@@ -120,66 +120,12 @@ const Mission: React.FC = () => {
                     <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
                       {t('missionAnonymous')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
+                    <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center' }}>
                       {t('missionActions')}
                     </p>
                   </div>
                 );
               })()}
-
-              {/* Property Donation Content Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="mt-6"
-                style={{
-                  textAlign: (isMobile && language === 'ta') ? 'left' : 'justify',
-                }}
-              >
-                {(() => {
-                  // For Tamil in mobile: left align, otherwise justify
-                  const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
-                  
-                  const propertyTextStyle: React.CSSProperties = {
-                    fontFamily: language === 'ta' 
-                      ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
-                      : "Calibri, sans-serif",
-                    fontSize: '1.25rem',
-                    lineHeight: 1.6,
-                    color: '#000000',
-                    fontWeight: 500,
-                    textAlign: textAlignment as any,
-                    margin: 0,
-                    padding: 0,
-                    width: '100%',
-                  };
-
-                  return (
-                    <div 
-                      className="space-y-4" 
-                      style={{ 
-                        textAlign: textAlignment as any,
-                        width: '100%',
-                        display: 'block',
-                      }}
-                    >
-                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
-                        {t('propertyDonationPara1')}
-                      </p>
-                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
-                        {t('propertyDonationPara2')}
-                      </p>
-                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
-                        {t('propertyDonationNote')}
-                      </p>
-                      <p style={{ ...propertyTextStyle, textAlign: textAlignment as any }}>
-                        {t('propertyDonationContact')}
-                      </p>
-                    </div>
-                  );
-                })()}
-              </motion.div>
 
               {/* Action Buttons */}
               <motion.div
@@ -383,11 +329,77 @@ const Mission: React.FC = () => {
 
                       {(card as any).hasExplore && (
                         <motion.button
-                          whileTap={{ scale: 0.95 }}
+                          animate={{ 
+                            y: [0, -12, 0, -8, 0],
+                            scale: [1, 1.12, 1, 1.08, 1],
+                            rotate: [0, -2, 2, -1, 0],
+                            boxShadow: [
+                              '0 4px 12px rgba(28, 63, 117, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3)',
+                              '0 6px 18px rgba(135, 206, 250, 0.6), 0 3px 10px rgba(0, 0, 0, 0.4)'
+                            ],
+                            backgroundColor: [
+                              'rgba(28, 63, 117, 0.9)',
+                              'rgba(135, 206, 250, 0.95)'
+                            ]
+                          }}
+                          whileHover={{ 
+                            scale: 1.2,
+                            y: -8,
+                            rotate: 0
+                          }}
+                          whileTap={{ 
+                            scale: 0.95
+                          }}
+                          transition={{ 
+                            duration: 1.8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            repeatDelay: 0.2,
+                            backgroundColor: { duration: 0.6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                            boxShadow: { duration: 0.6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                            scale: { duration: 0.1 }
+                          }}
                           onClick={() => navigate('/annathanam')}
-                          className="mt-auto inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-300 bg-[rgba(139,0,0,0.85)] border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[14px] font-bold text-white w-full"
+                          className="mt-auto inline-flex items-center justify-center px-6 py-3 rounded-full transition-all duration-300 border border-white/5 backdrop-blur-md font-['Montserrat',sans-serif] text-[18px] font-bold text-white w-full relative overflow-hidden"
+                          style={{
+                            position: 'relative',
+                            backgroundColor: 'rgba(28, 63, 117, 0.9)',
+                          }}
                         >
-                          {t('explore')}
+                          <motion.span
+                            animate={{
+                              opacity: [0.8, 1, 0.8],
+                              scale: [1, 1.05, 1]
+                            }}
+                            transition={{
+                              duration: 1.5,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                            style={{ 
+                              position: 'relative', 
+                              zIndex: 1,
+                              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.7)'
+                            }}
+                          >
+                            {t('explore')}
+                          </motion.span>
+                          <motion.div
+                            className="absolute inset-0 rounded-full"
+                            animate={{
+                              background: [
+                                'radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 100%)',
+                                'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
+                                'radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 100%)'
+                              ]
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                            style={{ pointerEvents: 'none' }}
+                          />
                         </motion.button>
                       )}
                     </motion.div>
