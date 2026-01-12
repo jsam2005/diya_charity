@@ -249,17 +249,7 @@ const AnnathanamDonationForm: React.FC = () => {
                 wordWrap: 'break-word',
               }}
             >
-              {t('needSupport')}
-              <br />
-              <span style={{ 
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: isMobile ? '1.2rem' : '1.9rem',
-                fontWeight: 500,
-                display: 'block',
-                marginTop: '4px'
-              }}>
-                {t('forCorpusFund')}
-              </span>
+                {t('needSupport')}
             </h2>
           </motion.div>
 

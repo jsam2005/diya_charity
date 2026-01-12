@@ -159,7 +159,7 @@ const translations: Record<Language, Record<string, string>> = {
     annathanamQuote2: 'The one who eats is God in disguise.',
     annathanamDesc3: 'You need to experience extreme hunger due to abject poverty to realise Annadhan ! Well apart from abject poverty, many hesitate to seek help due to pride and self-respect - such as displaced students, children of daily labourers, labourers themselves, orphaned nomads, or even those who earn a small income but still struggle to make ends meet.',
     annathanamDesc4: 'If our Annadhan can ease their burden and help them move up the economic ladder, then why not? We serve food beyond caste creed gender or religion to anyone who walks in without pride !',
-    lunchMassFeeding: 'Lunch (Mass Feeding per Day)',
+    lunchMassFeeding: 'Lunch (Mass Feeding Per Day)',
     // Primary Activities
     primaryActivitiesTitle: 'Our Primary Activities & Impact Areas',
     buddingMinds: 'Budding Minds',
