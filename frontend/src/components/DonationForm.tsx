@@ -36,7 +36,7 @@ const DonationForm: React.FC = () => {
   });
 
   const { isMobile, isTablet } = useDeviceFeatures();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const sponsor1 = getAssetPath('assets/sponsors1.jpg');
   const sponsor2 = getAssetPath('assets/sponsors2.jpg');
@@ -1033,7 +1033,7 @@ const DonationForm: React.FC = () => {
                 lineHeight: 1.2,
               }}
             >
-              An Appeal !
+              {t('anAppeal')}
             </h2>
             <div
               className="property-donation-content"
@@ -1165,6 +1165,9 @@ const DonationForm: React.FC = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    overflow: 'hidden',
+                    wordWrap: 'break-word',
+                    boxSizing: 'border-box',
                   }} className="stream-card">
                     {sponsorImage ? (
                       <img
@@ -1183,10 +1186,15 @@ const DonationForm: React.FC = () => {
                         <h3
                           style={{
                             fontFamily: "'Poppins', 'EB Garamond', serif",
-                            fontSize: '1.2rem',
+                            fontSize: isMobile ? (language === 'ta' ? '1rem' : '1.2rem') : (language === 'ta' ? '1.1rem' : '1.2rem'),
                             fontWeight: 600,
                             color: '#1C3F75',
                             marginBottom: '8px',
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                            maxWidth: '100%',
+                            padding: '0 10px',
+                            boxSizing: 'border-box',
                           }}
                         >
                           {t('corporatePartner')} {i}
@@ -1194,9 +1202,14 @@ const DonationForm: React.FC = () => {
                         <p
                           style={{
                             fontFamily: "'EB Garamond', serif",
-                            fontSize: '1rem',
+                            fontSize: isMobile ? (language === 'ta' ? '0.85rem' : '1rem') : (language === 'ta' ? '0.9rem' : '1rem'),
                             color: '#374151',
                             lineHeight: 1.6,
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                            maxWidth: '100%',
+                            padding: '0 10px',
+                            boxSizing: 'border-box',
                           }}
                         >
                           {t('anticipatingCSR')}

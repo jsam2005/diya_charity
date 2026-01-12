@@ -127,6 +127,7 @@ const translations: Record<Language, Record<string, string>> = {
     emergencyRelief: 'Emergency Relief',
     willBeShared: '-- Will be Shared with program sponsors --',
     // Property Donation
+    anAppeal: 'An Appeal !',
     propertyDonationPara1: 'As a charitable organisation, our work is sustained solely through donations and sponsorships. To establish clusters of education and feeding centres, access to suitable space is essential.',
     propertyDonationPara2: 'If you are philanthropically inclined and your circumstances permit, we invite you to donate land or property to the Trust and create a lasting legacy. The property will be dedicated exclusively to the common good, and your contribution will be honoured for generations to come.',
     propertyDonationNote: 'Kindly note that the property must be non-ancestral and free from encumbrances.',
@@ -361,6 +362,7 @@ const translations: Record<Language, Record<string, string>> = {
     emergencyRelief: 'அவசர நிவாரணம்',
     willBeShared: '-- திட்ட நிதியளிப்பாளர்களுடன் பகிரப்படும் --',
     // Property Donation
+    anAppeal: 'ஒரு வேண்டுகோள்!',
     propertyDonationPara1: 'ஒரு அறக்கட்டளை அமைப்பாக, எங்கள் பணி முழுமையாக நன்கொடைகள் மற்றும் நிதியளிப்புகள் மூலம் நடைபெறுகிறது. கல்வி மற்றும் உணவு மையங்களின் குழுக்களை நிறுவ, பொருத்தமான இடத்திற்கான அணுகல் அவசியம்.',
     propertyDonationPara2: 'நீங்கள் தாராள மனப்பான்மை கொண்டவராகவும், உங்கள் சூழ்நிலைகள் அனுமதிக்குமானால், நாங்கள் உங்களை டிரஸ்டிற்கு நிலம் அல்லது சொத்தை நன்கொடையாக வழங்கி நீடித்த மரபை உருவாக்க அழைக்கிறோம். சொத்து பிரத்தியேகமாக பொதுநலனுக்காக அர்ப்பணிக்கப்படும், மேலும் உங்கள் பங்களிப்பு தலைமுறைகளுக்கு கெளரவிக்கப்படும்.',
     propertyDonationNote: 'சொத்து பாரம்பரியமற்றதாகவும், கடன்களிலிருந்து விடுபட்டதாகவும் இருக்க வேண்டும் என்பதை நினைவில் கொள்ளவும்.',

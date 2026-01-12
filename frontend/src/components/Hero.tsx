@@ -9,7 +9,7 @@ const RUNNING_LINE_HEIGHT = 30;
 
 const Hero: React.FC = () => {
   const { isMobile, isTablet } = useDeviceFeatures();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleScrollDown = () => {
@@ -186,23 +186,25 @@ const Hero: React.FC = () => {
           >
             {t('heroTitle')}
           </motion.h2>
-          <motion.p
-            initial={variants.title}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className={`font-elegant text-center ${
-              isMobile
-                ? 'text-base font-semibold'
-                : 'text-xl md:text-2xl'
-            }`}
-            style={{
-              color: '#1C1C1C',
-              marginTop: isMobile ? '0.25rem' : '0.5rem',
-              padding: '0 10px'
-            }}
-          >
-            {t('heroSubtitle')}
-          </motion.p>
+          {language !== 'ta' && (
+            <motion.p
+              initial={variants.title}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className={`font-elegant text-center ${
+                isMobile
+                  ? 'text-base font-semibold'
+                  : 'text-xl md:text-2xl'
+              }`}
+              style={{
+                color: '#1C1C1C',
+                marginTop: isMobile ? '0.25rem' : '0.5rem',
+                padding: '0 10px'
+              }}
+            >
+              {t('heroSubtitle')}
+            </motion.p>
+          )}
         </div>
       </motion.div>
 

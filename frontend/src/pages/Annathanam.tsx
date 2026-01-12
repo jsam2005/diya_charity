@@ -147,7 +147,7 @@ const Annathanam: React.FC = () => {
                                                 borderTop: '1px solid #E0E0E0',
                                                 color: '#333333',
                                                 fontSize: isMobile ? '14px' : '16px',
-                                                fontWeight: 500
+                                                fontWeight: 900
                                             }}
                                         >
                                             {t('lunchMassFeeding')}
@@ -158,7 +158,7 @@ const Annathanam: React.FC = () => {
                                                 borderTop: '1px solid #E0E0E0',
                                                 color: '#333333',
                                                 fontSize: isMobile ? '14px' : '16px',
-                                                fontWeight: 600
+                                                fontWeight: 900
                                             }}
                                         >
                                             ₹ 6,000
