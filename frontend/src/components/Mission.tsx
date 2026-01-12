@@ -4,7 +4,6 @@ import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath, scrollToElement } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -14,7 +13,6 @@ const Mission: React.FC = () => {
 
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { isMobile } = useDeviceFeatures();
 
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
@@ -73,7 +71,7 @@ const Mission: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-[1950px] mx-auto p-5 text-left md:text-justify"
+              className="max-w-[1950px] mx-auto p-5 text-justify"
             >
               {/* Shared style for all mission paragraphs */}
               {(() => {
@@ -83,7 +81,7 @@ const Mission: React.FC = () => {
                   lineHeight: 1.6,
                   color: '#000000',
                   fontWeight: 500,
-                  textAlign: isMobile ? 'justify' : 'left',
+                  textAlign: 'justify',
                 };
 
                 return (
@@ -91,16 +89,16 @@ const Mission: React.FC = () => {
                     <p style={{ ...missionTextStyle }}>
                       {t('missionQuestion1')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'left', fontWeight: 'bold' }}>
+                    <p style={{ ...missionTextStyle, fontWeight: 'bold' }}>
                       {t('missionComfort')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'left' }}>
+                    <p style={{ ...missionTextStyle }}>
                       {t('missionInvitation')}
                     </p>
                     <p style={{ ...missionTextStyle }}>
                       {t('missionAnonymous')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: 'left' }}>
+                    <p style={{ ...missionTextStyle }}>
                       {t('missionActions')}
                     </p>
                   </div>
