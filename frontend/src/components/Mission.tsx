@@ -85,7 +85,9 @@ const Mission: React.FC = () => {
                 const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
                 
                 const missionTextStyle: React.CSSProperties = {
-                  fontFamily: "Calibri, sans-serif",
+                  fontFamily: language === 'ta' 
+                    ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                    : "Calibri, sans-serif",
                   fontSize: '1.25rem',
                   lineHeight: 1.6,
                   color: '#000000',
@@ -163,7 +165,9 @@ const Mission: React.FC = () => {
                   const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
                   
                   const propertyTextStyle: React.CSSProperties = {
-                    fontFamily: "Calibri, sans-serif",
+                    fontFamily: language === 'ta' 
+                      ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                      : "Calibri, sans-serif",
                     fontSize: '1.25rem',
                     lineHeight: 1.6,
                     color: '#000000',
