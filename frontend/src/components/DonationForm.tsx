@@ -382,7 +382,7 @@ const DonationForm: React.FC = () => {
                   className="font-semibold"
                   style={{
                     fontFamily: "'Poppins', sans-serif",
-                    fontSize: isMobile ? '1.8rem' : '2.5rem',
+                    fontSize: isMobile ? '1.3rem' : '2.5rem',
                     color: 'var(--color-primary)',
                     marginBottom: '10px',
                     maxWidth: '100%',
@@ -1063,7 +1063,7 @@ const DonationForm: React.FC = () => {
           >
             <h2 style={{
               fontFamily: "'Poppins', 'EB Garamond', serif",
-              fontSize: isMobile ? '1.5rem' : '2.5rem',
+              fontSize: isMobile ? '1.1rem' : '2.5rem',
               color: '#1C3F75',
               textAlign: 'center',
               marginTop: '20px',
@@ -1074,7 +1074,7 @@ const DonationForm: React.FC = () => {
             </h2>
             <h1 style={{
               fontFamily: "'Poppins', 'EB Garamond', serif",
-              fontSize: '1.8rem',
+              fontSize: isMobile ? '0.95rem' : '1.8rem',
               color: '#1C3F75',
               textAlign: 'center',
               marginTop: '10px',
@@ -1177,7 +1177,7 @@ const DonationForm: React.FC = () => {
           <h3
             style={{
               fontFamily: "'Poppins', 'EB Garamond', serif",
-              fontSize: isMobile ? '1.8rem' : '2.5rem',
+              fontSize: isMobile ? '1.3rem' : '2.5rem',
               color: '#FFFFFF',
               textAlign: 'center',
               marginTop: '10px',

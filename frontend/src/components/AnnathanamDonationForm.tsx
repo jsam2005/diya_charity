@@ -16,6 +16,7 @@ const INITIAL_FORM_STATE = {
 };
 
 const BANK_DETAILS = [
+  { label: 'Account Name', value: 'DIYA CHARITABLE TRUST' },
   { label: 'Bank Name', value: 'Indus Bank' },
   { label: 'Account Number', value: '259445205771' },
   { label: 'IFSC Code', value: 'INDB0000236' },
@@ -601,6 +602,9 @@ const AnnathanamDonationForm: React.FC = () => {
                   {BANK_DETAILS.map((detail) => {
                     let icon = '🏛️';
                     switch (detail.label) {
+                      case 'Account Name':
+                        icon = '👤';
+                        break;
                       case 'Bank Name':
                         icon = '🏦';
                         break;

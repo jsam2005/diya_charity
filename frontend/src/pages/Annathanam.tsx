@@ -161,7 +161,7 @@ const Annathanam: React.FC = () => {
                                                 fontWeight: 600
                                             }}
                                         >
-                                            ₹ 1,600
+                                            ₹ 6,000
                                         </td>
                                     </tr>
                                 </tbody>

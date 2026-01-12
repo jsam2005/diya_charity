@@ -204,7 +204,7 @@ const Footer: React.FC = () => {
           >
             <div className="flex justify-center items-center">
               <p className="text-sm text-gray-200">
-                All Rights Reserved 2024 / Powered By DFC
+                @ All Rights Reserved 2026 / Powered by DIYA CHARITABLE TRUST / Get connected with us on Social Media Network
               </p>
             </div>
           </motion.div>
