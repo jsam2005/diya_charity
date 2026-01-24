@@ -12,6 +12,7 @@ const Header: React.FC = () => {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { isMobile } = useDeviceFeatures();
+  const [runningLine, setRunningLine] = useState<string>(t('runningLine')); // Fallback to translation
 
   const languages: Language[] = ['en', 'ta'];
 
@@ -20,6 +21,73 @@ const Header: React.FC = () => {
     setIsLanguageDropdownOpen(false);
     setIsMobileMenuOpen(false);
   };
+
+  // Fetch running line from API (PHP backend)
+  useEffect(() => {
+    // Always update to translation first (for immediate language switch)
+    setRunningLine(t('runningLine'));
+
+    const fetchRunningLine = async () => {
+      const isProduction = window.location.hostname.includes('dctnow.ngo') || 
+                          window.location.hostname.includes('diyacharity.org') ||
+                          (!window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1'));
+      
+      // Determine API URL - use PHP backend in both dev and production
+      const apiUrl = isProduction
+        ? '/api/running-line'  // Production: PHP backend on GoDaddy
+        : 'http://localhost:8000/api/running-line';  // Development: PHP backend on port 8000
+
+      try {
+        // Create AbortController for timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+        
+        // Add cache-busting to ensure fresh content
+        const urlWithCache = `${apiUrl}?t=${Date.now()}`;
+        
+        const response = await fetch(urlWithCache, {
+          signal: controller.signal,
+          cache: 'no-store' // Prevent caching
+          // Removed custom headers to avoid CORS issues - cache-busting query param is enough
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data && data.data[language]) {
+            // Update with API content if available
+            const newText = data.data[language];
+            setRunningLine(newText);
+            if (import.meta.env.DEV) {
+              console.log('✅ Running line loaded from API:', newText.substring(0, 60) + '...');
+              console.log('📝 Full text length:', newText.length);
+            }
+          } else if (import.meta.env.DEV) {
+            console.warn('⚠️ API response missing data:', data);
+          }
+        } else if (import.meta.env.DEV) {
+          console.warn('⚠️ API response not OK:', response.status, response.statusText);
+        }
+      } catch (error) {
+        // Log in development to help debug
+        if (import.meta.env.DEV) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          const isConnectionError = errorMessage.includes('ERR_CONNECTION_REFUSED') || 
+                                    errorMessage.includes('Failed to fetch') ||
+                                    errorMessage.includes('aborted');
+          
+          if (isConnectionError) {
+            console.warn('⚠️ PHP backend not running. Using translation fallback. Start backend with: cd backend-php && php -S localhost:8000 router.php');
+          } else {
+            console.warn('Failed to fetch running line:', error);
+          }
+        }
+      }
+    };
+
+    fetchRunningLine();
+  }, [language, t]);
 
   const handleDonate = () => {
     setIsMobileMenuOpen(false);
@@ -653,7 +721,7 @@ const Header: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           overflow: 'hidden',
-          fontSize: '14px',
+          fontSize: '16px',
           zIndex: 9997
         }}
       >
@@ -665,13 +733,13 @@ const Header: React.FC = () => {
           }}
         >
           <span style={{ color: '#FFFFFF', fontWeight: 600, marginRight: '50px' }}>
-            {t('runningLine')}
+            {runningLine}
           </span>
           <span style={{ color: '#FFFFFF', fontWeight: 600, marginRight: '50px' }}>
-            {t('runningLine')}
+            {runningLine}
           </span>
           <span style={{ color: '#FFFFFF', fontWeight: 600 }}>
-            {t('runningLine')}
+            {runningLine}
           </span>
         </div>
       </div>

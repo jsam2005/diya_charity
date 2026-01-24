@@ -96,7 +96,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
       {children}
       
       {/* Notification Container */}
-      <div className="fixed top-4 right-4 z-50 space-y-2">
+      <div className="fixed top-4 right-4 space-y-2" style={{ zIndex: 10050 }}>
         <AnimatePresence>
           {notifications.map((notification) => (
             <motion.div
@@ -112,7 +112,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({ children })
                   {getNotificationIcon(notification.type)}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{notification.message}</p>
+                  <p className="text-sm font-medium text-white">{notification.message}</p>
                 </div>
                 <button
                   onClick={() => removeNotification(notification.id)}

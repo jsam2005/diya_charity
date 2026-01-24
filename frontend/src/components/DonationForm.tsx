@@ -5,14 +5,16 @@ import { useDeviceFeatures } from '@/hooks/useResponsive';
 import { getAssetPath } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+// (Legacy helpers removed: one-time donations now go through Razorpay directly)
+
 const DONATION_AMOUNTS = [250, 500, 1000, 1500, 2000];
 
 const INITIAL_FORM_STATE = {
   name: '',
   phone: '',
   email: '',
+  pan: '', // Optional PAN number for 80G receipt
   customAmount: '',
-  upiId: '', // UPI ID for monthly auto-debit
 };
 
 const BANK_DETAILS = [
@@ -53,17 +55,6 @@ const DonationForm: React.FC = () => {
     } catch (err) {
       console.error('Failed to copy UPI ID:', err);
     }
-  };
-
-  const showUPIPaymentInstructions = (amount: number) => {
-    const message = `To complete your donation of ₹${amount}:\n\n` +
-      `1. Open GPay, PhonePe, Paytm, or any UPI app\n` +
-      `2. Send payment to: ${UPI_ID}\n` +
-      `3. Enter amount: ₹${amount}\n` +
-      `4. Add note: "Donation to Diya Charitable Trust"\n\n` +
-      `Or scan the QR code shown on this page.`;
-    
-    alert(message);
   };
 
   const layoutContainerStyle: React.CSSProperties = {
@@ -155,101 +146,8 @@ const DonationForm: React.FC = () => {
       return;
     }
 
-    // For one-time donations, redirect to GPay/UPI
-    if (donationType === 'one-time') {
-      // Save donor details to Google Sheets before redirecting
-      try {
-        await fetch('/api/donations/save-upi-donation', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            amount: amount,
-            donationType: 'one-time',
-          }),
-        });
-      } catch (error) {
-        console.error('Failed to save donor details:', error);
-        // Continue with payment flow even if save fails
-      }
-      
-      // Create UPI payment link (works with GPay and all UPI apps)
-      const merchantName = encodeURIComponent('Diya Charitable Trust');
-      const transactionNote = encodeURIComponent(`Donation of ₹${amount} to Diya Charitable Trust`);
-      
-      // Universal UPI link (works with all UPI apps including GPay)
-      const upiLink = `upi://pay?pa=${UPI_ID}&pn=${merchantName}&am=${amount}&cu=INR&tn=${transactionNote}`;
-      
-      // Check if we're on mobile device
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      if (isMobileDevice) {
-        // On mobile, try to open UPI app
-        // Suppress console errors by wrapping in try-catch
-        try {
-          // Method 1: Try using window.location (most reliable)
-          window.location.href = upiLink;
-          
-          // If that doesn't work, try creating a link element
-          setTimeout(() => {
-            try {
-              const link = document.createElement('a');
-              link.href = upiLink;
-              link.style.display = 'none';
-              document.body.appendChild(link);
-              link.click();
-              setTimeout(() => {
-                if (document.body.contains(link)) {
-                  document.body.removeChild(link);
-                }
-              }, 100);
-            } catch (e) {
-              // Silently fail - user can use QR code or manual payment
-              console.log('UPI app not available. Please use QR code or manual payment.');
-            }
-          }, 100);
-        } catch (error) {
-          // Silently handle - user can use QR code shown on page
-          console.log('Please use the QR code or UPI ID shown on this page to complete payment.');
-        }
-        
-        // Show helpful message
-        setTimeout(() => {
-          alert(
-            `Opening payment app...\n\n` +
-            `If the app doesn't open automatically:\n` +
-            `• Scan the QR code on this page\n` +
-            `• Or send ₹${amount} to: ${UPI_ID}\n` +
-            `• Use any UPI app: GPay, PhonePe, Paytm, etc.`
-          );
-        }, 500);
-      } else {
-        // On desktop, show instructions (UPI apps typically work on mobile)
-        showUPIPaymentInstructions(amount);
-      }
-      
-      return;
-    }
-
     // For monthly donations, use Razorpay
-    // Validate UPI ID for monthly donations
-    if (donationType === 'monthly' && !formData.upiId) {
-      alert('Please enter your UPI ID to set up automatic monthly donations.');
-      return;
-    }
-
-    // Validate UPI ID format (basic validation)
-    if (donationType === 'monthly' && formData.upiId) {
-      const upiPattern = /^[\w.-]+@[\w]+$/;
-      if (!upiPattern.test(formData.upiId)) {
-        alert('Please enter a valid UPI ID (e.g., yourname@paytm, yourname@ybl, yourname@phonepe)');
-        return;
-      }
-    }
+    // UPI ID will be automatically detected during Razorpay checkout
 
     // Import Razorpay utility
     const { processDonation } = await import('@/utils/razorpay');
@@ -266,7 +164,7 @@ const DonationForm: React.FC = () => {
         (_response) => {
           // Success handler
           if (donationType === 'monthly') {
-            alert(`✅ Monthly donation setup successful! Your UPI ID ${formData.upiId} has been registered for automatic monthly debits of ₹${amount}. You will receive a confirmation email shortly.`);
+            alert(`✅ Monthly donation setup successful! Your monthly donation of ₹${amount} has been registered. You will receive a confirmation email shortly.`);
     } else {
             alert('✅ Payment successful! Thank you for your donation.');
     }
@@ -532,30 +430,15 @@ const DonationForm: React.FC = () => {
                     }}>
                       {t('monthlyDonationNote')}
                     </p>
-                      <div className="space-y-3" style={{ marginTop: '16px' }}>
-                        <label className="block text-[#333333] font-semibold">
-                          {t('upiIdForAutoDebit')} <span style={{ color: '#FF0000' }}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="upiId"
-                          value={formData.upiId}
-                          onChange={handleInputChange}
-                          required={donationType === 'monthly'}
-                          placeholder="e.g., yourname@paytm, yourname@ybl, yourname@phonepe"
-                          className="form-input text-lg"
-                          style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
-                        />
-                        <p style={{ 
-                          fontSize: isMobile ? '12px' : '13px', 
-                          color: '#666666', 
-                          fontStyle: 'italic',
-                          lineHeight: 1.4,
-                          marginTop: '4px'
-                        }}>
-                          {t('upiAutoDebitNote')}
-                        </p>
-                      </div>
+                    <p style={{ 
+                      marginTop: '10px', 
+                      fontSize: isMobile ? '12px' : '13px', 
+                      color: '#666666', 
+                      fontStyle: 'italic',
+                      lineHeight: 1.4
+                    }}>
+                      Your UPI ID will be automatically detected during payment setup.
+                    </p>
                     </>
                   )}
                 </div>
@@ -614,6 +497,31 @@ const DonationForm: React.FC = () => {
                       className="form-input text-lg"
                       style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
                     />
+                  </div>
+
+                  {/* Optional PAN Number Field */}
+                  <div className="space-y-3">
+                    <label className="block text-[#333333] font-semibold">
+                      PAN Number <span style={{ fontWeight: 400, fontSize: '0.9rem', color: '#666666' }}>(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="pan"
+                      value={formData.pan}
+                      onChange={handleInputChange}
+                      placeholder="e.g., ABCDE1234F"
+                      className="form-input text-lg"
+                      style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
+                    />
+                    <p
+                      style={{
+                        fontSize: '0.85rem',
+                        color: '#666666',
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      Providing your PAN helps us issue your 80G tax benefit receipt accurately.
+                    </p>
                   </div>
 
                   <div className="space-y-3">
@@ -1038,51 +946,100 @@ const DonationForm: React.FC = () => {
             <div
               className="property-donation-content"
               style={{
-                fontFamily: 'Calibri, sans-serif',
-                fontSize: '1.25rem',
+                fontFamily: language === 'ta' 
+                  ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                  : "Calibri, sans-serif",
+                fontSize: '1.10rem', // Same as mission section
                 lineHeight: 1.6,
                 color: '#000000',
-                textAlign: isMobile ? 'justify' : 'left',
+                textAlign: 'justify', // Always justify for even edges
                 fontWeight: 500,
+                textJustify: 'inter-word',
+                wordSpacing: '0.05em', // Reduced word spacing to minimize gaps
+                letterSpacing: '0.005em', // Minimal letter spacing
+                hyphens: 'auto', // Enable hyphenation to reduce spacing
+                WebkitHyphens: 'auto',
+                MozHyphens: 'auto',
+                msHyphens: 'auto',
               }}
             >
               <p style={{ 
                 marginBottom: '20px', 
                 fontWeight: 500, 
-                fontFamily: 'Calibri, sans-serif',
-                fontSize: '1.25rem',
+                fontFamily: language === 'ta' 
+                  ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                  : "Calibri, sans-serif",
+                fontSize: '1.10rem',
                 lineHeight: 1.6,
                 color: '#000000',
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                wordSpacing: '0.05em',
+                letterSpacing: '0.005em',
+                hyphens: 'auto',
+                WebkitHyphens: 'auto',
+                MozHyphens: 'auto',
+                msHyphens: 'auto',
               }}>
                 {t('propertyDonationPara1')}
               </p>
               <p style={{ 
                 marginBottom: '20px', 
                 fontWeight: 500, 
-                fontFamily: 'Calibri, sans-serif',
-                fontSize: '1.25rem',
+                fontFamily: language === 'ta' 
+                  ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                  : "Calibri, sans-serif",
+                fontSize: '1.10rem',
                 lineHeight: 1.6,
                 color: '#000000',
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                wordSpacing: '0.05em',
+                letterSpacing: '0.005em',
+                hyphens: 'auto',
+                WebkitHyphens: 'auto',
+                MozHyphens: 'auto',
+                msHyphens: 'auto',
               }}>
                 {t('propertyDonationPara2')}
               </p>
               <p style={{ 
                 marginBottom: '20px', 
                 fontWeight: 500, 
-                fontFamily: 'Calibri, sans-serif',
-                fontSize: '1.25rem',
+                fontFamily: language === 'ta' 
+                  ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                  : "Calibri, sans-serif",
+                fontSize: '1.10rem',
                 lineHeight: 1.6,
                 color: '#000000',
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                wordSpacing: '0.05em',
+                letterSpacing: '0.005em',
+                hyphens: 'auto',
+                WebkitHyphens: 'auto',
+                MozHyphens: 'auto',
+                msHyphens: 'auto',
               }}>
                 {t('propertyDonationNote')}
               </p>
               <p style={{ 
                 marginTop: '20px', 
                 fontWeight: 500, 
-                fontFamily: 'Calibri, sans-serif',
-                fontSize: '1.25rem',
+                fontFamily: language === 'ta' 
+                  ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
+                  : "Calibri, sans-serif",
+                fontSize: '1.10rem',
                 lineHeight: 1.6,
                 color: '#000000',
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                wordSpacing: '0.05em',
+                letterSpacing: '0.005em',
+                hyphens: 'auto',
+                WebkitHyphens: 'auto',
+                MozHyphens: 'auto',
+                msHyphens: 'auto',
               }}>
                 {t('propertyDonationContact')}
               </p>

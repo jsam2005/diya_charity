@@ -5,14 +5,16 @@ import { useDeviceFeatures } from '@/hooks/useResponsive';
 import { getAssetPath } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
 
+// API URL is now handled by razorpay.ts utility
+
 const DONATION_AMOUNTS = [1500, 2500, 3500, 4500, 5500];
 
 const INITIAL_FORM_STATE = {
   name: '',
   phone: '',
   email: '',
+  pan: '', // Optional PAN number for 80G receipt
   customAmount: '',
-  upiId: '', // UPI ID for monthly auto-debit
 };
 
 const BANK_DETAILS = [
@@ -27,6 +29,7 @@ const AnnathanamDonationForm: React.FC = () => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(
     DONATION_AMOUNTS[0]
   );
+  const [donationType, setDonationType] = useState<'one-time' | 'monthly'>('one-time');
   const [upiCopied, setUpiCopied] = useState(false);
 
   const [ref, inView] = useInView({
@@ -51,16 +54,7 @@ const AnnathanamDonationForm: React.FC = () => {
     }
   };
 
-  const showUPIPaymentInstructions = (amount: number) => {
-    const message = `To complete your donation of ₹${amount}:\n\n` +
-      `1. Open GPay, PhonePe, Paytm, or any UPI app\n` +
-      `2. Send payment to: ${UPI_ID}\n` +
-      `3. Enter amount: ₹${amount}\n` +
-      `4. Add note: "Annathanam Donation to Diya Charitable Trust"\n\n` +
-      `Or scan the QR code shown on this page.`;
-    
-    alert(message);
-  };
+  // UPI payment instructions removed - now using Razorpay for all payments
 
   const layoutContainerStyle: React.CSSProperties = {
     backgroundColor: '#F9F9F9',
@@ -145,69 +139,40 @@ const AnnathanamDonationForm: React.FC = () => {
       return;
     }
 
-    // Save donor details to Google Sheets before redirecting
+    // Use Razorpay for both one-time and monthly donations
+    // Import Razorpay utility
+    const { processDonation } = await import('@/utils/razorpay');
+
+    const payload = {
+      ...formData,
+      amount,
+      donationType,
+      purpose: 'annathanam', // Add purpose to identify Annathanam donations
+    };
+
     try {
-      await fetch('/api/donations/save-upi-donation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          amount: amount,
-          donationType: 'one-time',
-          purpose: 'annathanam',
-        }),
-      });
-    } catch (error) {
-      console.error('Failed to save donor details:', error);
-    }
-    
-    // Create UPI payment link
-    const merchantName = encodeURIComponent('Diya Charitable Trust - Annathanam');
-    const transactionNote = encodeURIComponent(`Annathanam Donation of ₹${amount} to Diya Charitable Trust`);
-    
-    const upiLink = `upi://pay?pa=${UPI_ID}&pn=${merchantName}&am=${amount}&cu=INR&tn=${transactionNote}`;
-    
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobileDevice) {
-      try {
-        window.location.href = upiLink;
-        
-        setTimeout(() => {
-          try {
-            const link = document.createElement('a');
-            link.href = upiLink;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(() => {
-              if (document.body.contains(link)) {
-                document.body.removeChild(link);
-              }
-            }, 100);
-          } catch (e) {
-            console.log('UPI app not available. Please use QR code or manual payment.');
+      await processDonation(
+        payload,
+        (_response) => {
+          // Success handler
+          if (donationType === 'monthly') {
+            alert(`✅ Monthly Annathanam donation setup successful! Your monthly donation of ₹${amount} has been registered. You will receive a confirmation email shortly.`);
+          } else {
+            alert('✅ Payment successful! Thank you for your Annathanam donation.');
           }
-        }, 100);
-      } catch (error) {
-        console.log('Please use the QR code or UPI ID shown on this page to complete payment.');
-      }
-      
-      setTimeout(() => {
-        alert(
-          `Opening payment app...\n\n` +
-          `If the app doesn't open automatically:\n` +
-          `• Scan the QR code on this page\n` +
-          `• Or send ₹${amount} to: ${UPI_ID}\n` +
-          `• Use any UPI app: GPay, PhonePe, Paytm, etc.`
-        );
-      }, 500);
-    } else {
-      showUPIPaymentInstructions(amount);
+          setFormData(INITIAL_FORM_STATE);
+          setSelectedAmount(DONATION_AMOUNTS[0]);
+          setDonationType('one-time');
+        },
+        (error) => {
+          // Error handler
+          console.error('Payment error:', error);
+          alert(`Payment failed: ${error.message || 'Please try again.'}`);
+        }
+      );
+    } catch (error) {
+      console.error('Error processing donation:', error);
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -270,6 +235,91 @@ const AnnathanamDonationForm: React.FC = () => {
                 {t('donorInfo')}
               </h3>
 
+              {/* Donation Type Selector */}
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ 
+                  fontSize: isMobile ? '16px' : '18px', 
+                  fontWeight: 600, 
+                  marginBottom: '12px', 
+                  display: 'block',
+                  color: '#333333'
+                }}>
+                  {t('donationType')}
+                </label>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '12px', 
+                  flexWrap: 'wrap' 
+                }}>
+                  <motion.button
+                    type="button"
+                    onClick={() => setDonationType('one-time')}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{
+                      flex: 1,
+                      minWidth: '140px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      borderRadius: '8px',
+                      border: donationType === 'one-time' ? '2px solid #1C3F75' : '2px solid #E0E0E0',
+                      backgroundColor: donationType === 'one-time' ? '#1C3F75' : '#FFFFFF',
+                      color: donationType === 'one-time' ? '#FFFFFF' : '#333333',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: isMobile ? '14px' : '16px',
+                      transition: 'all 0.3s ease',
+                      boxShadow: donationType === 'one-time' ? '0 2px 8px rgba(28, 63, 117, 0.2)' : 'none',
+                    }}
+                  >
+                    {t('oneTimeDonation')}
+                  </motion.button>
+                  <motion.button
+                    type="button"
+                    onClick={() => setDonationType('monthly')}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{
+                      flex: 1,
+                      minWidth: '140px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      borderRadius: '8px',
+                      border: donationType === 'monthly' ? '2px solid #1C3F75' : '2px solid #E0E0E0',
+                      backgroundColor: donationType === 'monthly' ? '#1C3F75' : '#FFFFFF',
+                      color: donationType === 'monthly' ? '#FFFFFF' : '#333333',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: isMobile ? '14px' : '16px',
+                      transition: 'all 0.3s ease',
+                      boxShadow: donationType === 'monthly' ? '0 2px 8px rgba(28, 63, 117, 0.2)' : 'none',
+                    }}
+                  >
+                    {t('monthlyDonation')}
+                  </motion.button>
+                </div>
+                {donationType === 'monthly' && (
+                  <>
+                    <p style={{ 
+                      marginTop: '10px', 
+                      fontSize: isMobile ? '13px' : '14px', 
+                      color: '#666666', 
+                      fontStyle: 'italic',
+                      lineHeight: 1.5
+                    }}>
+                      {t('monthlyDonationNote')}
+                    </p>
+                    <p style={{ 
+                      marginTop: '10px', 
+                      fontSize: isMobile ? '12px' : '13px', 
+                      color: '#666666', 
+                      fontStyle: 'italic',
+                      lineHeight: 1.4
+                    }}>
+                      Your UPI ID will be automatically detected during payment setup.
+                    </p>
+                  </>
+                )}
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-6" style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}>
                 <div className="space-y-3">
                   <label className="block text-[#333333] font-semibold">
@@ -317,6 +367,31 @@ const AnnathanamDonationForm: React.FC = () => {
                     className="form-input text-lg"
                     style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
                   />
+                </div>
+
+                {/* Optional PAN Number Field */}
+                <div className="space-y-3">
+                  <label className="block text-[#333333] font-semibold">
+                    PAN Number <span style={{ fontWeight: 400, fontSize: '0.9rem', color: '#666666' }}>(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="pan"
+                    value={formData.pan}
+                    onChange={handleInputChange}
+                    placeholder="e.g., ABCDE1234F"
+                    className="form-input text-lg"
+                    style={{ width: '100%', boxSizing: 'border-box', maxWidth: '100%' }}
+                  />
+                  <p
+                    style={{
+                      fontSize: '0.85rem',
+                      color: '#666666',
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    Providing your PAN helps us issue your 80G tax benefit receipt accurately.
+                  </p>
                 </div>
 
                 <div className="space-y-3">
@@ -383,7 +458,10 @@ const AnnathanamDonationForm: React.FC = () => {
                   }}
                   className="font-semibold w-full"
                 >
-                  {t('proceedPayment')}
+                  {donationType === 'monthly' 
+                    ? `${t('proceedPayment')} (${t('monthlyDonation')})`
+                    : t('proceedPayment')
+                  }
                 </motion.button>
               </form>
             </motion.div>

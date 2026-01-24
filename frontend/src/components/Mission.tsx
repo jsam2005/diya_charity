@@ -4,7 +4,6 @@ import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import { getAssetPath, scrollToElement } from '@/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useDeviceFeatures } from '@/hooks/useResponsive';
 
 const Mission: React.FC = () => {
   const [ref, inView] = useInView({
@@ -14,13 +13,12 @@ const Mission: React.FC = () => {
 
   const navigate = useNavigate();
   const { t, language } = useLanguage();
-  const { isMobile } = useDeviceFeatures();
 
   const ngoLogo = getAssetPath('assets/logos/ngo-npo-logo.png');
   const darpanLogo = getAssetPath('assets/logos/darpan-logo.png');
   const incomeTaxLogo = getAssetPath('assets/logos/income-tax-logo.png');
   const csrLogo = getAssetPath('assets/logos/csr.png');
-  const complianceImage = getAssetPath('compilance.png');
+  const complianceImage = getAssetPath('assets/compilance.png');
   const sustainabilityImage = getAssetPath('assets/sustainability.jpg');
   const annathanamImage = getAssetPath('assets/annathanam.jpg');
   const mealDonationImage = getAssetPath('assets/logos/meal_donation.jpg');
@@ -75,49 +73,55 @@ const Mission: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="max-w-[1950px] mx-auto p-5"
               style={{
-                textAlign: (isMobile && language === 'ta') ? 'left' : 'justify',
+                textAlign: 'justify',
                 width: '100%',
               }}
             >
               {/* Shared style for all mission paragraphs */}
               {(() => {
-                // For Tamil in mobile: left align, otherwise justify
-                const textAlignment = (isMobile && language === 'ta') ? 'left' : 'justify';
+                // Always justify text for even edges on both sides
                 
                 const missionTextStyle: React.CSSProperties = {
                   fontFamily: language === 'ta' 
                     ? "'Noto Sans Tamil', 'Latha', 'Vijaya', 'TSCu_Paranar', 'TSCu_Comic', 'Mukta Malar', 'Arial Unicode MS', sans-serif"
                     : "Calibri, sans-serif",
-                  fontSize: '1.25rem',
+                  fontSize: '1.10rem', // Fixed font size
                   lineHeight: 1.6,
                   color: '#000000',
                   fontWeight: 500,
-                  textAlign: textAlignment as 'left' | 'justify' | 'center',
+                  textAlign: 'justify',
                   margin: 0,
                   padding: 0,
                   width: '100%',
                   display: 'block',
+                  textJustify: 'inter-word',
+                  wordSpacing: '0.05em', // Reduced word spacing to minimize gaps
+                  letterSpacing: '0.005em', // Minimal letter spacing
+                  hyphens: 'auto', // Enable hyphenation to reduce spacing
+                  WebkitHyphens: 'auto',
+                  MozHyphens: 'auto',
+                  msHyphens: 'auto',
                 };
 
                 return (
                   <div 
                     className="space-y-4" 
                     style={{ 
-                      textAlign: textAlignment as any,
+                      textAlign: 'justify',
                       width: '100%',
                       display: 'block',
                     }}
                   >
-                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'justify' }}>
                       {t('missionQuestion1')}
                     </p>
                     <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center', marginBottom: '1.5rem' }}>
                       {t('missionComfort')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'justify' }}>
                       {t('missionInvitation')}
                     </p>
-                    <p style={{ ...missionTextStyle, textAlign: textAlignment as any }}>
+                    <p style={{ ...missionTextStyle, textAlign: 'justify' }}>
                       {t('missionAnonymous')}
                     </p>
                     <p style={{ ...missionTextStyle, fontWeight: 'bold', textAlign: 'center' }}>
@@ -172,10 +176,13 @@ const Mission: React.FC = () => {
             {/* Background Image Area with Dark Overlay */}
             <div
               className="relative w-full h-[200px] md:h-[400px] bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${complianceImage})` }}
+              style={{ 
+                backgroundImage: `url(${complianceImage})`,
+                backgroundColor: '#1a1a1a' // Fallback background color
+              }}
             >
-              {/* Dark Grayscale Overlay */}
-              <div className="absolute inset-0 bg-black/30 bg-gradient-to-b from-black/30 to-black/60" />
+              {/* Dark Grayscale Overlay - Reduced opacity for better visibility */}
+              <div className="absolute inset-0 bg-black/20 bg-gradient-to-b from-black/20 to-black/40" />
             </div>
 
             {/* Content Container Overlay - Overlaps bottom half of image */}
@@ -381,8 +388,25 @@ const Mission: React.FC = () => {
                               zIndex: 1,
                               textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.7)'
                             }}
+                        >
+                          <span
+                            className="flex items-center justify-center gap-2"
+                            style={{ position: 'relative', zIndex: 1 }}
                           >
-                            {t('explore')}
+                            {/* Click hand icon from PNG */}
+                            <img
+                              src="/assets/click.png"
+                              alt="Click here"
+                              style={{
+                                width: '36px',
+                                height: '36px',
+                                flexShrink: 0,
+                                objectFit: 'contain',
+                              }}
+                              aria-hidden="true"
+                            />
+                            <span>{t('explore')}</span>
+                          </span>
                           </motion.span>
                           <motion.div
                             className="absolute inset-0 rounded-full"

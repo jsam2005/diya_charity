@@ -1,0 +1,54 @@
+# CORS Headers for Assets - CRITICAL for fixing CORS errors
+# This allows assets to load from both www and non-www domains
+
+RewriteEngine On
+
+# Handle OPTIONS preflight requests FIRST (before headers module)
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ - [R=200,L]
+
+# Set CORS headers and fix QUIC/SSL issues
+<IfModule mod_headers.c>
+    # Fix QUIC/HTTP3 issues - force HTTP/2 or HTTP/1.1
+    Header always set Alt-Svc "clear"
+    
+    # Connection keep-alive to prevent timeouts
+    Header always set Connection "keep-alive"
+    
+    # Cache control for better performance
+    <FilesMatch "\.(js|css|woff2?|ttf|eot|svg|png|jpg|jpeg|gif|ico)$">
+        Header always set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    
+    # Basic CORS headers - ALWAYS set these
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS, HEAD"
+    Header always set Access-Control-Allow-Headers "Content-Type, Accept, Range, Origin"
+    Header always set Access-Control-Allow-Credentials "true"
+    Header always set Access-Control-Max-Age "86400"
+    
+    # CRITICAL: Always allow both www and non-www dctnow.ngo
+    # Both domains work independently (no forwarding)
+    
+    # Check Origin header first (standard CORS)
+    SetEnvIf Origin "^https?://dctnow\.ngo$" CORS_ORIGIN=https://dctnow.ngo
+    SetEnvIf Origin "^https?://www\.dctnow\.ngo$" CORS_ORIGIN=https://www.dctnow.ngo
+    SetEnvIf Origin "^https?://(www\.)?diyacharity\.org$" CORS_ORIGIN=$0
+    SetEnvIf Origin "^https?://localhost(:[0-9]+)?$" CORS_ORIGIN=$0
+    SetEnvIf Origin "^https?://127\.0\.0\.1(:[0-9]+)?$" CORS_ORIGIN=$0
+    
+    # If Origin is missing (redirected request), check Referer
+    SetEnvIf Referer "^https?://dctnow\.ngo" CORS_ORIGIN=https://dctnow.ngo
+    SetEnvIf Referer "^https?://www\.dctnow\.ngo" CORS_ORIGIN=https://www.dctnow.ngo
+    
+    # Set the CORS header
+    Header always set Access-Control-Allow-Origin "%{CORS_ORIGIN}e" env=CORS_ORIGIN
+    
+    # Final fallback: If still no match, allow dctnow.ngo (most common case)
+    Header always set Access-Control-Allow-Origin "https://dctnow.ngo" env=!CORS_ORIGIN
+</IfModule>
+
+# Serve .js files directly (no PHP wrapper to avoid QUIC/SSL issues)
+# If you need PHP wrapper, uncomment below and comment out the direct serving
+# RewriteCond %{REQUEST_FILENAME} -f
+# RewriteCond %{REQUEST_URI} \.js$ [NC]
+# RewriteRule ^(.*\.js)$ serve-js.php?file=$1 [L,QSA]

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { CONTACT_INFO, FOOTER_CONTENT } from '@/data/constants';
@@ -17,11 +18,6 @@ const Footer: React.FC = () => {
     if (label.toLowerCase().includes('legal')) return t('legalDisclaimerCompliance');
     if (label.toLowerCase().includes('accessibility')) return t('accessibilityStatement');
     return label;
-  };
-
-  const handleLinkClick = () => {
-    // Open in new tab - no preventDefault needed
-    // Links will open in new tab via target="_blank"
   };
 
   return (
@@ -140,23 +136,16 @@ const Footer: React.FC = () => {
               <div className="space-y-3">
                 <div>
                   <div className="space-y-1">
-                    {FOOTER_CONTENT.links.map((link, index) => {
-                      // Create absolute URL for Razorpay setup
-                      const absoluteUrl = `${window.location.origin}${link.href}`;
-                      return (
-                        <motion.a
-                          key={index}
-                          href={absoluteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={handleLinkClick}
-                          whileHover={{ x: 5 }}
+                    {FOOTER_CONTENT.links.map((link, index) => (
+                      <motion.div key={index} whileHover={{ x: 5 }}>
+                        <Link
+                          to={link.href}
                           className="block text-sm text-gray-200 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
                         >
                           {translateLinkLabel(link.label)}
-                        </motion.a>
-                      );
-                    })}
+                        </Link>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
                 <div>

@@ -76,7 +76,9 @@ const Contact: React.FC = () => {
   };
 
   const validatePhone = (phone: string) => {
-    if (!phone) return true; // Phone is optional
+    if (!phone) {
+      return t('phoneNumber') + ' is required';
+    }
     return isValidPhone(phone) || t('phoneNumber') + ' is invalid';
   };
 
@@ -254,7 +256,10 @@ const Contact: React.FC = () => {
                         </select>
                       </div>
                       <input
-                        {...register('phone', { validate: validatePhone })}
+                        {...register('phone', { 
+                          required: t('phoneNumber') + ' is required',
+                          validate: validatePhone 
+                        })}
                         type="tel"
                         id="phone"
                         className={`form-input pl-20 ${errors.phone ? 'border-red-500' : ''

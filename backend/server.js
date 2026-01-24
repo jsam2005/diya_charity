@@ -23,7 +23,35 @@ if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
 }
 
 // Middleware
-app.use(cors());
+// CORS configuration - update with your production domain
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+  : ['http://localhost:3000', 'http://localhost:5173'];
+
+// Add both www and non-www versions of dctnow.ngo to allowed origins
+const productionDomains = ['https://dctnow.ngo', 'https://www.dctnow.ngo'];
+const allAllowedOrigins = [...new Set([...allowedOrigins, ...productionDomains])];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    // Check if origin is in allowed list or if wildcard is enabled
+    if (allAllowedOrigins.includes(origin) || allAllowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      // Also allow if origin matches dctnow.ngo (www or non-www)
+      if (origin === 'https://dctnow.ngo' || origin === 'https://www.dctnow.ngo') {
+        callback(null, true);
+      } else {
+        console.warn(`CORS blocked origin: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 // Health check endpoint
@@ -84,10 +112,10 @@ app.post('/api/volunteer/submit', async (req, res) => {
     const formData = req.body;
     
     // Validate required fields
-    if (!formData.firstName || !formData.email) {
+    if (!formData.firstName || !formData.email || !formData.phone) {
       return res.status(400).json({
         success: false,
-        error: 'First name and email are required'
+        error: 'First name, email, and phone are required'
       });
     }
 
@@ -190,15 +218,39 @@ app.post('/api/donations/create-plan', async (req, res) => {
       });
     }
     
-    const plan = await razorpay.plans.create({
+    // Ensure amount is in paise (smallest currency unit)
+    const amountInPaise = Math.round(amount);
+    const amountInRupees = amountInPaise / 100;
+    
+    console.log('Creating plan with:', { amountInPaise, amountInRupees, period, interval });
+    
+    const planOptions = {
       period,
       interval,
       item: {
-        name: `Monthly Donation - ₹${amount / 100}`,
-        amount: Math.round(amount),
+        name: `Monthly Donation - ₹${amountInRupees}`,
+        amount: amountInPaise,
         currency: 'INR',
       },
-    });
+    };
+    
+    console.log('Plan options:', JSON.stringify(planOptions, null, 2));
+    
+    // Try to create plan - if subscriptions not enabled, this will fail
+    let plan;
+    try {
+      plan = await razorpay.plans.create(planOptions);
+    } catch (razorpayError) {
+      // Check if error is due to subscriptions not being enabled
+      if (razorpayError.error && razorpayError.error.code === 'BAD_REQUEST_ERROR') {
+        throw new Error(
+          'Subscriptions feature is not enabled on your Razorpay account. ' +
+          'Please enable it in Razorpay Dashboard → Settings → Subscriptions, ' +
+          'or contact Razorpay support to enable subscriptions for your account.'
+        );
+      }
+      throw razorpayError;
+    }
 
     res.json({
       success: true,
@@ -206,9 +258,14 @@ app.post('/api/donations/create-plan', async (req, res) => {
     });
   } catch (error) {
     console.error('Error creating plan:', error);
+    // Log full error details for debugging
+    if (error.error) {
+      console.error('Razorpay error details:', error.error);
+    }
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to create subscription plan'
+      error: error.error?.description || error.error?.message || error.message || 'Failed to create subscription plan',
+      details: error.error || error.message
     });
   }
 });

@@ -1,0 +1,37 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# CRITICAL: Don't rewrite API requests - let them go to api/ folder
+# This MUST be first to prevent API requests from being routed to index.html
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteRule . - [L]
+
+# Don't rewrite assets folder
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
+RewriteRule . - [L]
+
+# Don't rewrite if file exists
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule . - [L]
+
+# Don't rewrite if directory exists
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule . - [L]
+
+# React Router - route everything else to index.html
+RewriteRule . /index.html [L]
+</IfModule>
+
+# Force MIME type for JavaScript files - try multiple methods
+<IfModule mod_mime.c>
+  RemoveType .js
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+</IfModule>
+
+# Alternative: Use FilesMatch to force type
+<FilesMatch "\.js$">
+  SetHandler default-handler
+  ForceType application/javascript
+</FilesMatch>

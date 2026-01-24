@@ -1,0 +1,37 @@
+# Diya NGO Backend - PHP Routing
+# For GoDaddy Web Hosting Starter
+# This file should be in: public_html/api/.htaccess
+
+RewriteEngine On
+RewriteBase /api/
+
+# CRITICAL: Route OPTIONS requests to PHP FIRST
+# This ensures PHP can set proper CORS headers
+RewriteCond %{REQUEST_METHOD} ^OPTIONS
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Don't rewrite if file exists (like edit-running-line.php)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule . - [L]
+
+# Don't rewrite if directory exists
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule . - [L]
+
+# Route all other requests to index.php
+# This captures the path after /api/ and passes it to index.php via PATH_INFO
+RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+
+# Security: Prevent direct access to sensitive files
+<FilesMatch "^(\.env|composer\.(json|lock)|config\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Set basic CORS headers as fallback (PHP will override with exact origin)
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header always set Access-Control-Allow-Credentials "true"
+    Header always set Access-Control-Max-Age "86400"
+</IfModule>
