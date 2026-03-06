@@ -37,7 +37,7 @@ const AnnathanamImageStrip: React.FC = () => {
               display: 'flex',
               gap: '24px',
               width: 'max-content',
-              animation: 'stream-loop-ltr 26s linear infinite',
+              animation: 'stream-loop-rtl 26s linear infinite',
             }}
           >
             {trackImages.map((src, index) => (

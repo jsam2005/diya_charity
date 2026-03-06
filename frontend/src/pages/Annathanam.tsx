@@ -216,10 +216,7 @@ const Annathanam: React.FC = () => {
                                     </div>
                                     <div className="px-4 py-3 border-t border-gray-100 text-sm text-gray-700 flex items-center justify-between">
                                         <div>
-                                            <p className="font-semibold">
-                                                On 27/02/2025
-                                            </p>
-                                            <p className="text-gray-600">
+                                            <p className="text-gray-600 font-semibold">
                                                 Location: Pallavaram
                                             </p>
                                         </div>
