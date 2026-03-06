@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
@@ -8,11 +8,27 @@ import ViewportMeta from '@/components/ViewportMeta';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useDeviceFeatures } from '@/hooks/useResponsive';
 import AnnathanamDonationForm from '@/components/AnnathanamDonationForm';
+import { getAssetPath } from '@/utils';
 
 const Annathanam: React.FC = () => {
     const { t } = useLanguage();
     const navigate = useNavigate();
     const { isMobile } = useDeviceFeatures();
+
+    const galleryImages = Array.from({ length: 9 }, (_, index) =>
+        getAssetPath(`assets/annathanam/img${index + 1}.jpeg`)
+    );
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const totalImages = galleryImages.length;
+
+    const showPrev = () => {
+        setCurrentIndex((prev) => (prev - 1 + totalImages) % totalImages);
+    };
+
+    const showNext = () => {
+        setCurrentIndex((prev) => (prev + 1) % totalImages);
+    };
     
     // Scroll to top when component mounts
     useEffect(() => {
@@ -26,7 +42,13 @@ const Annathanam: React.FC = () => {
                 <Header />
                 {/* Back Button */}
                 <motion.button
-                    onClick={() => navigate('/')}
+                    onClick={() => {
+                        if (isExpanded) {
+                            setIsExpanded(false);
+                        } else {
+                            navigate('/');
+                        }
+                    }}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3 }}
@@ -169,6 +191,114 @@ const Annathanam: React.FC = () => {
                         </motion.div>
                     </div>
                     
+                    {/* Gallery Section */}
+                    <section className="max-w-5xl mx-auto mt-10 mb-10">
+                        <h2 className="text-2xl md:text-3xl font-semibold text-[#1C3F75] text-center mb-6">
+                            Annathanam Gallery
+                        </h2>
+                        <div className="flex flex-col items-center">
+                            <div className="relative w-full max-w-2xl">
+                                {/* Single gallery card */}
+                                <div
+                                    className="group bg-white rounded-2xl shadow-md overflow-hidden flex flex-col cursor-pointer"
+                                    onClick={() => setIsExpanded(true)}
+                                >
+                                    <div className="overflow-hidden">
+                                        <img
+                                            src={galleryImages[currentIndex]}
+                                            alt={`Annathanam meal service ${currentIndex + 1}`}
+                                            className="w-full h-80 md:h-96 object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+                                            onError={(e) => {
+                                                const target = e.currentTarget as HTMLImageElement;
+                                                target.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="px-4 py-3 border-t border-gray-100 text-sm text-gray-700 flex items-center justify-between">
+                                        <div>
+                                            <p className="font-semibold">
+                                                On 27/02/2025
+                                            </p>
+                                            <p className="text-gray-600">
+                                                Location: Pallavaram
+                                            </p>
+                                        </div>
+                                        <p className="text-xs text-gray-500">
+                                            {currentIndex + 1} / {totalImages}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Left / Right arrows - more visible */}
+                                <button
+                                    type="button"
+                                    onClick={showPrev}
+                                    className="absolute top-1/2 -translate-y-1/2 -left-4 w-10 h-10 rounded-full bg-black/70 text-white flex items-center justify-center text-2xl shadow-lg hover:bg-black focus:outline-none"
+                                    aria-label="Previous image"
+                                >
+                                    ‹
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={showNext}
+                                    className="absolute top-1/2 -translate-y-1/2 -right-4 w-10 h-10 rounded-full bg-black/70 text-white flex items-center justify-center text-2xl shadow-lg hover:bg-black focus:outline-none"
+                                    aria-label="Next image"
+                                >
+                                    ›
+                                </button>
+                            </div>
+
+                            {/* Fullscreen overlay when expanded */}
+                            {isExpanded && (
+                                <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
+                                    {/* Close button */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsExpanded(false)}
+                                        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/70 text-white flex items-center justify-center text-xl shadow-lg hover:bg-black focus:outline-none"
+                                        aria-label="Close image"
+                                    >
+                                        ✕
+                                    </button>
+
+                                    {/* Previous / Next in fullscreen */}
+                                    <button
+                                        type="button"
+                                        onClick={showPrev}
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 text-white flex items-center justify-center text-3xl shadow-lg hover:bg-white/40 focus:outline-none"
+                                        aria-label="Previous image"
+                                    >
+                                        ‹
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={showNext}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 text-white flex items-center justify-center text-3xl shadow-lg hover:bg-white/40 focus:outline-none"
+                                        aria-label="Next image"
+                                    >
+                                        ›
+                                    </button>
+
+                                    <div className="max-w-5xl w-full px-4 flex flex-col items-center">
+                                        <img
+                                            src={galleryImages[currentIndex]}
+                                            alt={`Annathanam meal service ${currentIndex + 1}`}
+                                            className="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+                                        />
+                                        <div className="mt-4 text-center text-sm text-gray-200">
+                                            <p className="font-semibold">
+                                                On 27/02/2025 &middot; Location: Pallavaram
+                                            </p>
+                                            <p className="text-xs mt-1">
+                                                {currentIndex + 1} / {totalImages}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </section>
+
                     {/* Donation Form Section */}
                     <AnnathanamDonationForm />
                 </main>

@@ -1001,6 +1001,15 @@
   }
 }
 
+@keyframes stream-loop-ltr {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 @keyframes hero-ticker {
   0% {
     transform: translateX(0);

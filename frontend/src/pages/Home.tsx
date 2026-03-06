@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import AnnathanamImageStrip from '@/components/AnnathanamImageStrip';
 import Mission from '@/components/Mission';
 import DonationForm from '@/components/DonationForm';
 import CommunityFeedback from '@/components/CommunityFeedback';
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
                 <Header />
                 <main>
                     <Hero />
+                    <AnnathanamImageStrip />
                     <Mission />
                     <DonationForm />
                     <CommunityFeedback />
